@@ -3,6 +3,7 @@ package com.example.stanislau_bushuk.epamtest;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,17 +16,23 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar toolbar;
+    private Fragment firstTaskFragment;
+    private Fragment secondTaskFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initActionBar("Task1");
-        Fragment fragment = new FIrstTaskFragment();
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, fragment);
+        firstTaskFragment=new FIrstTaskFragment();
+        secondTaskFragment=new SecondTaskFragment();
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, firstTaskFragment);
         fragmentTransaction.commit();
 
 
@@ -37,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(0).setChecked(true);
     }
 
 
@@ -63,23 +71,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -87,9 +78,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String id = (String) item.getTitle();
 
         if (id.equals("Task 1")) {
-            // Handle the camera action
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, firstTaskFragment);
+            fragmentTransaction.commit();
         } else if (id.equals("Task 2")) {
-
+            Fragment fragment = new SecondTaskFragment();
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, secondTaskFragment);
+            fragmentTransaction.commit();
         } else if (id.equals("Task 3")) {
 
         } else if (id.equals("Task 4")) {
@@ -100,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
 }
 

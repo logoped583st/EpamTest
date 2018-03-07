@@ -9,7 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.example.stanislau_bushuk.epamtest.Adapter.ListVIewAdapter;
+import com.example.stanislau_bushuk.epamtest.Adapter.ListViewAdapterTask1;
+import com.example.stanislau_bushuk.epamtest.Module.Element;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -42,7 +43,7 @@ public class FIrstTaskFragment extends Fragment {
         ListView listView = view.findViewById(R.id.list);
         arrayList=new ArrayList<Element>();
         setElements();
-        ListVIewAdapter adapter = new ListVIewAdapter(getActivity().getBaseContext(), arrayList);
+        ListViewAdapterTask1 adapter = new ListViewAdapterTask1(getActivity().getBaseContext(), arrayList);
         listView.setAdapter(adapter);
 
     }
@@ -51,4 +52,5 @@ public class FIrstTaskFragment extends Fragment {
             arrayList.add(new Element("Item "+i, UUID.randomUUID().toString(),"Item is"+i));
         }
     }
+
 }

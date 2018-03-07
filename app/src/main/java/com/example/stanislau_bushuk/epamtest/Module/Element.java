@@ -1,4 +1,4 @@
-package com.example.stanislau_bushuk.epamtest;
+package com.example.stanislau_bushuk.epamtest.Module;
 
 /**
  * Created by Stanislau_Bushuk on 3/6/2018.
@@ -34,7 +34,7 @@ public class Element {
         this.description = description;
     }
 
-    Element(String name,String id, String description){
+    public Element(String name, String id, String description){
         this.id=id;
         this.name=name;
         this.description=description;

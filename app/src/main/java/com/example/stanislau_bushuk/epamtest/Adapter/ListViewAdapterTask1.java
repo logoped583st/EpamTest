@@ -9,22 +9,21 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.stanislau_bushuk.epamtest.Element;
+import com.example.stanislau_bushuk.epamtest.Module.Element;
 import com.example.stanislau_bushuk.epamtest.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
  * Created by logoped583st on 7.3.18.
  */
 
-public class ListVIewAdapter extends BaseAdapter {
+public class ListViewAdapterTask1 extends BaseAdapter {
 
     private ArrayList<Element> arrayList;
     private Context myContext;
 
-    public ListVIewAdapter(Context context,ArrayList<Element> elements){
+    public ListViewAdapterTask1(Context context, ArrayList<Element> elements){
         arrayList=elements;
         myContext=context;
     }
@@ -55,7 +54,7 @@ public class ListVIewAdapter extends BaseAdapter {
         LayoutInflater mInflater = (LayoutInflater) myContext
                 .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if(view==null) {
-            view = mInflater.inflate(R.layout.list_item, viewGroup, false);
+            view = mInflater.inflate(R.layout.list_item_first_task, viewGroup, false);
         }
         Element element=getProduct(position);
         TextView name = view.findViewById(R.id.NAME);
@@ -63,12 +62,5 @@ public class ListVIewAdapter extends BaseAdapter {
         name.setText(element.getName());
         description.setText(element.getDescription());
         return view;
-    }
-
-    ArrayList<Element> getElements(){
-        ArrayList<Element> elements=new ArrayList<Element>();
-        // если в корзине
-        elements.addAll(arrayList);
-        return elements;
     }
 }
