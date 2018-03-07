@@ -33,5 +33,11 @@ public class Element {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    Element(String name,String id, String description){
+        this.id=id;
+        this.name=name;
+        this.description=description;
+    }
 }
 
