@@ -3,7 +3,6 @@ package com.example.stanislau_bushuk.epamtest;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,12 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -30,8 +24,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initActionBar("Task1");
-        firstTaskFragment=new FIrstTaskFragment();
-        secondTaskFragment=new SecondTaskFragment();
+        firstTaskFragment = new FIrstTaskFragment();
+        secondTaskFragment = new SecondTaskFragment();
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, firstTaskFragment);
         fragmentTransaction.commit();
 

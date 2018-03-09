@@ -1,9 +1,7 @@
 package com.example.stanislau_bushuk.epamtest;
 
 
-import android.annotation.SuppressLint;
 import android.app.Fragment;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,20 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.ListView;
 
 import com.example.stanislau_bushuk.epamtest.Adapter.ListViewAdapterTask2;
-import com.example.stanislau_bushuk.epamtest.Module.Element;
-import com.example.stanislau_bushuk.epamtest.Module.Photo;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.UUID;
 
 import timber.log.Timber;
 
@@ -36,9 +24,9 @@ import timber.log.Timber;
 public class SecondTaskFragment extends Fragment {
 
 
-    private ArrayList<Photo> arrayPhoto;
-    private ArrayList<ArrayList<Photo>> arrayLists;
+    private ArrayList<com.example.stanislau_bushuk.epamtest.API.Request.GetPhoto> arrayPhoto;
     private GridView gridView;
+    private ListViewAdapterTask2 adapter;
 
 
     public SecondTaskFragment() {
@@ -59,68 +47,22 @@ public class SecondTaskFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         gridView = view.findViewById(R.id.list);
         arrayPhoto = new ArrayList<>();
-        arrayLists = new ArrayList<>();
-
-        Load load = new Load();
-        load.execute();
+        getResponse();
     }
 
 
-    //////////
-    public String readFromFile() {
-        String json;
-        try {
-            InputStream is = (App.context).getAssets().open("upt7z.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void getResponse(String body) {
-
-        try {
-            JSONObject photos = new JSONObject(body);
-            JSONArray jsonArray = photos.getJSONArray("photos");
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                arrayPhoto.add(new Photo(jsonObject.getInt("id"), jsonObject.getString("title"), jsonObject.getString("url"), jsonObject.getDouble("longitude"),
-                        jsonObject.getDouble("latitude")));
+    public void getResponse() {
+        com.example.stanislau_bushuk.epamtest.API.Request request = new com.example.stanislau_bushuk.epamtest.API.Request();
+        request.getJson(new com.example.stanislau_bushuk.epamtest.API.Request.IJsonReady() {
+            @Override
+            public void onJsonReady(ArrayList<com.example.stanislau_bushuk.epamtest.API.Request.GetPhoto> arr) {
+                arrayPhoto.addAll(arr);
+                for (com.example.stanislau_bushuk.epamtest.API.Request.GetPhoto photo : arr) {
+                    Timber.e(photo.url);
+                }
+                adapter = new ListViewAdapterTask2(App.context, arrayPhoto);
+                gridView.setAdapter(adapter);
             }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    public class Load extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        @Override
-        protected Void doInBackground(Void... voids) {
-            getResponse(readFromFile());
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            ListViewAdapterTask2 adapter = new ListViewAdapterTask2(getActivity().getBaseContext(), arrayPhoto);
-            gridView.setAdapter(adapter);
-        }
+        });
     }
 }

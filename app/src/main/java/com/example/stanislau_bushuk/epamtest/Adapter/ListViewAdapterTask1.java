@@ -43,7 +43,7 @@ public class ListViewAdapterTask1 extends BaseAdapter {
         return i;
     }
 
-    public Element getProduct(int position) {
+    public Element getElement(int position) {
         return ((Element) getItem(position));
     }
 
@@ -56,7 +56,7 @@ public class ListViewAdapterTask1 extends BaseAdapter {
         if(view==null) {
             view = mInflater.inflate(R.layout.list_item_first_task, viewGroup, false);
         }
-        Element element=getProduct(position);
+        Element element=getElement(position);
         TextView name = view.findViewById(R.id.NAME);
         TextView description = view.findViewById(R.id.DESCRIPTION);
         name.setText(element.getName());
