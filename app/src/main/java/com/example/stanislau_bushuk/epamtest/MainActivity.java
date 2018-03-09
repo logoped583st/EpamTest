@@ -13,11 +13,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.example.stanislau_bushuk.epamtest.fragmentsTask1.FIrstTaskFragment;
+import com.example.stanislau_bushuk.epamtest.fragmentsTask2.SecondTaskFragment;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar toolbar;
-    private Fragment firstTaskFragment;
+    private FIrstTaskFragment firstTaskFragment;
     private Fragment secondTaskFragment;
+    private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +48,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void initActionBar(String title) {
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitleTextColor(getResources().getColor(R.color.White));
         setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
+        actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar = getSupportActionBar();
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -74,14 +77,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id.equals("Task 1")) {
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, firstTaskFragment);
             fragmentTransaction.commit();
+            actionBar.setTitle("Task 1");
+
         } else if (id.equals("Task 2")) {
-            Fragment fragment = new SecondTaskFragment();
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, secondTaskFragment);
             fragmentTransaction.commit();
+            actionBar.setTitle("Task 2");
         } else if (id.equals("Task 3")) {
-
+            actionBar.setTitle("Task 3");
         } else if (id.equals("Task 4")) {
-
+            actionBar.setTitle("Task 4");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

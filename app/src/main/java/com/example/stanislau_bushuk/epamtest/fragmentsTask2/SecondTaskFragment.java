@@ -1,7 +1,8 @@
-package com.example.stanislau_bushuk.epamtest;
+package com.example.stanislau_bushuk.epamtest.fragmentsTask2;
 
 
 import android.app.Fragment;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,8 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.ImageView;
 
 import com.example.stanislau_bushuk.epamtest.Adapter.ListViewAdapterTask2;
+import com.example.stanislau_bushuk.epamtest.App;
+import com.example.stanislau_bushuk.epamtest.R;
 
 import java.util.ArrayList;
 
@@ -27,6 +31,8 @@ public class SecondTaskFragment extends Fragment {
     private ArrayList<com.example.stanislau_bushuk.epamtest.API.Request.GetPhoto> arrayPhoto;
     private GridView gridView;
     private ListViewAdapterTask2 adapter;
+    private View view;
+    private ImageView errorImage;
 
 
     public SecondTaskFragment() {
@@ -37,8 +43,8 @@ public class SecondTaskFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        return inflater.inflate(R.layout.fragment_second_task, container, false);
+        view=inflater.inflate(R.layout.fragment_second_task, container, false);
+        return view;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -46,6 +52,7 @@ public class SecondTaskFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         gridView = view.findViewById(R.id.list);
+        errorImage=view.findViewById(R.id.ErrorImage);
         arrayPhoto = new ArrayList<>();
         getResponse();
     }
@@ -63,6 +70,15 @@ public class SecondTaskFragment extends Fragment {
                 adapter = new ListViewAdapterTask2(App.context, arrayPhoto);
                 gridView.setAdapter(adapter);
             }
+
+            @Override
+            public void onJsonError(Throwable t) {
+                t.printStackTrace();
+                errorImage.setImageResource(R.drawable.eror);
+            }
         });
     }
+
+
+
 }

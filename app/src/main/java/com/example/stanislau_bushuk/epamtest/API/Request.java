@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -55,6 +54,7 @@ public class Request {
             @Override
             public void onFailure(Call<GetPhotoResponce> call, Throwable t) {
                 Timber.e("Fail");
+                jsonReady.onJsonError(t);
 
             }
         });
@@ -62,7 +62,7 @@ public class Request {
     }
 
     public interface IAPI {
-        @GET("/bins/upt7z ")
+        @GET("/bins/upt7z")
         Call<GetPhotoResponce> getJson();
     }
 
@@ -81,5 +81,7 @@ public class Request {
 
     public interface IJsonReady {
         void onJsonReady(ArrayList<GetPhoto> arr);
+
+        void onJsonError(Throwable t);
     }
 }

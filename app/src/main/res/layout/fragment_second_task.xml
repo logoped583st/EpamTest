@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.stanislau_bushuk.epamtest.FIrstTaskFragment">
+    tools:context="com.example.stanislau_bushuk.epamtest.fragmentsTask1.FIrstTaskFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <GridView
@@ -14,5 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </GridView>
+
+    <ImageView
+        android:id="@+id/ErrorImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </FrameLayout>

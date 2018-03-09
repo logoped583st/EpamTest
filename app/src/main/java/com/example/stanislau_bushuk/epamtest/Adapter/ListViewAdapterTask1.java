@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * Created by logoped583st on 7.3.18.
  */
 
-public class ListViewAdapterTask1 extends BaseAdapter {
+public class ListViewAdapterTask1 extends BaseAdapter{
 
     private ArrayList<Element> arrayList;
     private Context myContext;
@@ -63,4 +63,5 @@ public class ListViewAdapterTask1 extends BaseAdapter {
         description.setText(element.getDescription());
         return view;
     }
+
 }
