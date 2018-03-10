@@ -48,7 +48,6 @@ public class FIrstTaskFragment extends Fragment implements AdapterView.OnItemCli
         super.onViewCreated(view, savedInstanceState);
         ListView listView = view.findViewById(R.id.list);
         arrayList = new ArrayList<Element>();
-        fragment=new ListenItemFirstTask();
         setElements();
         ListViewAdapterTask1 adapter = new ListViewAdapterTask1(App.context, arrayList);
         listView.setAdapter(adapter);
@@ -64,8 +63,18 @@ public class FIrstTaskFragment extends Fragment implements AdapterView.OnItemCli
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        setFragment(arrayList.get(position).getName(),arrayList.get(position).getDescription());
+        arrayList.get(position);
+    }
+
+    public Fragment setFragment(String title, String subtitle){
+        fragment=new ListenItemFirstTask();
+        Bundle bundle = new Bundle();
+        bundle.putString("Title",title);
+        bundle.putString("Subtitle",subtitle);
+        fragment.setArguments(bundle);
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().add(R.id.fragmentContainer,fragment).addToBackStack(null);
         fragmentTransaction.commit();
-        arrayList.get(position);
+        return fragment;
     }
 }
