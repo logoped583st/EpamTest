@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:id="@+id/fragmentContainer"
     android:layout_height="match_parent"
-    tools:context="com.example.stanislau_bushuk.epamtest.fragmentsTask1.FIrstTaskFragment">
+    tools:context="com.example.stanislau_bushuk.epamtest.Task1.FIrstTaskFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <ListView

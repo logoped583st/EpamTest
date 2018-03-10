@@ -1,8 +1,8 @@
-package com.example.stanislau_bushuk.epamtest.fragmentsTask1;
+package com.example.stanislau_bushuk.epamtest.Task1;
 
 
 import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -28,7 +28,6 @@ public class FIrstTaskFragment extends Fragment implements AdapterView.OnItemCli
 
 
     private ArrayList<Element> arrayList;
-    private ListenItemFirstTask fragment;
 
 
     public FIrstTaskFragment() {
@@ -63,18 +62,14 @@ public class FIrstTaskFragment extends Fragment implements AdapterView.OnItemCli
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        setFragment(arrayList.get(position).getName(),arrayList.get(position).getDescription());
-        arrayList.get(position);
+        lookItem(arrayList.get(position).getName(),arrayList.get(position).getDescription());
     }
 
-    public Fragment setFragment(String title, String subtitle){
-        fragment=new ListenItemFirstTask();
-        Bundle bundle = new Bundle();
-        bundle.putString("Title",title);
-        bundle.putString("Subtitle",subtitle);
-        fragment.setArguments(bundle);
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().add(R.id.fragmentContainer,fragment).addToBackStack(null);
-        fragmentTransaction.commit();
-        return fragment;
+    public void lookItem(String title, String subtitle){
+        Intent intent=new Intent(App.context,ListenerItemFirstTaskActivity.class);
+        intent.putExtra("Title",title);
+        intent.putExtra("Subtitle",subtitle);
+        startActivity(intent);
     }
+
 }

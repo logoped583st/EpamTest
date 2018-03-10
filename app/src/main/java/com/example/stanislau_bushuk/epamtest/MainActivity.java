@@ -13,8 +13,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.example.stanislau_bushuk.epamtest.fragmentsTask1.FIrstTaskFragment;
-import com.example.stanislau_bushuk.epamtest.fragmentsTask2.SecondTaskFragment;
+import com.example.stanislau_bushuk.epamtest.Task1.FIrstTaskFragment;
+import com.example.stanislau_bushuk.epamtest.Task2.SecondTaskFragment;
+
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -64,7 +66,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            int count = getFragmentManager().getBackStackEntryCount();
+            if(count==0){
+                super.onBackPressed();
+            }else {
+                checkActionBar();
+                getFragmentManager().popBackStack();
+
+            }
         }
     }
 
@@ -73,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         String id = (String) item.getTitle();
-
+        Timber.e("rock");
         if (id.equals("Task 1")) {
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, firstTaskFragment);
             fragmentTransaction.commit();
@@ -93,8 +102,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    public void checkActionBar(){
+        String actionBarTitle = (String) actionBar.getTitle();
+        switch (actionBarTitle){
+            case "Listen Task 1": initActionBar("Task 1");
+        }
 
-
+    }
 }
 
 

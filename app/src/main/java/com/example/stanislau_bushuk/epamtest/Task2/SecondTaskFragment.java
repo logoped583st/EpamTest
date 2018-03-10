@@ -1,12 +1,14 @@
-package com.example.stanislau_bushuk.epamtest.fragmentsTask2;
+package com.example.stanislau_bushuk.epamtest.Task2;
 
 
 import android.app.Fragment;
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +31,7 @@ public class SecondTaskFragment extends Fragment {
 
 
     private ArrayList<com.example.stanislau_bushuk.epamtest.API.Request.GetPhoto> arrayPhoto;
-    private GridView gridView;
+    private RecyclerView recyclerView;
     private ListViewAdapterTask2 adapter;
     private View view;
     private ImageView errorImage;
@@ -51,7 +53,7 @@ public class SecondTaskFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        gridView = view.findViewById(R.id.list);
+        recyclerView = view.findViewById(R.id.list);
         errorImage=view.findViewById(R.id.ErrorImage);
         arrayPhoto = new ArrayList<>();
         getResponse();
@@ -67,8 +69,10 @@ public class SecondTaskFragment extends Fragment {
                 for (com.example.stanislau_bushuk.epamtest.API.Request.GetPhoto photo : arr) {
                     Timber.e(photo.url);
                 }
+                recyclerView.setLayoutManager(new GridLayoutManager(App.context,3));
                 adapter = new ListViewAdapterTask2(App.context, arrayPhoto);
-                gridView.setAdapter(adapter);
+                recyclerView.setAdapter(adapter);
+
             }
 
             @Override
@@ -78,7 +82,5 @@ public class SecondTaskFragment extends Fragment {
             }
         });
     }
-
-
 
 }

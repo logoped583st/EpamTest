@@ -21,7 +21,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".Task1.ListenerItemFirstTaskActivity"
+            android:theme="@style/AppTheme"/>
+<activity android:name=".Task2.ListenerItemSecondTaskActivity"
+    android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>
