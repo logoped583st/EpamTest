@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import io.realm.RealmObject;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
@@ -66,6 +67,12 @@ public class Request {
         Call<GetPhotoResponce> getJson();
     }
 
+    public interface IJsonReady {
+        void onJsonReady(ArrayList<GetPhoto> arr);
+
+        void onJsonError(Throwable t);
+    }
+
     public class GetPhoto {
         public String title;
         public String description;
@@ -75,13 +82,7 @@ public class Request {
         public double longitude;
     }
 
-    public class GetPhotoResponce {
+    public class GetPhotoResponce{
         public ArrayList<GetPhoto> photos;
-    }
-
-    public interface IJsonReady {
-        void onJsonReady(ArrayList<GetPhoto> arr);
-
-        void onJsonError(Throwable t);
     }
 }

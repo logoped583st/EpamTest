@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.stanislau_bushuk.epamtest.Module.Element;
+import com.example.stanislau_bushuk.epamtest.Modele.Element;
 import com.example.stanislau_bushuk.epamtest.R;
 
 import java.util.ArrayList;

@@ -14,7 +14,7 @@ import android.widget.ListView;
 
 import com.example.stanislau_bushuk.epamtest.Adapter.ListViewAdapterTask1;
 import com.example.stanislau_bushuk.epamtest.App;
-import com.example.stanislau_bushuk.epamtest.Module.Element;
+import com.example.stanislau_bushuk.epamtest.Modele.Element;
 import com.example.stanislau_bushuk.epamtest.R;
 
 import java.util.ArrayList;

@@ -10,16 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.stanislau_bushuk.epamtest.API.Request;
 import com.example.stanislau_bushuk.epamtest.App;
 import com.example.stanislau_bushuk.epamtest.GlideApp;
+import com.example.stanislau_bushuk.epamtest.Modele.ListPhotoRealm;
 import com.example.stanislau_bushuk.epamtest.R;
 import com.example.stanislau_bushuk.epamtest.Task2.ListenerItemSecondTaskActivity;
-
-import java.util.ArrayList;
 
 import timber.log.Timber;
 
@@ -27,30 +24,31 @@ import timber.log.Timber;
  * Created by Stanislau_Bushuk on 3/7/2018.
  */
 
-public class ListViewAdapterTask2 extends RecyclerView.Adapter<ListViewAdapterTask2.ViewHolder> {
+public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTask3.ViewHolder> {
 
     private LayoutInflater mInflater;
-    private ArrayList<Request.GetPhoto> arrayList;
+    private ListPhotoRealm arrayList;
 
 
-    public ListViewAdapterTask2(Context context, ArrayList<Request.GetPhoto> getPhoto) {
+    public ListViewAdapterTask3(Context context, ListPhotoRealm getPhoto) {
         this.mInflater = LayoutInflater.from(context);
         this.arrayList = getPhoto;
     }
 
     @NonNull
     @Override
-    public ListViewAdapterTask2.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ListViewAdapterTask3.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.list_item_second_task, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ListViewAdapterTask2.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ListViewAdapterTask3.ViewHolder holder, int position) {
         holder.linearLayout.setTag(position);
-        holder.countryName.setText(arrayList.get(position).title);
+        Timber.e(arrayList.getPhotosFromRealm().get(position).getTitle());
+        holder.countryName.setText(arrayList.getPhotosFromRealm().get(position).getTitle());
         GlideApp.with(App.context)
-                .load(arrayList.get(position).url)
+                .load(arrayList.getPhotosFromRealm().get(position).getUrl())
                 .error(R.drawable.ic_menu_gallery)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
@@ -59,21 +57,26 @@ public class ListViewAdapterTask2 extends RecyclerView.Adapter<ListViewAdapterTa
 
 
     @Override
-    public int getItemCount() {
-        return arrayList.size();
+    public void onViewDetachedFromWindow(@NonNull ViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private LinearLayout linearLayout;
+    @Override
+    public int getItemCount() {
+        return arrayList.getPhotosFromRealm().size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView countryName;
         ImageView countryPhoto;
+        private LinearLayout linearLayout;
 
 
         ViewHolder(View itemView) {
             super(itemView);
-            linearLayout=itemView.findViewById(R.id.list_item);
-            countryName=itemView.findViewById(R.id.countryName);
-            countryPhoto=itemView.findViewById(R.id.imageCountry);
+            linearLayout = itemView.findViewById(R.id.list_item);
+            countryName = itemView.findViewById(R.id.countryName);
+            countryPhoto = itemView.findViewById(R.id.imageCountry);
             linearLayout.setOnClickListener(this);
         }
 
@@ -81,9 +84,8 @@ public class ListViewAdapterTask2 extends RecyclerView.Adapter<ListViewAdapterTa
         public void onClick(View view) {
             Timber.e("testClick");
             Intent intent = new Intent(App.context,ListenerItemSecondTaskActivity.class);
-            Toast.makeText(App.context,arrayList.get((int) view.getTag()).url,Toast.LENGTH_LONG).show();
-            intent.putExtra("URL",arrayList.get((int) view.getTag()).url);
-            intent.putExtra("TITLE",arrayList.get((int) view.getTag()).title);
+            intent.putExtra("URL",(arrayList.getPhotosFromRealm().get((int) view.getTag()).getUrl()));
+            intent.putExtra("TITLE",(arrayList.getPhotosFromRealm().get((int) view.getTag()).getTitle()));
             App.context.startActivity(intent);
         }
 

@@ -1,4 +1,4 @@
-package com.example.stanislau_bushuk.epamtest.Module;
+package com.example.stanislau_bushuk.epamtest.Modele;
 
 /**
  * Created by Stanislau_Bushuk on 3/6/2018.

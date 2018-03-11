@@ -15,14 +15,14 @@ import android.view.MenuItem;
 
 import com.example.stanislau_bushuk.epamtest.Task1.FIrstTaskFragment;
 import com.example.stanislau_bushuk.epamtest.Task2.SecondTaskFragment;
-
-import timber.log.Timber;
+import com.example.stanislau_bushuk.epamtest.Task3.ThirdTaskFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar toolbar;
     private FIrstTaskFragment firstTaskFragment;
     private Fragment secondTaskFragment;
+    private Fragment thirdTaskFragment;
     private ActionBar actionBar;
 
     @Override
@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         initActionBar("Task1");
         firstTaskFragment = new FIrstTaskFragment();
         secondTaskFragment = new SecondTaskFragment();
+        thirdTaskFragment = new ThirdTaskFragment();
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, firstTaskFragment);
         fragmentTransaction.commit();
 
@@ -67,9 +68,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawer.closeDrawer(GravityCompat.START);
         } else {
             int count = getFragmentManager().getBackStackEntryCount();
-            if(count==0){
+            if (count == 0) {
                 super.onBackPressed();
-            }else {
+            } else {
                 checkActionBar();
                 getFragmentManager().popBackStack();
 
@@ -82,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         String id = (String) item.getTitle();
-        Timber.e("rock");
         if (id.equals("Task 1")) {
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, firstTaskFragment);
             fragmentTransaction.commit();
@@ -93,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentTransaction.commit();
             actionBar.setTitle("Task 2");
         } else if (id.equals("Task 3")) {
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, thirdTaskFragment);
+            fragmentTransaction.commit();
             actionBar.setTitle("Task 3");
         } else if (id.equals("Task 4")) {
             actionBar.setTitle("Task 4");
@@ -102,13 +104,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    public void checkActionBar(){
-        String actionBarTitle = (String) actionBar.getTitle();
-        switch (actionBarTitle){
-            case "Listen Task 1": initActionBar("Task 1");
-        }
 
+    public void checkActionBar() {
+        String actionBarTitle = (String) actionBar.getTitle();
+        switch (actionBarTitle) {
+            case "Listen Task 1":
+                initActionBar("Task 1");
+        }
     }
+
 }
 
 

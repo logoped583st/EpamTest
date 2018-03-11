@@ -2,6 +2,7 @@ package com.example.stanislau_bushuk.epamtest.Task2;
 
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ import android.widget.ImageView;
 
 import com.example.stanislau_bushuk.epamtest.Adapter.ListViewAdapterTask2;
 import com.example.stanislau_bushuk.epamtest.App;
+import com.example.stanislau_bushuk.epamtest.Glide;
+import com.example.stanislau_bushuk.epamtest.GlideApp;
 import com.example.stanislau_bushuk.epamtest.R;
 
 import java.util.ArrayList;
@@ -83,4 +86,9 @@ public class SecondTaskFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+    }
 }
