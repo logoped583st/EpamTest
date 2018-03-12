@@ -56,7 +56,7 @@ public class FIrstTaskFragment extends Fragment implements AdapterView.OnItemCli
 
     public void setElements() {
         for (int i = 0; i < 20; i++) {
-            arrayList.add(new Element("Item " + i, UUID.randomUUID().toString(), "Item is" + i));
+            arrayList.add(new Element("Item " + (i+1), UUID.randomUUID().toString(), "This is item " + (i+1)));
         }
     }
 

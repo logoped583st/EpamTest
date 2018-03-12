@@ -51,9 +51,9 @@ public class ListViewAdapterTask2 extends RecyclerView.Adapter<ListViewAdapterTa
         holder.countryName.setText(arrayList.get(position).title);
         GlideApp.with(App.context)
                 .load(arrayList.get(position).url)
-                .error(R.drawable.ic_menu_gallery)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
+                .error(R.drawable.eror)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.countryPhoto);
     }
 
@@ -79,9 +79,7 @@ public class ListViewAdapterTask2 extends RecyclerView.Adapter<ListViewAdapterTa
 
         @Override
         public void onClick(View view) {
-            Timber.e("testClick");
             Intent intent = new Intent(App.context,ListenerItemSecondTaskActivity.class);
-            Toast.makeText(App.context,arrayList.get((int) view.getTag()).url,Toast.LENGTH_LONG).show();
             intent.putExtra("URL",arrayList.get((int) view.getTag()).url);
             intent.putExtra("TITLE",arrayList.get((int) view.getTag()).title);
             App.context.startActivity(intent);
