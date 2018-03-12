@@ -42,11 +42,9 @@ public class ForthTaskFragment extends Fragment implements OnMapReadyCallback {
 
     private Realm realm;
     private ListPhotoRealm listPhotosRealm;
-    private PhotoRealm photoRealms;
     private GoogleMap gmap;
     private View view;
     private MapView mapView;
-    private Bitmap bitmap;
 
 
     public ForthTaskFragment() {
@@ -89,8 +87,6 @@ public class ForthTaskFragment extends Fragment implements OnMapReadyCallback {
 
 
                 for (com.example.stanislau_bushuk.epamtest.API.Request.GetPhoto photo : arr) {
-                    photoRealms = new PhotoRealm(photo.title, photo.description, photo.url, photo.id, photo.latitude, photo.longitude);
-
                     listPhotosRealm.getPhotosFromRealm().add(realm.copyToRealm(new PhotoRealm(photo.title, photo.description, photo.url, photo.id, photo.latitude, photo.longitude)));
                 }
 
@@ -102,7 +98,7 @@ public class ForthTaskFragment extends Fragment implements OnMapReadyCallback {
                             .asBitmap()
                             .load(photoRealm.getUrl())
                             .error(R.drawable.eror)
-                            .into(new SimpleTarget<Bitmap>(75,100) {
+                            .into(new SimpleTarget<Bitmap>(75, 100) {
                                 @Override
                                 public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                                     gmap.addMarker(new MarkerOptions().position(new LatLng(photoRealm.getLatitude(), photoRealm.getLongitude())).icon(BitmapDescriptorFactory.fromBitmap(resource)));
@@ -118,8 +114,6 @@ public class ForthTaskFragment extends Fragment implements OnMapReadyCallback {
                 ListPhotoRealm realmResults = realm.where(ListPhotoRealm.class).findFirst();
                 if (!realmResults.getPhotosFromRealm().isEmpty()) {
                     Timber.e(String.valueOf(realmResults.getPhotosFromRealm().size()));
-
-                } else {
 
                 }
             }
@@ -138,12 +132,11 @@ public class ForthTaskFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
+        mapView.onDestroy();
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gmap = googleMap;
     }
-
 }

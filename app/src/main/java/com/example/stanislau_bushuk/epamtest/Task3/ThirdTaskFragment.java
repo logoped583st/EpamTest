@@ -41,10 +41,10 @@ public class ThirdTaskFragment extends Fragment {
     private ImageView errorImage;
     private Realm realm;
     private ListPhotoRealm listPhotosRealm;
-    private PhotoRealm photoRealms;
+
 
     public ThirdTaskFragment() {
-        // Required empty public constructor
+
     }
 
 
@@ -76,8 +76,6 @@ public class ThirdTaskFragment extends Fragment {
                 realm.beginTransaction();
                 listPhotosRealm = realm.createObject(ListPhotoRealm.class);
                 for (com.example.stanislau_bushuk.epamtest.API.Request.GetPhoto photo : arr) {
-                    photoRealms = new PhotoRealm(photo.title, photo.description, photo.url, photo.id, photo.latitude, photo.longitude);
-
                     listPhotosRealm.getPhotosFromRealm().add(realm.copyToRealm(new PhotoRealm(photo.title, photo.description, photo.url, photo.id, photo.latitude, photo.longitude)));
                 }
 
