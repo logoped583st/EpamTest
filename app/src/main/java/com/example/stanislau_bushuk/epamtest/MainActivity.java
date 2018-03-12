@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import com.example.stanislau_bushuk.epamtest.Task1.FIrstTaskFragment;
 import com.example.stanislau_bushuk.epamtest.Task2.SecondTaskFragment;
 import com.example.stanislau_bushuk.epamtest.Task3.ThirdTaskFragment;
+import com.example.stanislau_bushuk.epamtest.Task4.ForthTaskFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FIrstTaskFragment firstTaskFragment;
     private Fragment secondTaskFragment;
     private Fragment thirdTaskFragment;
+    private Fragment forthTaskFragment;
     private ActionBar actionBar;
 
     @Override
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         firstTaskFragment = new FIrstTaskFragment();
         secondTaskFragment = new SecondTaskFragment();
         thirdTaskFragment = new ThirdTaskFragment();
+        forthTaskFragment=new ForthTaskFragment();
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, firstTaskFragment);
         fragmentTransaction.commit();
 
@@ -97,6 +100,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentTransaction.commit();
             actionBar.setTitle("Task 3");
         } else if (id.equals("Task 4")) {
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, forthTaskFragment);
+            fragmentTransaction.commit();
             actionBar.setTitle("Task 4");
         }
 
@@ -112,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 initActionBar("Task 1");
         }
     }
-
 }
 
 

@@ -73,12 +73,8 @@ public class ThirdTaskFragment extends Fragment {
         request.getJson(new com.example.stanislau_bushuk.epamtest.API.Request.IJsonReady() {
             @Override
             public void onJsonReady(ArrayList<com.example.stanislau_bushuk.epamtest.API.Request.GetPhoto> arr) {
-                //arrayPhoto.addAll(arr);
                 realm.beginTransaction();
-
                 listPhotosRealm = realm.createObject(ListPhotoRealm.class);
-
-
                 for (com.example.stanislau_bushuk.epamtest.API.Request.GetPhoto photo : arr) {
                     photoRealms = new PhotoRealm(photo.title, photo.description, photo.url, photo.id, photo.latitude, photo.longitude);
 
@@ -116,7 +112,6 @@ public class ThirdTaskFragment extends Fragment {
                 .build();
         Realm.setDefaultConfiguration(realmConfig);
         realm = Realm.getInstance(realmConfig);
-
     }
 
     @Override
