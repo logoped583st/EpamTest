@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initActionBar("Task1");
+        initActionBar("Part 1");
         firstTaskFragment = new FIrstTaskFragment();
         secondTaskFragment = new SecondTaskFragment();
         thirdTaskFragment = new ThirdTaskFragment();
@@ -86,23 +86,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         String id = (String) item.getTitle();
-        if (id.equals("Task 1")) {
+        if (id.equals("Part 1")) {
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, firstTaskFragment);
             fragmentTransaction.commit();
-            actionBar.setTitle("Task 1");
+            actionBar.setTitle("Part 1");
 
-        } else if (id.equals("Task 2")) {
+        } else if (id.equals("Part 2")) {
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, secondTaskFragment);
             fragmentTransaction.commit();
-            actionBar.setTitle("Task 2");
-        } else if (id.equals("Task 3")) {
+            actionBar.setTitle("Part 2");
+        } else if (id.equals("Part 3")) {
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, thirdTaskFragment);
             fragmentTransaction.commit();
-            actionBar.setTitle("Task 3");
-        } else if (id.equals("Task 4")) {
+            actionBar.setTitle("Part 3");
+        } else if (id.equals("Part 4")) {
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, forthTaskFragment);
             fragmentTransaction.commit();
-            actionBar.setTitle("Task 4");
+            actionBar.setTitle("Part 4");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

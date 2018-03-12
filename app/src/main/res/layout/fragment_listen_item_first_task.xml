@@ -12,14 +12,16 @@
         android:background="?attr/colorPrimary"
         android:theme="@style/MyTheme"
         app:popupTheme="@style/MyTheme"
-        app:titleTextColor="@color/White"
-        />
+        app:titleTextColor="@color/White" />
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/Title"
+        android:textColor="#000000"
+        android:textSize="22sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:textStyle="bold"
         android:layout_centerVertical="true"
         android:text="dddd" />
 
@@ -28,8 +30,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Title"
+        android:textSize="16sp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="17dp"
         android:text="TextView" />
 
 </RelativeLayout>

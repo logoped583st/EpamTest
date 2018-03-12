@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.stanislau_bushuk.epamtest.App;
 import com.example.stanislau_bushuk.epamtest.GlideApp;
 import com.example.stanislau_bushuk.epamtest.R;
@@ -29,19 +30,21 @@ public class ListenerItemSecondTaskActivity extends AppCompatActivity {
         setContentView(R.layout.fragment_listen_item_second_task);
 
         init();
-        initActionBar("Listen Task 1");
+
     }
 
     public void init(){
         String title = getIntent().getStringExtra("TITLE");
         String url = getIntent().getStringExtra("URL");
+        initActionBar(title);
         TextView titleView = findViewById(R.id.countryName1);
         ImageView coutryImage = findViewById(R.id.imageCountry1);
         titleView.setText(title);
         GlideApp.with(App.context)
                 .load(url)
-                .error(R.drawable.ic_menu_gallery)
+                .error(R.drawable.eror)
                 .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(coutryImage);
     }
 

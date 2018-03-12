@@ -101,8 +101,8 @@ public class ForthTaskFragment extends Fragment implements OnMapReadyCallback {
                     GlideApp.with(App.context)
                             .asBitmap()
                             .load(photoRealm.getUrl())
-                            .error(R.drawable.arrow)
-                            .into(new SimpleTarget<Bitmap>(50,50) {
+                            .error(R.drawable.eror)
+                            .into(new SimpleTarget<Bitmap>(75,100) {
                                 @Override
                                 public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                                     gmap.addMarker(new MarkerOptions().position(new LatLng(photoRealm.getLatitude(), photoRealm.getLongitude())).icon(BitmapDescriptorFactory.fromBitmap(resource)));
