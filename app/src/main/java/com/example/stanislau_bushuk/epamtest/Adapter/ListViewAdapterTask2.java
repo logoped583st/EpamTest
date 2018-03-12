@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.stanislau_bushuk.epamtest.API.Request;
@@ -21,7 +20,6 @@ import com.example.stanislau_bushuk.epamtest.Task2.ListenerItemSecondTaskActivit
 
 import java.util.ArrayList;
 
-import timber.log.Timber;
 
 /**
  * Created by Stanislau_Bushuk on 3/7/2018.
@@ -63,27 +61,26 @@ public class ListViewAdapterTask2 extends RecyclerView.Adapter<ListViewAdapterTa
         return arrayList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private LinearLayout linearLayout;
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView countryName;
         ImageView countryPhoto;
+        private LinearLayout linearLayout;
 
 
         ViewHolder(View itemView) {
             super(itemView);
-            linearLayout=itemView.findViewById(R.id.list_item);
-            countryName=itemView.findViewById(R.id.countryName);
-            countryPhoto=itemView.findViewById(R.id.imageCountry);
+            linearLayout = itemView.findViewById(R.id.list_item);
+            countryName = itemView.findViewById(R.id.countryName);
+            countryPhoto = itemView.findViewById(R.id.imageCountry);
             linearLayout.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(App.context,ListenerItemSecondTaskActivity.class);
-            intent.putExtra("URL",arrayList.get((int) view.getTag()).url);
-            intent.putExtra("TITLE",arrayList.get((int) view.getTag()).title);
+            Intent intent = new Intent(App.context, ListenerItemSecondTaskActivity.class);
+            intent.putExtra("URL", arrayList.get((int) view.getTag()).url);
+            intent.putExtra("TITLE", arrayList.get((int) view.getTag()).title);
             App.context.startActivity(intent);
         }
-
     }
 }
