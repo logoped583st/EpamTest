@@ -19,7 +19,7 @@ android {
 }
 
 realm {
-    syncEnabled = true;
+    syncEnabled = true
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -37,14 +37,15 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 
+    ////GoogleMaps////
+    implementation "com.google.android.gms:play-services-maps:11.8.0"
     /////GLIDE/////
     implementation("com.github.bumptech.glide:glide:4.6.1") {
         exclude group: "com.android.support"
     }
     annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
+   ////
 
-    /////REALM/////
-    ////
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'

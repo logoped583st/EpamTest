@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.example.stanislau_bushuk.epamtest.API.Request;
@@ -45,16 +46,15 @@ public class SecondTaskFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_second_task, container, false);
+        view=inflater.inflate(R.layout.fragment_second_task, container, false);
         return view;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.list);
-        errorImage = view.findViewById(R.id.ErrorImage);
+        errorImage=view.findViewById(R.id.ErrorImage);
         arrayPhoto = new ArrayList<>();
         getResponse();
     }
@@ -66,9 +66,6 @@ public class SecondTaskFragment extends Fragment {
             @Override
             public void onJsonReady(ArrayList<Request.GetPhoto> arr) {
                 arrayPhoto.addAll(arr);
-                for (com.example.stanislau_bushuk.epamtest.API.Request.GetPhoto photo : arr) {
-                    Timber.e(photo.url);
-                }
                 recyclerView.setLayoutManager(new GridLayoutManager(context, 3));
                 adapter = new ListViewAdapterTask2(context, arrayPhoto);
                 recyclerView.setAdapter(adapter);
@@ -82,7 +79,6 @@ public class SecondTaskFragment extends Fragment {
             }
         });
     }
-
 
     @Override
     public void onAttach(Context context) {

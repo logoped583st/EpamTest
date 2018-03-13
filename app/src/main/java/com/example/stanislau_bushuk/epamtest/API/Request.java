@@ -22,8 +22,7 @@ import timber.log.Timber;
 
 public class Request {
 
-
-    public void getJson(final IJsonReady jsonReady) {
+    public void getJson(@NonNull final IJsonReady jsonReady) {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addInterceptor(new Interceptor() {
             @Override
@@ -47,9 +46,11 @@ public class Request {
         call = iapi.getJson();
         call.enqueue(new Callback<GetPhotoResponce>() {
             @Override
-            public void onResponse(@NonNull Call<GetPhotoResponce> call, @NonNull retrofit2.Response<GetPhotoResponce> response) {
-                Timber.e("responce");
-                jsonReady.onJsonReady(response.body().photos);
+            public void onResponse( Call<GetPhotoResponce> call,  retrofit2.Response<GetPhotoResponce> response) {
+                if (response.body() !=null) {
+                    Timber.e("responce");
+                    jsonReady.onJsonReady(response.body().photos);
+                }
             }
 
             @Override

@@ -48,7 +48,6 @@ public class ListViewAdapterTask1 extends BaseAdapter{
     }
 
 
-    @SuppressLint("ViewHolder")
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
         LayoutInflater mInflater = (LayoutInflater) myContext

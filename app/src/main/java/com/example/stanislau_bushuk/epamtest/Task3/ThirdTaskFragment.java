@@ -51,6 +51,13 @@ public class ThirdTaskFragment extends Fragment {
     }
 
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRealm();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -58,14 +65,11 @@ public class ThirdTaskFragment extends Fragment {
         return view;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.list);
         errorImage = view.findViewById(R.id.ErrorImage);
-        arrayPhoto = new ArrayList<>();
-        setRealm();
         listPhotosRealm = realm.where(ListPhotoRealm.class).findFirst();
         getResponse();
     }
@@ -100,13 +104,15 @@ public class ThirdTaskFragment extends Fragment {
                 t.printStackTrace();
                 realm.beginTransaction();
                 ListPhotoRealm realmResults = realm.where(ListPhotoRealm.class).findFirst();
-                if (!realmResults.getPhotosFromRealm().isEmpty()) {
-                    Timber.e(String.valueOf(realmResults.getPhotosFromRealm().size()));
-                    recyclerView.setLayoutManager(new GridLayoutManager(context, 3));
-                    adapter = new ListViewAdapterTask3(context, realmResults);
-                    recyclerView.setAdapter(adapter);
-                } else {
-                    errorImage.setImageResource(R.drawable.eror);
+                if (realmResults != null) {
+                    if (!realmResults.getPhotosFromRealm().isEmpty()) {
+                        Timber.e(String.valueOf(realmResults.getPhotosFromRealm().size()));
+                        recyclerView.setLayoutManager(new GridLayoutManager(context, 3));
+                        adapter = new ListViewAdapterTask3(context, realmResults);
+                        recyclerView.setAdapter(adapter);
+                    } else {
+                        errorImage.setImageResource(R.drawable.eror);
+                    }
                 }
             }
         });
