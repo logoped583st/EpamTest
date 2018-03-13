@@ -23,7 +23,6 @@ import com.example.stanislau_bushuk.epamtest.R;
 public class ListenerItemThirdTaskActivity extends AppCompatActivity {
 
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

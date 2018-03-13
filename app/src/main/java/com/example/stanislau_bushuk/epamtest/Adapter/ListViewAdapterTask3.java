@@ -45,14 +45,16 @@ public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTa
     @Override
     public void onBindViewHolder(@NonNull ListViewAdapterTask3.ViewHolder holder, int position) {
         holder.linearLayout.setTag(position);
-        Timber.e(arrayList.getPhotosFromRealm().get(position).getTitle());
-        holder.countryName.setText(arrayList.getPhotosFromRealm().get(position).getTitle());
-        GlideApp.with(App.context)
-                .load(arrayList.getPhotosFromRealm().get(position).getUrl())
-                .error(R.drawable.ic_menu_gallery)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .centerCrop()
-                .into(holder.countryPhoto);
+        if (!arrayList.getPhotosFromRealm().isEmpty()) {
+            Timber.e(arrayList.getPhotosFromRealm().get(position).getTitle());
+            holder.countryName.setText(arrayList.getPhotosFromRealm().get(position).getTitle());
+            GlideApp.with(App.context)
+                    .load(arrayList.getPhotosFromRealm().get(position).getUrl())
+                    .error(R.drawable.ic_menu_gallery)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .centerCrop()
+                    .into(holder.countryPhoto);
+        }
     }
 
 

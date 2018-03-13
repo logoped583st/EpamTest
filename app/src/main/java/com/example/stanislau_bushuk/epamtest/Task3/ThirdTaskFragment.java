@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.stanislau_bushuk.epamtest.API.Request;
 import com.example.stanislau_bushuk.epamtest.Adapter.ListViewAdapterTask3;
 import com.example.stanislau_bushuk.epamtest.App;
 import com.example.stanislau_bushuk.epamtest.Modele.ListPhotoRealm;
@@ -34,7 +35,6 @@ import timber.log.Timber;
 public class ThirdTaskFragment extends Fragment {
 
 
-    private ArrayList<com.example.stanislau_bushuk.epamtest.API.Request.GetPhoto> arrayPhoto;
     private RecyclerView recyclerView;
     private ListViewAdapterTask3 adapter;
     private View view;
@@ -47,6 +47,11 @@ public class ThirdTaskFragment extends Fragment {
 
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRealm();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,14 +60,11 @@ public class ThirdTaskFragment extends Fragment {
         return view;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.list);
         errorImage = view.findViewById(R.id.ErrorImage);
-        arrayPhoto = new ArrayList<>();
-        setRealm();
         listPhotosRealm = realm.where(ListPhotoRealm.class).findFirst();
         getResponse();
     }
@@ -70,7 +72,7 @@ public class ThirdTaskFragment extends Fragment {
 
     public void getResponse() {
         com.example.stanislau_bushuk.epamtest.API.Request request = new com.example.stanislau_bushuk.epamtest.API.Request();
-        request.getJson(new com.example.stanislau_bushuk.epamtest.API.Request.IJsonReady() {
+        request.getJson(new Request.IJsonReady() {
             @Override
             public void onJsonReady(ArrayList<com.example.stanislau_bushuk.epamtest.API.Request.GetPhoto> arr) {
                 realm.beginTransaction();
@@ -91,13 +93,15 @@ public class ThirdTaskFragment extends Fragment {
                 t.printStackTrace();
                 realm.beginTransaction();
                 ListPhotoRealm realmResults = realm.where(ListPhotoRealm.class).findFirst();
-                if (!realmResults.getPhotosFromRealm().isEmpty()) {
-                    Timber.e(String.valueOf(realmResults.getPhotosFromRealm().size()));
-                    recyclerView.setLayoutManager(new GridLayoutManager(App.context, 3));
-                    adapter = new ListViewAdapterTask3(App.context, realmResults);
-                    recyclerView.setAdapter(adapter);
-                } else {
-                    errorImage.setImageResource(R.drawable.eror);
+                if (realmResults != null) {
+                    if (!realmResults.getPhotosFromRealm().isEmpty()) {
+                        Timber.e(String.valueOf(realmResults.getPhotosFromRealm().size()));
+                        recyclerView.setLayoutManager(new GridLayoutManager(App.context, 3));
+                        adapter = new ListViewAdapterTask3(App.context, realmResults);
+                        recyclerView.setAdapter(adapter);
+                    } else {
+                        errorImage.setImageResource(R.drawable.eror);
+                    }
                 }
             }
         });
@@ -112,9 +116,5 @@ public class ThirdTaskFragment extends Fragment {
         realm = Realm.getInstance(realmConfig);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        realm.close();
-    }
+
 }
