@@ -31,11 +31,13 @@ public class ListViewAdapterTask2 extends RecyclerView.Adapter<ListViewAdapterTa
 
     private LayoutInflater mInflater;
     private ArrayList<Request.GetPhoto> arrayList;
+    private Context context;
 
 
     public ListViewAdapterTask2(Context context, ArrayList<Request.GetPhoto> getPhoto) {
         this.mInflater = LayoutInflater.from(context);
         this.arrayList = getPhoto;
+        this.context=context;
     }
 
     @NonNull
@@ -49,7 +51,7 @@ public class ListViewAdapterTask2 extends RecyclerView.Adapter<ListViewAdapterTa
     public void onBindViewHolder(@NonNull ListViewAdapterTask2.ViewHolder holder, int position) {
         holder.linearLayout.setTag(position);
         holder.countryName.setText(arrayList.get(position).title);
-        GlideApp.with(App.context)
+        GlideApp.with(context)
                 .load(arrayList.get(position).url)
                 .error(R.drawable.ic_menu_gallery)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -80,11 +82,11 @@ public class ListViewAdapterTask2 extends RecyclerView.Adapter<ListViewAdapterTa
         @Override
         public void onClick(View view) {
             Timber.e("testClick");
-            Intent intent = new Intent(App.context,ListenerItemSecondTaskActivity.class);
-            Toast.makeText(App.context,arrayList.get((int) view.getTag()).url,Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(context,ListenerItemSecondTaskActivity.class);
+            Toast.makeText(context,arrayList.get((int) view.getTag()).url,Toast.LENGTH_LONG).show();
             intent.putExtra("URL",arrayList.get((int) view.getTag()).url);
             intent.putExtra("TITLE",arrayList.get((int) view.getTag()).title);
-            App.context.startActivity(intent);
+            context.startActivity(intent);
         }
 
     }

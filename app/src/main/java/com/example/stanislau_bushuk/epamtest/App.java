@@ -13,13 +13,10 @@ import timber.log.Timber;
  */
 
 public class App extends Application {
-    @SuppressLint("StaticFieldLeak")
-    public static volatile Context context;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        context=getApplicationContext();
         Realm.init(this);
         Timber.plant(new Timber.DebugTree());
     }

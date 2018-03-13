@@ -38,7 +38,7 @@ public class ListenerItemSecondTaskActivity extends AppCompatActivity {
         TextView titleView = findViewById(R.id.countryName1);
         ImageView coutryImage = findViewById(R.id.imageCountry1);
         titleView.setText(title);
-        GlideApp.with(App.context)
+        GlideApp.with(this)
                 .load(url)
                 .error(R.drawable.ic_menu_gallery)
                 .centerCrop()

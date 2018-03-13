@@ -3,7 +3,6 @@ package com.example.stanislau_bushuk.epamtest.Task2;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,13 +12,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.example.stanislau_bushuk.epamtest.API.Request;
 import com.example.stanislau_bushuk.epamtest.Adapter.ListViewAdapterTask2;
-import com.example.stanislau_bushuk.epamtest.App;
-import com.example.stanislau_bushuk.epamtest.Glide;
-import com.example.stanislau_bushuk.epamtest.GlideApp;
 import com.example.stanislau_bushuk.epamtest.R;
 
 import java.util.ArrayList;
@@ -38,6 +34,7 @@ public class SecondTaskFragment extends Fragment {
     private ListViewAdapterTask2 adapter;
     private View view;
     private ImageView errorImage;
+    private Context context;
 
 
     public SecondTaskFragment() {
@@ -48,7 +45,7 @@ public class SecondTaskFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view=inflater.inflate(R.layout.fragment_second_task, container, false);
+        view = inflater.inflate(R.layout.fragment_second_task, container, false);
         return view;
     }
 
@@ -57,23 +54,23 @@ public class SecondTaskFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.list);
-        errorImage=view.findViewById(R.id.ErrorImage);
+        errorImage = view.findViewById(R.id.ErrorImage);
         arrayPhoto = new ArrayList<>();
         getResponse();
     }
 
 
     public void getResponse() {
-        com.example.stanislau_bushuk.epamtest.API.Request request = new com.example.stanislau_bushuk.epamtest.API.Request();
-        request.getJson(new com.example.stanislau_bushuk.epamtest.API.Request.IJsonReady() {
+        Request request = new Request();
+        request.getJson(new Request.IJsonReady() {
             @Override
-            public void onJsonReady(ArrayList<com.example.stanislau_bushuk.epamtest.API.Request.GetPhoto> arr) {
+            public void onJsonReady(ArrayList<Request.GetPhoto> arr) {
                 arrayPhoto.addAll(arr);
                 for (com.example.stanislau_bushuk.epamtest.API.Request.GetPhoto photo : arr) {
                     Timber.e(photo.url);
                 }
-                recyclerView.setLayoutManager(new GridLayoutManager(App.context,3));
-                adapter = new ListViewAdapterTask2(App.context, arrayPhoto);
+                recyclerView.setLayoutManager(new GridLayoutManager(context, 3));
+                adapter = new ListViewAdapterTask2(context, arrayPhoto);
                 recyclerView.setAdapter(adapter);
 
             }
@@ -86,9 +83,10 @@ public class SecondTaskFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
     }
 }
