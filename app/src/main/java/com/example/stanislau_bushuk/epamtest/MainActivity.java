@@ -4,6 +4,7 @@ package com.example.stanislau_bushuk.epamtest;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,6 +19,8 @@ import com.example.stanislau_bushuk.epamtest.Task2.SecondTaskFragment;
 import com.example.stanislau_bushuk.epamtest.Task3.ThirdTaskFragment;
 import com.example.stanislau_bushuk.epamtest.Task4.ForthTaskFragment;
 
+import timber.log.Timber;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar toolbar;
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Fragment thirdTaskFragment;
     private Fragment forthTaskFragment;
     private ActionBar actionBar;
+    private Bundle bundle=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar = getSupportActionBar();
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.menu);
             actionBar.setTitle(title);
@@ -80,28 +83,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         String id = (String) item.getTitle();
-        if (id.equals("Part 1")) {
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, firstTaskFragment);
-            fragmentTransaction.commit();
-            actionBar.setTitle("Part 1");
+        switch (id) {
+            case "Part 1": {
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, firstTaskFragment);
+                fragmentTransaction.commit();
+                actionBar.setTitle("Part 1");
 
-        } else if (id.equals("Part 2")) {
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, secondTaskFragment);
-            fragmentTransaction.commit();
-            actionBar.setTitle("Part 2");
-        } else if (id.equals("Part 3")) {
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, thirdTaskFragment);
-            fragmentTransaction.commit();
-            actionBar.setTitle("Part 3");
-        } else if (id.equals("Part 4")) {
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, forthTaskFragment);
-            fragmentTransaction.commit();
-            actionBar.setTitle("Part 4");
+                break;
+            }
+            case "Part 2": {
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, secondTaskFragment);
+                fragmentTransaction.commit();
+                actionBar.setTitle("Part 2");
+                break;
+            }
+            case "Part 3": {
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, thirdTaskFragment);
+                fragmentTransaction.commit();
+                actionBar.setTitle("Part 3");
+                break;
+            }
+            case "Part 4": {
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, forthTaskFragment);
+                fragmentTransaction.commit();
+                actionBar.setTitle("Part 4");
+                break;
+            }
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -111,10 +122,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void checkActionBar() {
         String actionBarTitle = (String) actionBar.getTitle();
-        switch (actionBarTitle) {
-            case "Listen Task 1":
-                initActionBar("Task 1");
+        if (actionBarTitle != null) {
+            switch (actionBarTitle) {
+                case "Listen Task 1":
+                    initActionBar("Task 1");
+            }
         }
+    }
+
+    public Bundle getBundle(){
+        return this.bundle;
     }
 }
 

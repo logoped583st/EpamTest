@@ -51,7 +51,6 @@ public class FIrstTaskFragment extends Fragment implements AdapterView.OnItemCli
         ListViewAdapterTask1 adapter = new ListViewAdapterTask1(App.context, arrayList);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
-
     }
 
     public void setElements() {
@@ -71,5 +70,4 @@ public class FIrstTaskFragment extends Fragment implements AdapterView.OnItemCli
         intent.putExtra("Subtitle",subtitle);
         startActivity(intent);
     }
-
 }

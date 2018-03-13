@@ -23,14 +23,11 @@ import com.example.stanislau_bushuk.epamtest.R;
 public class ListenerItemSecondTaskActivity extends AppCompatActivity {
 
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_listen_item_second_task);
-
         init();
-
     }
 
     public void init(){

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.stanislau_bushuk.epamtest.API.Request;
 import com.example.stanislau_bushuk.epamtest.Adapter.ListViewAdapterTask2;
 import com.example.stanislau_bushuk.epamtest.App;
 import com.example.stanislau_bushuk.epamtest.R;
@@ -29,7 +30,7 @@ import timber.log.Timber;
 public class SecondTaskFragment extends Fragment {
 
 
-    private ArrayList<com.example.stanislau_bushuk.epamtest.API.Request.GetPhoto> arrayPhoto;
+    private ArrayList<Request.GetPhoto> arrayPhoto;
     private RecyclerView recyclerView;
     private ListViewAdapterTask2 adapter;
     private ImageView errorImage;
@@ -47,7 +48,6 @@ public class SecondTaskFragment extends Fragment {
         return view;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -59,12 +59,12 @@ public class SecondTaskFragment extends Fragment {
 
 
     public void getResponse() {
-        com.example.stanislau_bushuk.epamtest.API.Request request = new com.example.stanislau_bushuk.epamtest.API.Request();
-        request.getJson(new com.example.stanislau_bushuk.epamtest.API.Request.IJsonReady() {
+        Request request = new Request();
+        request.getJson(new Request.IJsonReady() {
             @Override
-            public void onJsonReady(ArrayList<com.example.stanislau_bushuk.epamtest.API.Request.GetPhoto> arr) {
+            public void onJsonReady(ArrayList<Request.GetPhoto> arr) {
                 arrayPhoto.addAll(arr);
-                for (com.example.stanislau_bushuk.epamtest.API.Request.GetPhoto photo : arr) {
+                for (Request.GetPhoto photo : arr) {
                     Timber.e(photo.url);
                 }
                 recyclerView.setLayoutManager(new GridLayoutManager(App.context,3));
