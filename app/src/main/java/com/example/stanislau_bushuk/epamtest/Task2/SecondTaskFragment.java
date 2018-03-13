@@ -3,20 +3,19 @@ package com.example.stanislau_bushuk.epamtest.Task2;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.example.stanislau_bushuk.epamtest.API.Request;
 import com.example.stanislau_bushuk.epamtest.Adapter.ListViewAdapterTask2;
+
 import com.example.stanislau_bushuk.epamtest.R;
 
 import java.util.ArrayList;
@@ -85,4 +84,14 @@ public class SecondTaskFragment extends Fragment {
         super.onAttach(context);
         this.context = context;
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt("fragment",2);
+        super.onSaveInstanceState(outState);
+    }
+
+
+
+
 }

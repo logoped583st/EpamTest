@@ -1,12 +1,14 @@
 package com.example.stanislau_bushuk.epamtest.Task1;
 
 
+
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +16,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.stanislau_bushuk.epamtest.Adapter.ListViewAdapterTask1;
-import com.example.stanislau_bushuk.epamtest.App;
 import com.example.stanislau_bushuk.epamtest.Modele.Element;
 import com.example.stanislau_bushuk.epamtest.R;
 
 import java.util.ArrayList;
 import java.util.UUID;
+
+import timber.log.Timber;
 
 
 /**
@@ -30,6 +33,7 @@ public class FIrstTaskFragment extends Fragment implements AdapterView.OnItemCli
 
     private ArrayList<Element> arrayList;
     private Context context;
+    private ActionBar actionBar;
 
 
     public FIrstTaskFragment() {
@@ -52,31 +56,41 @@ public class FIrstTaskFragment extends Fragment implements AdapterView.OnItemCli
         setElements();
         ListViewAdapterTask1 adapter = new ListViewAdapterTask1(context, arrayList);
         listView.setAdapter(adapter);
+        Timber.e(String.valueOf(((AppCompatActivity)getActivity()).getSupportActionBar().getTitle()));
         listView.setOnItemClickListener(this);
 
     }
 
     public void setElements() {
         for (int i = 0; i < 20; i++) {
-            arrayList.add(new Element("Item " + (i+1), UUID.randomUUID().toString(), "This is item " + (i+1)));
+            arrayList.add(new Element("Item " + (i + 1), UUID.randomUUID().toString(), "This is item " + (i + 1)));
         }
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        lookItem(arrayList.get(position).getName(),arrayList.get(position).getDescription());
+        lookItem(arrayList.get(position).getName(), arrayList.get(position).getDescription());
     }
 
-    public void lookItem(String title, String subtitle){
-        Intent intent=new Intent(context,ListenerItemFirstTaskActivity.class);
-        intent.putExtra("Title",title);
-        intent.putExtra("Subtitle",subtitle);
+    public void lookItem(String title, String subtitle) {
+        Intent intent = new Intent(context, ListenerItemFirstTaskActivity.class);
+        intent.putExtra("Title", title);
+        intent.putExtra("Subtitle", subtitle);
         startActivity(intent);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context=context;
+        this.context = context;
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt("fragment", 1);
+        super.onSaveInstanceState(outState);
+    }
+
+
+
 }

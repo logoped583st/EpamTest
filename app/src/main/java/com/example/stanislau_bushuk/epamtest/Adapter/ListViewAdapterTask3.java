@@ -84,7 +84,6 @@ public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTa
 
         @Override
         public void onClick(View view) {
-            Timber.e("testClick");
             Intent intent = new Intent(context,ListenerItemSecondTaskActivity.class);
             intent.putExtra("URL",(arrayList.getPhotosFromRealm().get((int) view.getTag()).getUrl()));
             intent.putExtra("TITLE",(arrayList.getPhotosFromRealm().get((int) view.getTag()).getTitle()));

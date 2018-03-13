@@ -26,7 +26,7 @@ public class Request {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addInterceptor(new Interceptor() {
             @Override
-            public Response intercept(Chain chain) throws IOException {
+            public Response intercept(@NonNull Chain chain) throws IOException {
                 okhttp3.Request original = chain.request();
                 okhttp3.Request request = original.newBuilder()
                         .method(original.method(), original.body())
@@ -46,7 +46,7 @@ public class Request {
         call = iapi.getJson();
         call.enqueue(new Callback<GetPhotoResponce>() {
             @Override
-            public void onResponse( Call<GetPhotoResponce> call,  retrofit2.Response<GetPhotoResponce> response) {
+            public void onResponse(@NonNull Call<GetPhotoResponce> call, @NonNull retrofit2.Response<GetPhotoResponce> response) {
                 if (response.body() !=null) {
                     Timber.e("responce");
                     jsonReady.onJsonReady(response.body().photos);
@@ -54,7 +54,7 @@ public class Request {
             }
 
             @Override
-            public void onFailure(Call<GetPhotoResponce> call, Throwable t) {
+            public void onFailure(@NonNull Call<GetPhotoResponce> call, @NonNull Throwable t) {
                 Timber.e("Fail");
                 jsonReady.onJsonError(t);
 
