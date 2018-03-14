@@ -4,6 +4,7 @@ package com.example.stanislau_bushuk.epamtest.Task2;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,6 +19,12 @@ import com.example.stanislau_bushuk.epamtest.Adapter.ListViewAdapterTask2;
 import com.example.stanislau_bushuk.epamtest.R;
 
 import java.util.ArrayList;
+import java.util.Timer;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import timber.log.Timber;
 
 
 /**
@@ -59,21 +66,22 @@ public class SecondTaskFragment extends Fragment {
 
 
     public void getResponse() {
-        Request request = new Request();
-        request.getJson(new Request.IJsonReady() {
+        Request.getIapi().getJson().enqueue(new Callback<Request.GetPhotoResponce>() {
             @Override
-            public void onJsonReady(ArrayList<Request.GetPhoto> arr) {
-                arrayPhoto.addAll(arr);
+            public void onResponse(@NonNull Call<Request.GetPhotoResponce> call, @NonNull Response<Request.GetPhotoResponce> response) {
+                Timber.e("SUKA");
+                arrayPhoto.addAll(response.body().photos);
                 recyclerView.setLayoutManager(new GridLayoutManager(context, 3));
                 adapter = new ListViewAdapterTask2(context, arrayPhoto);
                 recyclerView.setAdapter(adapter);
-
             }
 
             @Override
-            public void onJsonError(Throwable t) {
+            public void onFailure(@NonNull Call<Request.GetPhotoResponce> call, @NonNull Throwable t) {
                 t.printStackTrace();
+                Timber.e(t.getMessage());
                 errorImage.setImageResource(R.drawable.eror);
+
             }
         });
     }
