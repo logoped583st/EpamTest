@@ -115,11 +115,9 @@ public class ForthTaskFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onJsonError(Throwable t) {
                 t.printStackTrace();
-                realm.beginTransaction();
                 ListPhotoRealm realmResults = realm.where(ListPhotoRealm.class).findFirst();
                 if (!realmResults.getPhotosFromRealm().isEmpty()) {
                     Timber.e(String.valueOf(realmResults.getPhotosFromRealm().size()));
-
                 }
             }
         });

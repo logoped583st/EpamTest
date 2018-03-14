@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public class SecondTaskFragment extends Fragment {
 
 
-    private ArrayList<com.example.stanislau_bushuk.epamtest.API.Request.GetPhoto> arrayPhoto;
+    private ArrayList<Request.GetPhoto> arrayPhoto;
     private RecyclerView recyclerView;
     private ListViewAdapterTask2 adapter;
     private View view;
