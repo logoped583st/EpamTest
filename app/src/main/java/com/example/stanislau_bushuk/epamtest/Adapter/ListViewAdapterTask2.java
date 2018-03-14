@@ -82,9 +82,7 @@ public class ListViewAdapterTask2 extends RecyclerView.Adapter<ListViewAdapterTa
 
         @Override
         public void onClick(View view) {
-            Timber.e("testClick");
             Intent intent = new Intent(context,ListenerItemSecondTaskActivity.class);
-            Toast.makeText(context,arrayList.get((int) view.getTag()).url,Toast.LENGTH_LONG).show();
             intent.putExtra("URL",arrayList.get((int) view.getTag()).url);
             intent.putExtra("TITLE",arrayList.get((int) view.getTag()).title);
             context.startActivity(intent);

@@ -22,6 +22,7 @@ public class ListViewAdapterTask1 extends BaseAdapter{
 
     private ArrayList<Element> arrayList;
     private Context myContext;
+    private View view;
 
     public ListViewAdapterTask1(Context context, ArrayList<Element> elements){
         arrayList=elements;
@@ -52,15 +53,19 @@ public class ListViewAdapterTask1 extends BaseAdapter{
     public View getView(int position, View view, ViewGroup viewGroup) {
         LayoutInflater mInflater = (LayoutInflater) myContext
                 .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        if(view==null) {
+        if(view==null && mInflater!=null ) {
             view = mInflater.inflate(R.layout.list_item_first_task, viewGroup, false);
+            init(view,position);
         }
+        return view;
+    }
+
+    public void init(View view, int position){
         Element element=getElement(position);
         TextView name = view.findViewById(R.id.NAME);
         TextView description = view.findViewById(R.id.DESCRIPTION);
         name.setText(element.getName());
         description.setText(element.getDescription());
-        return view;
     }
 
 }

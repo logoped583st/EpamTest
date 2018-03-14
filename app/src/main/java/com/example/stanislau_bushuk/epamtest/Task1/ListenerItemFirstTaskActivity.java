@@ -24,7 +24,6 @@ public class ListenerItemFirstTaskActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ActionBar actionBar;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -24,26 +24,26 @@ import timber.log.Timber;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar toolbar;
-    private FIrstTaskFragment firstTaskFragment;
+    private Fragment firstTaskFragment;
     private Fragment secondTaskFragment;
     private Fragment thirdTaskFragment;
     private Fragment forthTaskFragment;
     private ActionBar actionBar;
-    private Bundle bundle=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initActionBar("Part 1");
         firstTaskFragment = new FIrstTaskFragment();
         secondTaskFragment = new SecondTaskFragment();
         thirdTaskFragment = new ThirdTaskFragment();
-        forthTaskFragment=new ForthTaskFragment();
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, firstTaskFragment);
-        fragmentTransaction.commit();
-
-
+        forthTaskFragment = new ForthTaskFragment();
+        initActionBar(getResources().getString(R.string.Part1));
+        if (savedInstanceState == null) {
+            initActionBar(getResources().getString(R.string.Part1));
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, firstTaskFragment);
+            fragmentTransaction.commit();
+        }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.menu);
             actionBar.setTitle(title);
+
         }
     }
 
@@ -72,67 +73,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            int count = getFragmentManager().getBackStackEntryCount();
-            if (count == 0) {
-                super.onBackPressed();
-            } else {
-                checkActionBar();
-                getFragmentManager().popBackStack();
-            }
         }
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
-        String id = (String) item.getTitle();
+        int id = item.getItemId();
         switch (id) {
-            case "Part 1": {
+            case R.id.Part1: {
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, firstTaskFragment);
                 fragmentTransaction.commit();
-                actionBar.setTitle("Part 1");
+                actionBar.setTitle(R.string.Part1);
 
                 break;
             }
-            case "Part 2": {
+            case R.id.Part2: {
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, secondTaskFragment);
                 fragmentTransaction.commit();
-                actionBar.setTitle("Part 2");
+                actionBar.setTitle(R.string.Part2);
                 break;
             }
-            case "Part 3": {
+            case R.id.Part3: {
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, thirdTaskFragment);
                 fragmentTransaction.commit();
-                actionBar.setTitle("Part 3");
+                actionBar.setTitle(R.string.Part3);
                 break;
             }
-            case "Part 4": {
+            case R.id.Part4: {
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, forthTaskFragment);
                 fragmentTransaction.commit();
-                actionBar.setTitle("Part 4");
+                actionBar.setTitle(R.string.Part4);
                 break;
             }
         }
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    public void checkActionBar() {
-        String actionBarTitle = (String) actionBar.getTitle();
-        if (actionBarTitle != null) {
-            switch (actionBarTitle) {
-                case "Listen Task 1":
-                    initActionBar("Part 1");
-            }
-        }
-    }
 
-    public Bundle getBundle(){
-        return this.bundle;
-    }
 }
 
 

@@ -12,13 +12,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.stanislau_bushuk.epamtest.App;
 import com.example.stanislau_bushuk.epamtest.GlideApp;
 import com.example.stanislau_bushuk.epamtest.Modele.ListPhotoRealm;
+import com.example.stanislau_bushuk.epamtest.Modele.PhotoRealm;
 import com.example.stanislau_bushuk.epamtest.R;
 import com.example.stanislau_bushuk.epamtest.Task2.ListenerItemSecondTaskActivity;
-
-import timber.log.Timber;
 
 /**
  * Created by Stanislau_Bushuk on 3/7/2018.
@@ -29,6 +27,7 @@ public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTa
     private LayoutInflater mInflater;
     private ListPhotoRealm arrayList;
     private Context context;
+    private PhotoRealm photo;
 
 
     public ListViewAdapterTask3(Context context, ListPhotoRealm getPhoto) {
@@ -47,14 +46,16 @@ public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTa
     @Override
     public void onBindViewHolder(@NonNull ListViewAdapterTask3.ViewHolder holder, int position) {
         holder.linearLayout.setTag(position);
-        Timber.e(arrayList.getPhotosFromRealm().get(position).getTitle());
-        holder.countryName.setText(arrayList.getPhotosFromRealm().get(position).getTitle());
-        GlideApp.with(context)
-                .load(arrayList.getPhotosFromRealm().get(position).getUrl())
-                .fitCenter()
-                .error(R.drawable.eror)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(holder.countryPhoto);
+        photo = arrayList.getPhotosFromRealm().get(position);
+        if (photo != null) {
+            holder.countryName.setText(photo.getTitle());
+            GlideApp.with(context)
+                    .load(photo.getUrl())
+                    .fitCenter()
+                    .error(R.drawable.eror)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.countryPhoto);
+        }
     }
 
 
@@ -84,12 +85,12 @@ public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTa
 
         @Override
         public void onClick(View view) {
-            Timber.e("testClick");
-            Intent intent = new Intent(context,ListenerItemSecondTaskActivity.class);
-            intent.putExtra("URL",(arrayList.getPhotosFromRealm().get((int) view.getTag()).getUrl()));
-            intent.putExtra("TITLE",(arrayList.getPhotosFromRealm().get((int) view.getTag()).getTitle()));
-            context.startActivity(intent);
+            Intent intent = new Intent(context, ListenerItemSecondTaskActivity.class);
+            if (arrayList.getPhotosFromRealm() != null) {
+                intent.putExtra("URL", (arrayList.getPhotosFromRealm().get((int) view.getTag()).getUrl()));
+                intent.putExtra("TITLE", (arrayList.getPhotosFromRealm().get((int) view.getTag()).getTitle()));
+                context.startActivity(intent);
+            }
         }
-
     }
 }
