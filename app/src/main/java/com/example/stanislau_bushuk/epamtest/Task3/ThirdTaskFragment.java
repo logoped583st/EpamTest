@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
@@ -30,6 +31,9 @@ import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import timber.log.Timber;
 
 
@@ -81,16 +85,15 @@ public class ThirdTaskFragment extends Fragment {
 
 
     public void getResponse() {
-        Request request = new Request();
-        request.getJson(new Request.IJsonReady() {
+        Request.getIapi().getJson().enqueue(new Callback <Request.GetPhotoResponce>() {
             @Override
-            public void onJsonReady(ArrayList<Request.GetPhoto> arr) {
+            public void onResponse(@NonNull Call<Request.GetPhotoResponce> call, @NonNull Response<Request.GetPhotoResponce> response) {
                 realm.beginTransaction();
 
                 listPhotosRealm = realm.createObject(ListPhotoRealm.class);
 
 
-                for (Request.GetPhoto photo : arr) {
+                for (Request.GetPhoto photo : response.body().photos) {
 
                     listPhotosRealm.getPhotosFromRealm().add(realm.copyToRealm(new PhotoRealm(photo.title, photo.description, photo.url, photo.id, photo.latitude, photo.longitude)));
                 }
@@ -102,9 +105,8 @@ public class ThirdTaskFragment extends Fragment {
             }
 
             @Override
-            public void onJsonError(Throwable t) {
+            public void onFailure(@NonNull Call<Request.GetPhotoResponce> call, @NonNull Throwable t) {
                 t.printStackTrace();
-                realm.beginTransaction();
                 ListPhotoRealm realmResults = realm.where(ListPhotoRealm.class).findFirst();
                 if (realmResults != null) {
                     if (!realmResults.getPhotosFromRealm().isEmpty()) {

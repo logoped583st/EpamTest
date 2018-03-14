@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.example.stanislau_bushuk.epamtest.API.Request;
 import com.example.stanislau_bushuk.epamtest.App;
 import com.example.stanislau_bushuk.epamtest.GlideApp;
 import com.example.stanislau_bushuk.epamtest.Modele.ListPhotoRealm;
@@ -35,6 +36,9 @@ import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import timber.log.Timber;
 
 
@@ -76,44 +80,39 @@ public class ForthTaskFragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(((AppCompatActivity)getActivity()).getSupportActionBar()!=null)
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.Part1));
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.Part4));
     }
 
     public void getResponse() {
-        com.example.stanislau_bushuk.epamtest.API.Request request = new com.example.stanislau_bushuk.epamtest.API.Request();
-        request.getJson(new com.example.stanislau_bushuk.epamtest.API.Request.IJsonReady() {
-            @SuppressLint("StaticFieldLeak")
+        Request.getIapi().getJson().enqueue(new Callback<Request.GetPhotoResponce>() {
             @Override
-            public void onJsonReady(ArrayList<com.example.stanislau_bushuk.epamtest.API.Request.GetPhoto> arr) {
-                //arrayPhoto.addAll(arr);
+            public void onResponse(@NonNull Call<Request.GetPhotoResponce> call, @NonNull Response<Request.GetPhotoResponce> response) {
                 realm.beginTransaction();
-
                 listPhotosRealm = realm.createObject(ListPhotoRealm.class);
+                if(response.body()!=null) {
+                    for (Request.GetPhoto photo : response.body().photos) {
+                        listPhotosRealm.getPhotosFromRealm().add(realm.copyToRealm(new PhotoRealm(photo.title, photo.description, photo.url, photo.id, photo.latitude, photo.longitude)));
+                    }
+                    Timber.e("%ssize", String.valueOf(listPhotosRealm.getPhotosFromRealm().size()));
+                    realm.commitTransaction();
+                    for (final PhotoRealm photoRealm : listPhotosRealm.getPhotosFromRealm()) {
 
-
-                for (com.example.stanislau_bushuk.epamtest.API.Request.GetPhoto photo : arr) {
-                    listPhotosRealm.getPhotosFromRealm().add(realm.copyToRealm(new PhotoRealm(photo.title, photo.description, photo.url, photo.id, photo.latitude, photo.longitude)));
-                }
-
-                Timber.e("%ssize", String.valueOf(listPhotosRealm.getPhotosFromRealm().size()));
-                realm.commitTransaction();
-                for (final PhotoRealm photoRealm : listPhotosRealm.getPhotosFromRealm()) {
-
-                    GlideApp.with(context)
-                            .asBitmap()
-                            .load(photoRealm.getUrl())
-                            .error(R.drawable.eror)
-                            .into(new SimpleTarget<Bitmap>(75, 100) {
-                                @Override
-                                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                    gmap.addMarker(new MarkerOptions().position(new LatLng(photoRealm.getLatitude(), photoRealm.getLongitude())).icon(BitmapDescriptorFactory.fromBitmap(resource)));
-                                }
-                            });
+                        GlideApp.with(context)
+                                .asBitmap()
+                                .load(photoRealm.getUrl())
+                                .error(R.drawable.eror)
+                                .into(new SimpleTarget<Bitmap>(75, 100) {
+                                    @Override
+                                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                        gmap.addMarker(new MarkerOptions().position(new LatLng(photoRealm.getLatitude(), photoRealm.getLongitude())).icon(BitmapDescriptorFactory.fromBitmap(resource)));
+                                    }
+                                });
+                    }
                 }
             }
 
             @Override
-            public void onJsonError(Throwable t) {
+            public void onFailure(@NonNull Call<Request.GetPhotoResponce> call, @NonNull Throwable t) {
                 t.printStackTrace();
                 ListPhotoRealm realmResults = realm.where(ListPhotoRealm.class).findFirst();
                 if (!realmResults.getPhotosFromRealm().isEmpty()) {

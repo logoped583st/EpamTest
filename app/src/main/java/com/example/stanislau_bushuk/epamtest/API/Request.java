@@ -22,56 +22,21 @@ import timber.log.Timber;
 
 public class Request {
 
-    public void getJson(@NonNull final IJsonReady jsonReady) {
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(@NonNull Chain chain) throws IOException {
-                okhttp3.Request original = chain.request();
-                okhttp3.Request request = original.newBuilder()
-                        .method(original.method(), original.body())
-                        .build();
+    private static IAPI iapi;
 
-                return chain.proceed(request);
-            }
-        });
-        OkHttpClient client = httpClient.build();
+    public void getJson() {
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.myjson.com")
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
                 .build();
-        IAPI iapi = retrofit.create(IAPI.class);
-        Call<GetPhotoResponce> call;
-        call = iapi.getJson();
-        call.enqueue(new Callback<GetPhotoResponce>() {
-            @Override
-            public void onResponse(@NonNull Call<GetPhotoResponce> call, @NonNull retrofit2.Response<GetPhotoResponce> response) {
-                if (response.body() !=null) {
-                    Timber.e("responce");
-                    jsonReady.onJsonReady(response.body().photos);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<GetPhotoResponce> call, @NonNull Throwable t) {
-                Timber.e("Fail");
-                jsonReady.onJsonError(t);
-
-            }
-        });
+        iapi = retrofit.create(IAPI.class);
 
     }
 
     public interface IAPI {
         @GET("/bins/upt7z")
         Call<GetPhotoResponce> getJson();
-    }
-
-    public interface IJsonReady {
-        void onJsonReady(ArrayList<GetPhoto> arr);
-
-        void onJsonError(Throwable t);
     }
 
     public class GetPhoto {
@@ -85,5 +50,9 @@ public class Request {
 
     public class GetPhotoResponce{
         public ArrayList<GetPhoto> photos;
+    }
+
+    public static IAPI getIapi(){
+        return iapi;
     }
 }
