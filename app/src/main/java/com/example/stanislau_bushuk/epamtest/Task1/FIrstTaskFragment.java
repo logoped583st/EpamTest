@@ -1,7 +1,6 @@
 package com.example.stanislau_bushuk.epamtest.Task1;
 
 
-
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -21,8 +20,6 @@ import com.example.stanislau_bushuk.epamtest.R;
 
 import java.util.ArrayList;
 import java.util.UUID;
-
-import timber.log.Timber;
 
 
 /**
@@ -51,19 +48,19 @@ public class FIrstTaskFragment extends Fragment implements AdapterView.OnItemCli
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (((AppCompatActivity) getActivity()).getSupportActionBar() != null)
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.Part1));
         ListView listView = view.findViewById(R.id.list);
         arrayList = new ArrayList<Element>();
         setElements();
         ListViewAdapterTask1 adapter = new ListViewAdapterTask1(context, arrayList);
         listView.setAdapter(adapter);
-        Timber.e(String.valueOf(((AppCompatActivity)getActivity()).getSupportActionBar().getTitle()));
         listView.setOnItemClickListener(this);
-
     }
 
     public void setElements() {
         for (int i = 0; i < 20; i++) {
-            arrayList.add(new Element("Item " + (i + 1), UUID.randomUUID().toString(), "This is item " + (i + 1)));
+            arrayList.add(new Element(getResources().getString(R.string.item) + (i + 1), UUID.randomUUID().toString(), "This is item " + (i + 1)));
         }
     }
 
@@ -87,10 +84,6 @@ public class FIrstTaskFragment extends Fragment implements AdapterView.OnItemCli
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putInt("fragment", 1);
         super.onSaveInstanceState(outState);
     }
-
-
-
 }

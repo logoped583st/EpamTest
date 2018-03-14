@@ -5,7 +5,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,12 +15,9 @@ import android.widget.ImageView;
 
 import com.example.stanislau_bushuk.epamtest.API.Request;
 import com.example.stanislau_bushuk.epamtest.Adapter.ListViewAdapterTask2;
-
 import com.example.stanislau_bushuk.epamtest.R;
 
 import java.util.ArrayList;
-
-import timber.log.Timber;
 
 
 /**
@@ -52,6 +49,8 @@ public class SecondTaskFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (((AppCompatActivity) getActivity()).getSupportActionBar() != null)
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.Part2));
         recyclerView = view.findViewById(R.id.list);
         errorImage=view.findViewById(R.id.ErrorImage);
         arrayPhoto = new ArrayList<>();
@@ -87,11 +86,6 @@ public class SecondTaskFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putInt("fragment",2);
         super.onSaveInstanceState(outState);
     }
-
-
-
-
 }
