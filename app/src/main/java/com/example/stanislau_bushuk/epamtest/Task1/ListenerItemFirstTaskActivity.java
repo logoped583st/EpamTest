@@ -1,9 +1,7 @@
 package com.example.stanislau_bushuk.epamtest.Task1;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -32,8 +30,8 @@ public class ListenerItemFirstTaskActivity extends AppCompatActivity {
     }
 
     public void init() {
-        title = getIntent().getStringExtra("Title");
-        subTitle = getIntent().getStringExtra("Subtitle");
+        title = getIntent().getStringExtra("TITLE");
+        subTitle = getIntent().getStringExtra("SUBTITLE");
         TextView titleView = findViewById(R.id.Title);
         TextView subTitleView = findViewById(R.id.SubTitle);
         titleView.setText(title);

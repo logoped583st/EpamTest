@@ -40,7 +40,6 @@ public class ListenerItemSecondTaskActivity extends AppCompatActivity {
         GlideApp.with(this)
                 .load(url)
                 .error(R.drawable.eror)
-                .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(coutryImage);
     }

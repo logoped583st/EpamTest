@@ -22,6 +22,7 @@
             android:background="?attr/colorPrimary"
             android:theme="@style/MyTheme"
             app:popupTheme="@style/MyTheme"
+            app:titleTextAppearance="@style/ToolbarTitle"
             app:titleTextColor="@color/White"
             />
     <FrameLayout

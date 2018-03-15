@@ -2,14 +2,9 @@ package com.example.stanislau_bushuk.epamtest.Task3;
 
 
 import android.app.Fragment;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,17 +15,12 @@ import android.widget.ImageView;
 
 import com.example.stanislau_bushuk.epamtest.API.Request;
 import com.example.stanislau_bushuk.epamtest.Adapter.ListViewAdapterTask3;
-import com.example.stanislau_bushuk.epamtest.App;
-
 import com.example.stanislau_bushuk.epamtest.Modele.ListPhotoRealm;
 import com.example.stanislau_bushuk.epamtest.Modele.PhotoRealm;
 import com.example.stanislau_bushuk.epamtest.R;
 
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
+import io.realm.RealmList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,27 +32,28 @@ import timber.log.Timber;
  */
 public class ThirdTaskFragment extends Fragment {
 
-
     private RecyclerView recyclerView;
     private ListViewAdapterTask3 adapter;
     private View view;
     private ImageView errorImage;
     private Realm realm;
     private ListPhotoRealm listPhotosRealm;
-    private Context context;
+    private ListPhotoRealm tempListPhotoRealm;
+    private RealmList<PhotoRealm> tempList;
+    private RealmList<PhotoRealm> nowList;
+    private boolean flag = true;
+
 
     public ThirdTaskFragment() {
         // Required empty public constructor
     }
 
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(savedInstanceState!=null)
+        if (savedInstanceState != null)
             Timber.e(String.valueOf(savedInstanceState.getInt("fragment")));
-        setRealm();
     }
 
     @Override
@@ -75,44 +66,70 @@ public class ThirdTaskFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(((AppCompatActivity)getActivity()).getSupportActionBar()!=null)
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.Part3));
+        if (((AppCompatActivity) getActivity()).getSupportActionBar() != null)
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.Part3));
         recyclerView = view.findViewById(R.id.list);
         errorImage = view.findViewById(R.id.ErrorImage);
+        realm = Realm.getDefaultInstance();
         listPhotosRealm = realm.where(ListPhotoRealm.class).findFirst();
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        if (listPhotosRealm != null) {
+            nowList = listPhotosRealm.getPhotos();
+        } else {
+            realm.beginTransaction();
+            listPhotosRealm = realm.createObject(ListPhotoRealm.class);
+            realm.commitTransaction();
+        }
+        adapter = new ListViewAdapterTask3(getActivity(), listPhotosRealm);
+        recyclerView.setAdapter(adapter);
         getResponse();
     }
 
 
     public void getResponse() {
-        Request.getIapi().getJson().enqueue(new Callback <Request.GetPhotoResponce>() {
+        Request.getIapi().getJson().enqueue(new Callback<ListPhotoRealm>() {
             @Override
-            public void onResponse(@NonNull Call<Request.GetPhotoResponce> call, @NonNull Response<Request.GetPhotoResponce> response) {
+            public void onResponse(@NonNull Call<ListPhotoRealm> call, @NonNull Response<ListPhotoRealm> response) {
                 realm.beginTransaction();
-
-                listPhotosRealm = realm.createObject(ListPhotoRealm.class);
-
-
-                for (Request.GetPhoto photo : response.body().photos) {
-
-                    listPhotosRealm.getPhotosFromRealm().add(realm.copyToRealm(new PhotoRealm(photo.title, photo.description, photo.url, photo.id, photo.latitude, photo.longitude)));
+                tempListPhotoRealm = realm.createObject(ListPhotoRealm.class);
+                for (PhotoRealm photo : response.body().getPhotos()) {
+                    tempListPhotoRealm.getPhotos().add(realm.copyToRealm(new PhotoRealm(photo.getTitle(), photo.getDescription(),
+                            photo.getUrl(), photo.getId(), photo.getLatitude(), photo.getLongitude())));
                 }
+                tempList = tempListPhotoRealm.getPhotos();
 
+                if (nowList != null) {
+                    if(nowList.size()==tempList.size()){
+                        for(int i=0;i<nowList.size();i++){
+                            if(nowList.get(i).getId()!=nowList.get(i).getId()){
+                                listPhotosRealm.setPhotos(tempListPhotoRealm.getPhotos());
+                                adapter.notifyDataSetChanged();
+                                Timber.e("notify id");
+                                break;
+                            }
+                        }
+                    }
+                    else {
+                        listPhotosRealm.setPhotos(tempListPhotoRealm.getPhotos());
+                        adapter.notifyDataSetChanged();
+                        Timber.e("notify size");
+                    }
+                }else {
+                    listPhotosRealm.setPhotos(tempListPhotoRealm.getPhotos());
+                    adapter.notifyDataSetChanged();
+                    Timber.e("notify null");
+                }
                 realm.commitTransaction();
-                recyclerView.setLayoutManager(new GridLayoutManager(context, 3));
-                adapter = new ListViewAdapterTask3(context, listPhotosRealm);
-                recyclerView.setAdapter(adapter);
             }
 
             @Override
-            public void onFailure(@NonNull Call<Request.GetPhotoResponce> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ListPhotoRealm> call, @NonNull Throwable t) {
                 t.printStackTrace();
                 ListPhotoRealm realmResults = realm.where(ListPhotoRealm.class).findFirst();
                 if (realmResults != null) {
-                    if (!realmResults.getPhotosFromRealm().isEmpty()) {
-                        Timber.e(String.valueOf(realmResults.getPhotosFromRealm().size()));
-                        recyclerView.setLayoutManager(new GridLayoutManager(context, 3));
-                        adapter = new ListViewAdapterTask3(context, realmResults);
+                    if (!realmResults.getPhotos().isEmpty()) {
+                        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+                        adapter = new ListViewAdapterTask3(getActivity(), realmResults);
                         recyclerView.setAdapter(adapter);
                     } else {
                         errorImage.setImageResource(R.drawable.eror);
@@ -122,15 +139,6 @@ public class ThirdTaskFragment extends Fragment {
         });
     }
 
-    public void setRealm() {
-        RealmConfiguration realmConfig = new RealmConfiguration.Builder()
-                .deleteRealmIfMigrationNeeded()
-                .name("realm.realm")
-                .build();
-        Realm.setDefaultConfiguration(realmConfig);
-        realm = Realm.getInstance(realmConfig);
-
-    }
 
     @Override
     public void onDestroy() {
@@ -138,15 +146,9 @@ public class ThirdTaskFragment extends Fragment {
         realm.close();
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.context=context;
-    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
     }
-
 }

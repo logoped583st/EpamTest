@@ -18,6 +18,8 @@ import com.example.stanislau_bushuk.epamtest.Modele.PhotoRealm;
 import com.example.stanislau_bushuk.epamtest.R;
 import com.example.stanislau_bushuk.epamtest.Task2.ListenerItemSecondTaskActivity;
 
+import java.util.ArrayList;
+
 /**
  * Created by Stanislau_Bushuk on 3/7/2018.
  */
@@ -46,7 +48,7 @@ public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTa
     @Override
     public void onBindViewHolder(@NonNull ListViewAdapterTask3.ViewHolder holder, int position) {
         holder.linearLayout.setTag(position);
-        photo = arrayList.getPhotosFromRealm().get(position);
+        photo = arrayList.getPhotos().get(position);
         if (photo != null) {
             holder.countryName.setText(photo.getTitle());
             GlideApp.with(context)
@@ -66,7 +68,7 @@ public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTa
 
     @Override
     public int getItemCount() {
-        return arrayList.getPhotosFromRealm().size();
+        return arrayList.getPhotos().size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -86,9 +88,9 @@ public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTa
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(context, ListenerItemSecondTaskActivity.class);
-            if (arrayList.getPhotosFromRealm() != null) {
-                intent.putExtra("URL", (arrayList.getPhotosFromRealm().get((int) view.getTag()).getUrl()));
-                intent.putExtra("TITLE", (arrayList.getPhotosFromRealm().get((int) view.getTag()).getTitle()));
+            if (arrayList != null) {
+                intent.putExtra("URL", (arrayList.getPhotos().get((int) view.getTag()).getUrl()));
+                intent.putExtra("TITLE", (arrayList.getPhotos().get((int) view.getTag()).getTitle()));
                 context.startActivity(intent);
             }
         }
