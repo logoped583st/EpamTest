@@ -2,6 +2,9 @@ package com.example.stanislau_bushuk.epamtest.API;
 
 import android.support.annotation.NonNull;
 
+import com.example.stanislau_bushuk.epamtest.Modele.ListPhotoRealm;
+import com.example.stanislau_bushuk.epamtest.Modele.PhotoRealm;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -36,20 +39,7 @@ public class Request {
 
     public interface IAPI {
         @GET("/bins/upt7z")
-        Call<GetPhotoResponce> getJson();
-    }
-
-    public class GetPhoto {
-        public String title;
-        public String description;
-        public String url;
-        public int id;
-        public double latitude;
-        public double longitude;
-    }
-
-    public class GetPhotoResponce{
-        public ArrayList<GetPhoto> photos;
+        Call<ListPhotoRealm> getJson();
     }
 
     public static IAPI getIapi(){

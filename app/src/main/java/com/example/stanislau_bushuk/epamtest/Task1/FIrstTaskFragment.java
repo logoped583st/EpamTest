@@ -30,7 +30,7 @@ public class FIrstTaskFragment extends Fragment implements AdapterView.OnItemCli
 
     private ArrayList<Element> arrayList;
     private Context context;
-    private ActionBar actionBar;
+
 
 
     public FIrstTaskFragment() {
@@ -51,7 +51,7 @@ public class FIrstTaskFragment extends Fragment implements AdapterView.OnItemCli
         if (((AppCompatActivity) getActivity()).getSupportActionBar() != null)
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.Part1));
         ListView listView = view.findViewById(R.id.list);
-        arrayList = new ArrayList<Element>();
+        arrayList = new ArrayList<>();
         setElements();
         ListViewAdapterTask1 adapter = new ListViewAdapterTask1(context, arrayList);
         listView.setAdapter(adapter);
@@ -60,7 +60,7 @@ public class FIrstTaskFragment extends Fragment implements AdapterView.OnItemCli
 
     public void setElements() {
         for (int i = 0; i < 20; i++) {
-            arrayList.add(new Element(getResources().getString(R.string.item) + (i + 1), UUID.randomUUID().toString(), "This is item " + (i + 1)));
+            arrayList.add(new Element(getResources().getString(R.string.item)+" " + (i), UUID.randomUUID().toString(), "This is item " + (i)));
         }
     }
 

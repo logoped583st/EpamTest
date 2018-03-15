@@ -19,7 +19,8 @@ import com.example.stanislau_bushuk.epamtest.Task2.SecondTaskFragment;
 import com.example.stanislau_bushuk.epamtest.Task3.ThirdTaskFragment;
 import com.example.stanislau_bushuk.epamtest.Task4.ForthTaskFragment;
 
-import timber.log.Timber;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -29,17 +30,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Fragment thirdTaskFragment;
     private Fragment forthTaskFragment;
     private ActionBar actionBar;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        firstTaskFragment = new FIrstTaskFragment();
-        secondTaskFragment = new SecondTaskFragment();
-        thirdTaskFragment = new ThirdTaskFragment();
-        forthTaskFragment = new ForthTaskFragment();
+
+
+        setRealm();
+
         initActionBar(getResources().getString(R.string.Part1));
         if (savedInstanceState == null) {
+            firstTaskFragment = new FIrstTaskFragment();
             initActionBar(getResources().getString(R.string.Part1));
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, firstTaskFragment);
             fragmentTransaction.commit();
@@ -82,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         switch (id) {
             case R.id.Part1: {
+                firstTaskFragment = new FIrstTaskFragment();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, firstTaskFragment);
                 fragmentTransaction.commit();
                 actionBar.setTitle(R.string.Part1);
@@ -89,18 +93,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
             case R.id.Part2: {
+                secondTaskFragment = new SecondTaskFragment();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, secondTaskFragment);
                 fragmentTransaction.commit();
                 actionBar.setTitle(R.string.Part2);
                 break;
             }
             case R.id.Part3: {
+                thirdTaskFragment = new ThirdTaskFragment();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, thirdTaskFragment);
                 fragmentTransaction.commit();
                 actionBar.setTitle(R.string.Part3);
                 break;
             }
             case R.id.Part4: {
+                forthTaskFragment = new ForthTaskFragment();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, forthTaskFragment);
                 fragmentTransaction.commit();
                 actionBar.setTitle(R.string.Part4);
@@ -112,7 +119,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close();
+    }
 
+    public void setRealm() {
+        RealmConfiguration realmConfig = new RealmConfiguration.Builder()
+                .deleteRealmIfMigrationNeeded()
+                .name("realm.realm")
+                .build();
+        Realm.setDefaultConfiguration(realmConfig);
+        realm = Realm.getInstance(realmConfig);
+
+    }
+
+    public Realm getRealm() {
+        return this.realm;
+    }
 }
 
 

@@ -8,6 +8,7 @@ import android.content.Context;
 import com.example.stanislau_bushuk.epamtest.API.Request;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import timber.log.Timber;
 
 /**
@@ -16,6 +17,7 @@ import timber.log.Timber;
 
 public class App extends Application {
 
+    private Realm realm;
 
     @Override
     public void onCreate() {
@@ -23,6 +25,16 @@ public class App extends Application {
         Realm.init(this);
         Request request = new Request();
         request.getJson();
+        setRealm();
         Timber.plant(new Timber.DebugTree());
+    }
+
+    public void setRealm() {
+        RealmConfiguration realmConfig = new RealmConfiguration.Builder()
+                .deleteRealmIfMigrationNeeded()
+                .name("realm.realm")
+                .build();
+        Realm.setDefaultConfiguration(realmConfig);
+        realm = Realm.getInstance(realmConfig);
     }
 }

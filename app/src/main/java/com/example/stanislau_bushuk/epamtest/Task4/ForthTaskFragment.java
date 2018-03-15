@@ -1,7 +1,6 @@
 package com.example.stanislau_bushuk.epamtest.Task4;
 
 
-import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +17,6 @@ import android.view.ViewGroup;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.stanislau_bushuk.epamtest.API.Request;
-import com.example.stanislau_bushuk.epamtest.App;
 import com.example.stanislau_bushuk.epamtest.GlideApp;
 import com.example.stanislau_bushuk.epamtest.Modele.ListPhotoRealm;
 import com.example.stanislau_bushuk.epamtest.Modele.PhotoRealm;
@@ -69,33 +66,31 @@ public class ForthTaskFragment extends Fragment implements OnMapReadyCallback {
         mapView.onResume();
         MapsInitializer.initialize(context);
         mapView.getMapAsync(this);
-        setRealm();
         getResponse();
-
         return view;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(((AppCompatActivity)getActivity()).getSupportActionBar()!=null)
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.Part4));
+        if (((AppCompatActivity) getActivity()).getSupportActionBar() != null)
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.Part4));
     }
 
     public void getResponse() {
-        Request.getIapi().getJson().enqueue(new Callback<Request.GetPhotoResponce>() {
+        Request.getIapi().getJson().enqueue(new Callback<ListPhotoRealm>() {
             @Override
-            public void onResponse(@NonNull Call<Request.GetPhotoResponce> call, @NonNull Response<Request.GetPhotoResponce> response) {
+            public void onResponse(@NonNull Call<ListPhotoRealm> call, @NonNull Response<ListPhotoRealm> response) {
                 realm.beginTransaction();
                 listPhotosRealm = realm.createObject(ListPhotoRealm.class);
                 if(response.body()!=null) {
-                    for (Request.GetPhoto photo : response.body().photos) {
-                        listPhotosRealm.getPhotosFromRealm().add(realm.copyToRealm(new PhotoRealm(photo.title, photo.description, photo.url, photo.id, photo.latitude, photo.longitude)));
+                    for (PhotoRealm photo : response.body().getPhotos()) {
+                        listPhotosRealm.getPhotos().add(realm.copyToRealm(new PhotoRealm(photo.getTitle(), photo.getDescription(),
+                                photo.getUrl(), photo.getId(), photo.getLatitude(), photo.getLongitude())));
                     }
-                    Timber.e("%ssize", String.valueOf(listPhotosRealm.getPhotosFromRealm().size()));
+                    Timber.e("%ssize", String.valueOf(listPhotosRealm.getPhotos().size()));
                     realm.commitTransaction();
-                    for (final PhotoRealm photoRealm : listPhotosRealm.getPhotosFromRealm()) {
+                    for (final PhotoRealm photoRealm : listPhotosRealm.getPhotos()) {
 
                         GlideApp.with(context)
                                 .asBitmap()
@@ -112,24 +107,19 @@ public class ForthTaskFragment extends Fragment implements OnMapReadyCallback {
             }
 
             @Override
-            public void onFailure(@NonNull Call<Request.GetPhotoResponce> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ListPhotoRealm> call, @NonNull Throwable t) {
                 t.printStackTrace();
                 ListPhotoRealm realmResults = realm.where(ListPhotoRealm.class).findFirst();
-                if (!realmResults.getPhotosFromRealm().isEmpty()) {
-                    Timber.e(String.valueOf(realmResults.getPhotosFromRealm().size()));
+                try {
+                    Timber.e(String.valueOf(realmResults.getPhotos().size()));
+                }catch (NullPointerException exeption){
+                    exeption.printStackTrace();
                 }
             }
         });
     }
 
-    public void setRealm() {
-        RealmConfiguration realmConfig = new RealmConfiguration.Builder()
-                .deleteRealmIfMigrationNeeded()
-                .name("realm.realm")
-                .build();
-        Realm.setDefaultConfiguration(realmConfig);
-        realm = Realm.getInstance(realmConfig);
-    }
+
 
     @Override
     public void onDestroy() {
@@ -140,7 +130,7 @@ public class ForthTaskFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context=context;
+        this.context = context;
     }
 
     @Override

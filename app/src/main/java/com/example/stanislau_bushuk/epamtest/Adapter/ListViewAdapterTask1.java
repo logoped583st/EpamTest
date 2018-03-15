@@ -22,7 +22,6 @@ public class ListViewAdapterTask1 extends BaseAdapter{
 
     private ArrayList<Element> arrayList;
     private Context myContext;
-    private View view;
 
     public ListViewAdapterTask1(Context context, ArrayList<Element> elements){
         arrayList=elements;
