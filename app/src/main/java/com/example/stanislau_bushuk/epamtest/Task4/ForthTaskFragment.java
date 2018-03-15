@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -108,6 +109,20 @@ public class ForthTaskFragment extends Fragment implements OnMapReadyCallback {
                 ListPhotoRealm realmResults = realm.where(ListPhotoRealm.class).findFirst();
                 try {
                     Timber.e(String.valueOf(realmResults.getPhotos().size()));
+                    final RealmList<PhotoRealm> photoRealm = realmResults.getPhotos();
+                    for(final PhotoRealm photoRealm1:photoRealm)
+                        GlideApp.with(getActivity())
+                                .asBitmap()
+                                .load(photoRealm1.getUrl())
+                                .error(R.drawable.eror)
+                                .fitCenter()
+                                .into(new SimpleTarget<Bitmap>(75, 100) {
+                                    @Override
+                                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                        gmap.addMarker(new MarkerOptions().position(new LatLng(photoRealm1.getLatitude(), photoRealm1.getLongitude())).icon(BitmapDescriptorFactory.fromBitmap(resource)));
+                                    }
+                                });
+
                 } catch (NullPointerException exeption) {
                     exeption.printStackTrace();
                 }
