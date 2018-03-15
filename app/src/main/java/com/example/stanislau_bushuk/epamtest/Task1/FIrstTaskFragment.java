@@ -1,6 +1,7 @@
 package com.example.stanislau_bushuk.epamtest.Task1;
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -29,7 +30,7 @@ public class FIrstTaskFragment extends Fragment implements AdapterView.OnItemCli
 
 
     private ArrayList<Element> arrayList;
-    private Context context;
+    private ActionBar actionBar;
 
 
 
@@ -53,14 +54,14 @@ public class FIrstTaskFragment extends Fragment implements AdapterView.OnItemCli
         ListView listView = view.findViewById(R.id.list);
         arrayList = new ArrayList<>();
         setElements();
-        ListViewAdapterTask1 adapter = new ListViewAdapterTask1(context, arrayList);
+        ListViewAdapterTask1 adapter = new ListViewAdapterTask1(getActivity(), arrayList);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
     }
 
     public void setElements() {
         for (int i = 0; i < 20; i++) {
-            arrayList.add(new Element(getResources().getString(R.string.item)+" " + (i), UUID.randomUUID().toString(), "This is item " + (i)));
+            arrayList.add(new Element(getResources().getString(R.string.item) + " " + (i), UUID.randomUUID().toString(), "This is item " + (i)));
         }
     }
 
@@ -70,20 +71,15 @@ public class FIrstTaskFragment extends Fragment implements AdapterView.OnItemCli
     }
 
     public void lookItem(String title, String subtitle) {
-        Intent intent = new Intent(context, ListenerItemFirstTaskActivity.class);
+        Intent intent = new Intent(getActivity(), ListenerItemFirstTaskActivity.class);
         intent.putExtra("Title", title);
         intent.putExtra("Subtitle", subtitle);
         startActivity(intent);
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.context = context;
-    }
-
-    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
     }
+
 }

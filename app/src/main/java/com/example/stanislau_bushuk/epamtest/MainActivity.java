@@ -37,9 +37,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        setRealm();
-
+        realm=Realm.getDefaultInstance();
         initActionBar(getResources().getString(R.string.Part1));
         if (savedInstanceState == null) {
             firstTaskFragment = new FIrstTaskFragment();
@@ -123,20 +121,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onDestroy() {
         super.onDestroy();
         realm.close();
-    }
-
-    public void setRealm() {
-        RealmConfiguration realmConfig = new RealmConfiguration.Builder()
-                .deleteRealmIfMigrationNeeded()
-                .name("realm.realm")
-                .build();
-        Realm.setDefaultConfiguration(realmConfig);
-        realm = Realm.getInstance(realmConfig);
-
-    }
-
-    public Realm getRealm() {
-        return this.realm;
     }
 }
 

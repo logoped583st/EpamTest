@@ -38,7 +38,7 @@ public class SecondTaskFragment extends Fragment {
     private ListViewAdapterTask2 adapter;
     private View view;
     private ImageView errorImage;
-    private Context context;
+
 
 
     public SecondTaskFragment() {
@@ -71,8 +71,8 @@ public class SecondTaskFragment extends Fragment {
             public void onResponse(@NonNull Call<ListPhotoRealm> call, @NonNull Response<ListPhotoRealm> response) {
                 Timber.e(String.valueOf(response.body().getPhotos().size()));
                 arrayPhoto.addAll(response.body().getPhotos());
-                recyclerView.setLayoutManager(new GridLayoutManager(context, 3));
-                adapter = new ListViewAdapterTask2(context, arrayPhoto);
+                recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+                adapter = new ListViewAdapterTask2(getActivity(), arrayPhoto);
                 recyclerView.setAdapter(adapter);
             }
 
@@ -83,12 +83,6 @@ public class SecondTaskFragment extends Fragment {
                 errorImage.setImageResource(R.drawable.eror);
             }
         });
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.context = context;
     }
 
     @Override

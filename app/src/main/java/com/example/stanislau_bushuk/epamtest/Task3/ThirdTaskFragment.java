@@ -1,8 +1,8 @@
 package com.example.stanislau_bushuk.epamtest.Task3;
 
 
+import android.app.ActionBar;
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,10 +20,7 @@ import com.example.stanislau_bushuk.epamtest.Modele.ListPhotoRealm;
 import com.example.stanislau_bushuk.epamtest.Modele.PhotoRealm;
 import com.example.stanislau_bushuk.epamtest.R;
 
-import java.util.ArrayList;
-
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,14 +32,13 @@ import timber.log.Timber;
  */
 public class ThirdTaskFragment extends Fragment {
 
-
     private RecyclerView recyclerView;
     private ListViewAdapterTask3 adapter;
     private View view;
     private ImageView errorImage;
     private Realm realm;
     private ListPhotoRealm listPhotosRealm;
-    private Context context;
+
 
     public ThirdTaskFragment() {
         // Required empty public constructor
@@ -54,7 +50,6 @@ public class ThirdTaskFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null)
             Timber.e(String.valueOf(savedInstanceState.getInt("fragment")));
-        setRealm();
     }
 
     @Override
@@ -71,6 +66,7 @@ public class ThirdTaskFragment extends Fragment {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.Part3));
         recyclerView = view.findViewById(R.id.list);
         errorImage = view.findViewById(R.id.ErrorImage);
+        realm = Realm.getDefaultInstance();
         listPhotosRealm = realm.where(ListPhotoRealm.class).findFirst();
         getResponse();
     }
@@ -92,8 +88,8 @@ public class ThirdTaskFragment extends Fragment {
                 }
 
                 realm.commitTransaction();
-                recyclerView.setLayoutManager(new GridLayoutManager(context, 3));
-                adapter = new ListViewAdapterTask3(context, listPhotosRealm);
+                recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+                adapter = new ListViewAdapterTask3(getActivity(), listPhotosRealm);
                 recyclerView.setAdapter(adapter);
             }
 
@@ -104,8 +100,8 @@ public class ThirdTaskFragment extends Fragment {
                 if (realmResults != null) {
                     if (!realmResults.getPhotos().isEmpty()) {
                         Timber.e(String.valueOf(realmResults.getPhotos().size()));
-                        recyclerView.setLayoutManager(new GridLayoutManager(context, 3));
-                        adapter = new ListViewAdapterTask3(context, realmResults);
+                        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+                        adapter = new ListViewAdapterTask3(getActivity(), realmResults);
                         recyclerView.setAdapter(adapter);
                     } else {
                         errorImage.setImageResource(R.drawable.eror);
@@ -115,15 +111,6 @@ public class ThirdTaskFragment extends Fragment {
         });
     }
 
-    public void setRealm() {
-        RealmConfiguration realmConfig = new RealmConfiguration.Builder()
-                .deleteRealmIfMigrationNeeded()
-                .name("realm.realm")
-                .build();
-        Realm.setDefaultConfiguration(realmConfig);
-        realm = Realm.getInstance(realmConfig);
-
-    }
 
     @Override
     public void onDestroy() {
@@ -131,15 +118,11 @@ public class ThirdTaskFragment extends Fragment {
         realm.close();
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.context = context;
-    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
     }
+
 
 }

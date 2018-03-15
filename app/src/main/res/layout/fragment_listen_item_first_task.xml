@@ -11,6 +11,7 @@
         android:layout_height="56dp"
         android:background="?attr/colorPrimary"
         android:theme="@style/MyTheme"
+        app:titleTextAppearance="@style/ToolbarTitle"
         app:popupTheme="@style/MyTheme"
         app:titleTextColor="@color/White" />
     <!-- TODO: Update blank fragment layout -->

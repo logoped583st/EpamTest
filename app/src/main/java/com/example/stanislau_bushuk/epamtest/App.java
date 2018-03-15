@@ -17,7 +17,6 @@ import timber.log.Timber;
 
 public class App extends Application {
 
-    private Realm realm;
 
     @Override
     public void onCreate() {
@@ -28,13 +27,11 @@ public class App extends Application {
         setRealm();
         Timber.plant(new Timber.DebugTree());
     }
-
     public void setRealm() {
         RealmConfiguration realmConfig = new RealmConfiguration.Builder()
                 .deleteRealmIfMigrationNeeded()
                 .name("realm.realm")
                 .build();
         Realm.setDefaultConfiguration(realmConfig);
-        realm = Realm.getInstance(realmConfig);
     }
 }

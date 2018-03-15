@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="?attr/colorPrimary"
+        app:titleTextAppearance="@style/ToolbarTitle"
         android:theme="@style/MyTheme"
         app:popupTheme="@style/MyTheme"
         app:titleTextColor="@color/White"
