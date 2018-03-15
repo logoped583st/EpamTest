@@ -62,7 +62,6 @@ public class ForthTaskFragment extends Fragment implements OnMapReadyCallback {
         MapsInitializer.initialize(getActivity());
         mapView.getMapAsync(this);
         realm = Realm.getDefaultInstance();
-        getResponse();
         return view;
     }
 
@@ -127,6 +126,7 @@ public class ForthTaskFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gmap = googleMap;
+        getResponse();
     }
 
     @Override
