@@ -91,6 +91,7 @@ public class ForthTaskFragment extends Fragment implements OnMapReadyCallback {
                                 .asBitmap()
                                 .load(photoRealm.getUrl())
                                 .error(R.drawable.eror)
+                                .fitCenter()
                                 .into(new SimpleTarget<Bitmap>(75, 100) {
                                     @Override
                                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {

@@ -53,7 +53,7 @@ public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTa
             holder.countryName.setText(photo.getTitle());
             GlideApp.with(context)
                     .load(photo.getUrl())
-                    .centerCrop()
+                    .fitCenter()
                     .error(R.drawable.eror)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(holder.countryPhoto);

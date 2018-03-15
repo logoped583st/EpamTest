@@ -1,19 +1,15 @@
 package com.example.stanislau_bushuk.epamtest.Task1;
 
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.example.stanislau_bushuk.epamtest.Adapter.ListViewAdapterTask1;
 import com.example.stanislau_bushuk.epamtest.Modele.Element;
@@ -22,16 +18,18 @@ import com.example.stanislau_bushuk.epamtest.R;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import timber.log.Timber;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FIrstTaskFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class FIrstTaskFragment extends Fragment {
 
 
     private ArrayList<Element> arrayList;
-    private ActionBar actionBar;
-
+    private RecyclerView recyclerView;
+    private ListViewAdapterTask1 adapter;
 
 
     public FIrstTaskFragment() {
@@ -51,31 +49,21 @@ public class FIrstTaskFragment extends Fragment implements AdapterView.OnItemCli
         super.onViewCreated(view, savedInstanceState);
         if (((AppCompatActivity) getActivity()).getSupportActionBar() != null)
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.Part1));
-        ListView listView = view.findViewById(R.id.list);
         arrayList = new ArrayList<>();
         setElements();
-        ListViewAdapterTask1 adapter = new ListViewAdapterTask1(getActivity(), arrayList);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(this);
+        recyclerView = view.findViewById(R.id.list1);
+        adapter = new ListViewAdapterTask1(getActivity(), arrayList);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        Timber.e("view created");
     }
 
     public void setElements() {
         for (int i = 0; i < 20; i++) {
-            arrayList.add(new Element(getResources().getString(R.string.item) + " " + (i), UUID.randomUUID().toString(), "This is item " + (i)));
+            arrayList.add(new Element(getResources().getString(R.string.item) + " " + (i+1), UUID.randomUUID().toString(), "This is item " + (i+1)));
         }
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        lookItem(arrayList.get(position).getName(), arrayList.get(position).getDescription());
-    }
-
-    public void lookItem(String title, String subtitle) {
-        Intent intent = new Intent(getActivity(), ListenerItemFirstTaskActivity.class);
-        intent.putExtra("Title", title);
-        intent.putExtra("Subtitle", subtitle);
-        startActivity(intent);
-    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

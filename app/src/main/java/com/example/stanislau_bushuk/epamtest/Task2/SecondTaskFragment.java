@@ -26,6 +26,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
 
+import static com.example.stanislau_bushuk.epamtest.R.layout.fragment_second_task;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,7 +38,6 @@ public class SecondTaskFragment extends Fragment {
     private RealmList<PhotoRealm> arrayPhoto;
     private RecyclerView recyclerView;
     private ListViewAdapterTask2 adapter;
-    private View view;
     private ImageView errorImage;
 
 
@@ -49,8 +50,7 @@ public class SecondTaskFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_second_task, container, false);
-        return view;
+        return inflater.inflate(fragment_second_task, container, false);
     }
 
     @Override
@@ -63,6 +63,7 @@ public class SecondTaskFragment extends Fragment {
         arrayPhoto = new RealmList<>();
         adapter = new ListViewAdapterTask2(getActivity(), arrayPhoto);
         recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         getResponse();
     }
 
@@ -73,7 +74,7 @@ public class SecondTaskFragment extends Fragment {
             public void onResponse(@NonNull Call<ListPhotoRealm> call, @NonNull Response<ListPhotoRealm> response) {
                 Timber.e(String.valueOf(response.body().getPhotos().size()));
                 arrayPhoto.addAll(response.body().getPhotos());
-                recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+
                 adapter.notifyDataSetChanged();
             }
 

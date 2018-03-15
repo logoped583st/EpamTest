@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.menu);
-            actionBar.setTitle(title);
+
 
         }
     }
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 firstTaskFragment = new FIrstTaskFragment();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, firstTaskFragment);
                 fragmentTransaction.commit();
-                actionBar.setTitle(R.string.Part1);
+
 
                 break;
             }
@@ -94,14 +94,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 secondTaskFragment = new SecondTaskFragment();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, secondTaskFragment);
                 fragmentTransaction.commit();
-                actionBar.setTitle(R.string.Part2);
+
                 break;
             }
             case R.id.Part3: {
                 thirdTaskFragment = new ThirdTaskFragment();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, thirdTaskFragment);
                 fragmentTransaction.commit();
-                actionBar.setTitle(R.string.Part3);
+
                 break;
             }
             case R.id.Part4: {
