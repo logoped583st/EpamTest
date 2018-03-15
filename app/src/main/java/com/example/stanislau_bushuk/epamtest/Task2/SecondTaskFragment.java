@@ -61,6 +61,8 @@ public class SecondTaskFragment extends Fragment {
         recyclerView = view.findViewById(R.id.list);
         errorImage = view.findViewById(R.id.ErrorImage);
         arrayPhoto = new RealmList<>();
+        adapter = new ListViewAdapterTask2(getActivity(), arrayPhoto);
+        recyclerView.setAdapter(adapter);
         getResponse();
     }
 
@@ -72,8 +74,7 @@ public class SecondTaskFragment extends Fragment {
                 Timber.e(String.valueOf(response.body().getPhotos().size()));
                 arrayPhoto.addAll(response.body().getPhotos());
                 recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-                adapter = new ListViewAdapterTask2(getActivity(), arrayPhoto);
-                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
