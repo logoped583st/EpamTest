@@ -1,9 +1,11 @@
 package com.example.stanislau_bushuk.epamtest;
 
 
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -13,21 +15,17 @@ import android.view.MenuItem;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.stanislau_bushuk.epamtest.IView.SetActionBarView;
-import com.example.stanislau_bushuk.epamtest.IView.getResponceFromApi;
 import com.example.stanislau_bushuk.epamtest.Modele.ListPhotoRealm;
-import com.example.stanislau_bushuk.epamtest.Presenter.GetResponceFromApiPresenter;
 import com.example.stanislau_bushuk.epamtest.Presenter.SetActionBarPresenter;
 
 import io.realm.Realm;
 import timber.log.Timber;
 
-public class MainActivity extends MvpAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SetActionBarView, getResponceFromApi {
+public class MainActivity extends MvpAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SetActionBarView {
 
     @InjectPresenter
     SetActionBarPresenter setAdapterPresenter;
 
-    @InjectPresenter
-    GetResponceFromApiPresenter getResponceFromApiPresenter;
 
     private Toolbar toolbar;
     private ActionBar actionBar;
@@ -40,6 +38,9 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
         setContentView(R.layout.activity_main);
         Timber.e("ONCREACTE");
         realm = Realm.getDefaultInstance();
+        FragmentMoxy fragment = new FragmentMoxy();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().replace(R.id.contaier,fragment);
+        fragmentTransaction.commit();
     }
 
 
@@ -79,10 +80,6 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
     }
 
 
-    @Override
-    public void getResponce(ListPhotoRealm listPhotoRealm) {
-        Timber.e("RESPONCE");
-    }
 }
 
 
