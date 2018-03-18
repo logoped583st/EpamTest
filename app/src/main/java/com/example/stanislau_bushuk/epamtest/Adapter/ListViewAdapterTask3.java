@@ -20,6 +20,10 @@ import com.example.stanislau_bushuk.epamtest.Presenter.GetResponceFromApiPresent
 import com.example.stanislau_bushuk.epamtest.Presenter.SetAdapterPresenter;
 import com.example.stanislau_bushuk.epamtest.R;
 
+import java.util.ArrayList;
+
+import timber.log.Timber;
+
 /**
  * Created by Stanislau_Bushuk on 3/17/2018.
  */
@@ -27,17 +31,20 @@ import com.example.stanislau_bushuk.epamtest.R;
 public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTask3.ViewHolder> {
 
     private LayoutInflater mInflater;
-    private ListPhotoRealm arrayList;
+    private ArrayList <PhotoRealm> arrayList;
     private Context context;
     private PhotoRealm photo;
     private ViewHolder viewHolder;
 
 
 
-    public ListViewAdapterTask3(Context context, @NonNull ListPhotoRealm getPhoto) {
+
+
+    public ListViewAdapterTask3(Context context, @NonNull ArrayList<PhotoRealm> getPhoto) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.arrayList = getPhoto;
+
     }
 
     @NonNull
@@ -50,7 +57,17 @@ public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTa
     @Override
     public void onBindViewHolder(@NonNull ListViewAdapterTask3.ViewHolder holder, int position) {
         holder.linearLayout.setTag(position);
-        photo = arrayList.getPhotos().get(position);
+        this.viewHolder=holder;
+        photo = arrayList.get(position);
+        if (photo != null) {
+            holder.countryName.setText(photo.getTitle());
+            GlideApp.with(context)
+                    .load(photo.getUrl())
+                    .fitCenter()
+                    .error(R.drawable.eror)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.countryPhoto);
+        }
     }
 
 
@@ -61,17 +78,16 @@ public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTa
 
     @Override
     public int getItemCount() {
-        return arrayList.getPhotos().size();
+        return arrayList.size();
     }
 
 
-
-    public class ViewHolder extends RecyclerView.ViewHolder implements SetAdapterView  {
+    public class ViewHolder extends RecyclerView.ViewHolder  {
         TextView countryName;
         ImageView countryPhoto;
         private LinearLayout linearLayout;
-        @InjectPresenter
-        SetAdapterPresenter setAdapterPresenter;
+
+
 
 
         ViewHolder(View itemView) {
@@ -81,19 +97,6 @@ public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTa
             countryPhoto = itemView.findViewById(R.id.imageCountry);
         }
 
-        @Override
-        public void setImage(String url) {
-            GlideApp.with(context)
-                    .load(url)
-                    .fitCenter()
-                    .error(R.drawable.eror)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(countryPhoto);
-        }
 
-        @Override
-        public void setText(String title) {
-            countryName.setText(title);
-        }
     }
 }
