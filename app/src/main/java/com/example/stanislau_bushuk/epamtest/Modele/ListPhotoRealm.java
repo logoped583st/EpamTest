@@ -15,6 +15,8 @@ public class ListPhotoRealm extends RealmObject {
 
     private RealmList <PhotoRealm> photos;
 
+
+
     public RealmList<PhotoRealm> getPhotos() {
         return photos;
     }
