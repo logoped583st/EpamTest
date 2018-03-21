@@ -17,9 +17,10 @@ import com.example.stanislau_bushuk.epamtest.IView.GetResponceFromApi;
 import com.example.stanislau_bushuk.epamtest.Modele.ListPhotoRealm;
 import com.example.stanislau_bushuk.epamtest.Modele.PhotoRealm;
 import com.example.stanislau_bushuk.epamtest.Presenter.GetResponceFromApiPresenter;
-import com.example.stanislau_bushuk.epamtest.Presenter.SetActionBarPresenter;
+import com.example.stanislau_bushuk.epamtest.Presenter.SetDataAdapterPresenter;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 import io.realm.Realm;
 import timber.log.Timber;
@@ -33,6 +34,7 @@ public class FragmentMoxy extends MvpAppCompatFragment implements GetResponceFro
     @InjectPresenter
     GetResponceFromApiPresenter getResponceFromApiPresenter;
 
+
     private RecyclerView recyclerView;
     private ListViewAdapterTask3 adapter;
     private ImageView errorImage;
@@ -41,12 +43,10 @@ public class FragmentMoxy extends MvpAppCompatFragment implements GetResponceFro
     private Realm realm;
 
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        realm=Realm.getDefaultInstance();
+        realm = Realm.getDefaultInstance();
         Timber.e("Created");
     }
 
@@ -61,52 +61,40 @@ public class FragmentMoxy extends MvpAppCompatFragment implements GetResponceFro
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Timber.e("View Created");
-
-        photoRealmList=new ArrayList<PhotoRealm>();
-        try {
-            photoRealmList.addAll(realm.where(ListPhotoRealm.class).findFirst().getPhotos());
-        }catch (NullPointerException exception){
-            exception.printStackTrace();
-        }
         recyclerView = view.findViewById(R.id.list);
         errorImage = view.findViewById(R.id.ErrorImage);
-        adapter = new ListViewAdapterTask3(getActivity(), photoRealmList);
+        photoRealmList=new ArrayList<>();
+        adapter=new ListViewAdapterTask3(getActivity(),photoRealmList);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recyclerView.setAdapter(adapter);
+    }
+
+
+    @Override
+    public void getResponce(ArrayList<PhotoRealm> photoRealmArrayList) {
+        //результат с апи
+        Timber.e("getResponce from Api");
+        this.photoRealmList.clear();
+        this.photoRealmList.addAll(photoRealmArrayList);
+        adapter.notifyDataSetChanged();
 
     }
+
     @Override
-    public void getResponce(ListPhotoRealm listPhotoRealm) {
-        if (!listPhotoRealm.getPhotos().isEmpty()) {
-            Timber.e("RESPONCE %s", listPhotoRealm.getPhotos().size());
-            ArrayList<PhotoRealm> tempPhotoRealmList = new ArrayList<>();
-            tempPhotoRealmList.addAll(listPhotoRealm.getPhotos());
-            if (!photoRealmList.isEmpty()) {
-                if(photoRealmList.size()==tempPhotoRealmList.size()){
-                    for(int i=0;i<photoRealmList.size();i++){
-                        if(photoRealmList.get(i).getId()!=tempPhotoRealmList.get(i).getId()){
-                            photoRealmList.clear();
-                            photoRealmList.addAll(tempPhotoRealmList);
-                            adapter.notifyDataSetChanged();
-                            Timber.e("notify id");
-                            break;
-                        }
-                    }
-                }
-                else {
-                    photoRealmList.clear();
-                    photoRealmList.addAll(tempPhotoRealmList);
-                    adapter.notifyDataSetChanged();
-                    Timber.e("notify size");
-                }
-            }else {
-                photoRealmList.clear();
-                photoRealmList.addAll(tempPhotoRealmList);
-                adapter.notifyDataSetChanged();
-                Timber.e("notify null");
-            }
-        }else{
-            errorImage.setImageResource(R.drawable.eror);
-        }
+    public void getResponceFromRealm(ArrayList<PhotoRealm> photoRealmArrayList) {
+        Timber.e("Result from realm");
+        this.photoRealmList.clear();
+        this.photoRealmList.addAll(photoRealmArrayList);
+        adapter.notifyDataSetChanged();
+        //результат с реалма
     }
+
+    @Override
+    public void getResponseFromRealmInFail() {
+        //пустой реалм
+        Timber.e("FAIL");
+        errorImage.setImageResource(R.drawable.eror);
+    }
+
+
 }

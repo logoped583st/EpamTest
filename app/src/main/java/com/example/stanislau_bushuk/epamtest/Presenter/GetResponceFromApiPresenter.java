@@ -1,11 +1,15 @@
 package com.example.stanislau_bushuk.epamtest.Presenter;
 
+import android.support.annotation.NonNull;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.example.stanislau_bushuk.epamtest.API.Request;
 import com.example.stanislau_bushuk.epamtest.IView.GetResponceFromApi;
 import com.example.stanislau_bushuk.epamtest.Modele.ListPhotoRealm;
 import com.example.stanislau_bushuk.epamtest.Modele.PhotoRealm;
+
+import java.util.ArrayList;
 
 import io.realm.Realm;
 import retrofit2.Call;
@@ -21,10 +25,12 @@ import timber.log.Timber;
 public class GetResponceFromApiPresenter extends MvpPresenter<GetResponceFromApi> {
     private ListPhotoRealm listPhotoRealm;
     private Realm realm;
+    private ArrayList<PhotoRealm> tempListPhotoRealm;
 
 
     public GetResponceFromApiPresenter() {
         realm = Realm.getDefaultInstance();
+        initTempListPhotoRealm();
         getResponce();
     }
 
@@ -33,7 +39,7 @@ public class GetResponceFromApiPresenter extends MvpPresenter<GetResponceFromApi
 
         Request.getIapi().getJson().enqueue(new Callback<ListPhotoRealm>() {
             @Override
-            public void onResponse(Call<ListPhotoRealm> call, Response<ListPhotoRealm> response) {
+            public void onResponse(@NonNull Call<ListPhotoRealm> call, @NonNull Response<ListPhotoRealm> response) {
                 realm.beginTransaction();
                 realm.where(ListPhotoRealm.class).findAll().deleteAllFromRealm();
 
@@ -44,20 +50,54 @@ public class GetResponceFromApiPresenter extends MvpPresenter<GetResponceFromApi
                 }
                 Timber.e("SizeRealm%s", String.valueOf(realm.where(ListPhotoRealm.class).findAll()));
                 realm.commitTransaction();
-                getViewState().getResponce(listPhotoRealm);
+                checkResponce(listPhotoRealm);
             }
 
             @Override
-            public void onFailure(Call<ListPhotoRealm> call, Throwable t) {
+            public void onFailure(@NonNull Call<ListPhotoRealm> call, @NonNull Throwable t) {
                 Timber.e("RESPONCEFAIL");
-                Timber.e("SizeRealm%s", String.valueOf(realm.where(ListPhotoRealm.class).findAll()));
-                ListPhotoRealm realmResults = realm.where(ListPhotoRealm.class).findFirst();
-                if (realmResults != null) {
-                    if (!realmResults.getPhotos().isEmpty()) {
-                        getViewState().getResponce(realmResults);
+            }
+        });
+    }
+
+    public void initTempListPhotoRealm(){
+        tempListPhotoRealm=new ArrayList<PhotoRealm>();
+        try {
+            tempListPhotoRealm.addAll(realm.where(ListPhotoRealm.class).findFirst().getPhotos());
+            getViewState().getResponceFromRealm(tempListPhotoRealm);
+
+        }catch (NullPointerException exception){
+            exception.printStackTrace();
+            getViewState().getResponseFromRealmInFail();
+        }
+    }
+
+    public void checkResponce(ListPhotoRealm listPhotoRealm){
+        Timber.e("RESPONCE %s", listPhotoRealm.getPhotos().size());
+        ArrayList<PhotoRealm> responcePhotoRealm = new ArrayList<>();
+        responcePhotoRealm.addAll(listPhotoRealm.getPhotos());
+        if (!tempListPhotoRealm.isEmpty()) {
+            if(tempListPhotoRealm.size()==responcePhotoRealm.size()){
+                for(int i=0;i<tempListPhotoRealm.size();i++){
+                    if(tempListPhotoRealm.get(i).getId()!=responcePhotoRealm.get(i).getId()){
+                        tempListPhotoRealm.clear();
+                        tempListPhotoRealm.addAll(responcePhotoRealm);
+                        getViewState().getResponce(tempListPhotoRealm);
+                        break;
                     }
                 }
             }
-        });
+            else {
+                tempListPhotoRealm.clear();
+                tempListPhotoRealm.addAll(responcePhotoRealm);
+                getViewState().getResponce(tempListPhotoRealm);
+                Timber.e("notify size");
+            }
+        }else {
+            tempListPhotoRealm.clear();
+            tempListPhotoRealm.addAll(responcePhotoRealm);
+            getViewState().getResponce(tempListPhotoRealm);
+            Timber.e("notify null");
+        }
     }
 }
