@@ -14,13 +14,10 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.stanislau_bushuk.epamtest.Adapter.ListViewAdapterTask3;
 import com.example.stanislau_bushuk.epamtest.IView.GetResponceFromApi;
-import com.example.stanislau_bushuk.epamtest.Modele.ListPhotoRealm;
 import com.example.stanislau_bushuk.epamtest.Modele.PhotoRealm;
 import com.example.stanislau_bushuk.epamtest.Presenter.GetResponceFromApiPresenter;
-import com.example.stanislau_bushuk.epamtest.Presenter.SetDataAdapterPresenter;
 
 import java.util.ArrayList;
-import java.util.Observable;
 
 import io.realm.Realm;
 import timber.log.Timber;
@@ -63,8 +60,8 @@ public class FragmentMoxy extends MvpAppCompatFragment implements GetResponceFro
         Timber.e("View Created");
         recyclerView = view.findViewById(R.id.list);
         errorImage = view.findViewById(R.id.ErrorImage);
-        photoRealmList=new ArrayList<>();
-        adapter=new ListViewAdapterTask3(getActivity(),photoRealmList);
+        photoRealmList = new ArrayList<>();
+        adapter = new ListViewAdapterTask3(getActivity(), photoRealmList);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recyclerView.setAdapter(adapter);
     }
@@ -74,18 +71,16 @@ public class FragmentMoxy extends MvpAppCompatFragment implements GetResponceFro
     public void getResponce(ArrayList<PhotoRealm> photoRealmArrayList) {
         //результат с апи
         Timber.e("getResponce from Api");
-        this.photoRealmList.clear();
-        this.photoRealmList.addAll(photoRealmArrayList);
-        adapter.notifyDataSetChanged();
+        adapter.update(photoRealmArrayList);
+        errorImage.setVisibility(View.INVISIBLE);
 
     }
 
     @Override
     public void getResponceFromRealm(ArrayList<PhotoRealm> photoRealmArrayList) {
         Timber.e("Result from realm");
-        this.photoRealmList.clear();
-        this.photoRealmList.addAll(photoRealmArrayList);
-        adapter.notifyDataSetChanged();
+        adapter.update(photoRealmArrayList);
+        errorImage.setVisibility(View.INVISIBLE);
         //результат с реалма
     }
 
@@ -94,6 +89,7 @@ public class FragmentMoxy extends MvpAppCompatFragment implements GetResponceFro
         //пустой реалм
         Timber.e("FAIL");
         errorImage.setImageResource(R.drawable.eror);
+        errorImage.setVisibility(View.VISIBLE);
     }
 
 

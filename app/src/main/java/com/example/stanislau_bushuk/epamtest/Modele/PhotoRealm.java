@@ -1,12 +1,14 @@
 package com.example.stanislau_bushuk.epamtest.Modele;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Stanislau_Bushuk on 3/11/2018.
  */
 
 public class PhotoRealm extends RealmObject {
+
     private String title;
     private String description;
     private String url;
