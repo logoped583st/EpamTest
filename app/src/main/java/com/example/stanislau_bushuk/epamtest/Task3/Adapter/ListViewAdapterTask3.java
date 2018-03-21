@@ -1,7 +1,6 @@
-package com.example.stanislau_bushuk.epamtest.Adapter;
+package com.example.stanislau_bushuk.epamtest.Task3.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,30 +11,37 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
+
 import com.example.stanislau_bushuk.epamtest.GlideApp;
-import com.example.stanislau_bushuk.epamtest.Modele.ListPhotoRealm;
-import com.example.stanislau_bushuk.epamtest.Modele.PhotoRealm;
 import com.example.stanislau_bushuk.epamtest.R;
-import com.example.stanislau_bushuk.epamtest.Task2.ListenerItemSecondTaskActivity;
+import com.example.stanislau_bushuk.epamtest.Task3.Modele.PhotoRealmMoxy;
+
 
 import java.util.ArrayList;
 
 /**
- * Created by Stanislau_Bushuk on 3/7/2018.
+ * Created by Stanislau_Bushuk on 3/17/2018.
  */
 
 public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTask3.ViewHolder> {
 
+
     private LayoutInflater mInflater;
-    private ListPhotoRealm arrayList;
+    private ArrayList<PhotoRealmMoxy> arrayList;
     private Context context;
-    private PhotoRealm photo;
 
 
-    public ListViewAdapterTask3(Context context, ListPhotoRealm getPhoto) {
-        this.context=context;
+    public ListViewAdapterTask3(Context context, @NonNull ArrayList<PhotoRealmMoxy> getPhoto) {
+        this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.arrayList = getPhoto;
+    }
+
+    public void update(ArrayList<PhotoRealmMoxy> photoRealms){
+        this.arrayList.clear();
+        this.arrayList.addAll(photoRealms);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -48,7 +54,7 @@ public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTa
     @Override
     public void onBindViewHolder(@NonNull ListViewAdapterTask3.ViewHolder holder, int position) {
         holder.linearLayout.setTag(position);
-        photo = arrayList.getPhotos().get(position);
+        PhotoRealmMoxy photo = arrayList.get(position);
         if (photo != null) {
             holder.countryName.setText(photo.getTitle());
             GlideApp.with(context)
@@ -68,10 +74,10 @@ public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTa
 
     @Override
     public int getItemCount() {
-        return arrayList.getPhotos().size();
+        return arrayList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView countryName;
         ImageView countryPhoto;
         private LinearLayout linearLayout;
@@ -82,17 +88,7 @@ public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTa
             linearLayout = itemView.findViewById(R.id.list_item);
             countryName = itemView.findViewById(R.id.countryName);
             countryPhoto = itemView.findViewById(R.id.imageCountry);
-            linearLayout.setOnClickListener(this);
         }
 
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent(context, ListenerItemSecondTaskActivity.class);
-            if (arrayList != null) {
-                intent.putExtra("URL", (arrayList.getPhotos().get((int) view.getTag()).getUrl()));
-                intent.putExtra("TITLE", (arrayList.getPhotos().get((int) view.getTag()).getTitle()));
-                context.startActivity(intent);
-            }
-        }
     }
 }

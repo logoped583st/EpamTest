@@ -10,20 +10,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.stanislau_bushuk.epamtest.API.Request;
-import com.example.stanislau_bushuk.epamtest.App;
+
+
 import com.example.stanislau_bushuk.epamtest.GlideApp;
 import com.example.stanislau_bushuk.epamtest.Modele.PhotoRealm;
 import com.example.stanislau_bushuk.epamtest.R;
 import com.example.stanislau_bushuk.epamtest.Task2.ListenerItemSecondTaskActivity;
 
-import java.util.ArrayList;
 
 import io.realm.RealmList;
-import timber.log.Timber;
 
 /**
  * Created by Stanislau_Bushuk on 3/7/2018.
@@ -39,7 +36,7 @@ public class ListViewAdapterTask2 extends RecyclerView.Adapter<ListViewAdapterTa
     public ListViewAdapterTask2(Context context, RealmList<PhotoRealm> getPhoto) {
         this.mInflater = LayoutInflater.from(context);
         this.arrayList = getPhoto;
-        this.context=context;
+        this.context = context;
     }
 
     @NonNull
@@ -68,25 +65,25 @@ public class ListViewAdapterTask2 extends RecyclerView.Adapter<ListViewAdapterTa
         return arrayList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private LinearLayout linearLayout;
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView countryName;
         ImageView countryPhoto;
+        private LinearLayout linearLayout;
 
 
         ViewHolder(View itemView) {
             super(itemView);
-            linearLayout=itemView.findViewById(R.id.list_item);
-            countryName=itemView.findViewById(R.id.countryName);
-            countryPhoto=itemView.findViewById(R.id.imageCountry);
+            linearLayout = itemView.findViewById(R.id.list_item);
+            countryName = itemView.findViewById(R.id.countryName);
+            countryPhoto = itemView.findViewById(R.id.imageCountry);
             linearLayout.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(context,ListenerItemSecondTaskActivity.class);
-            intent.putExtra("URL",arrayList.get((int) view.getTag()).getUrl());
-            intent.putExtra("TITLE",arrayList.get((int) view.getTag()).getTitle());
+            Intent intent = new Intent(context, ListenerItemSecondTaskActivity.class);
+            intent.putExtra("URL", arrayList.get((int) view.getTag()).getUrl());
+            intent.putExtra("TITLE", arrayList.get((int) view.getTag()).getTitle());
             context.startActivity(intent);
         }
     }

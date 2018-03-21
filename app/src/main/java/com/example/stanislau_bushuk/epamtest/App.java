@@ -24,6 +24,8 @@ public class App extends Application {
         Realm.init(this);
         Request request = new Request();
         request.getJson();
+        com.example.stanislau_bushuk.epamtest.Task3.API.Request request1=new com.example.stanislau_bushuk.epamtest.Task3.API.Request();
+        request1.getJson();
         setRealm();
         Timber.plant(new Timber.DebugTree());
     }

@@ -16,7 +16,8 @@ import android.view.MenuItem;
 
 import com.example.stanislau_bushuk.epamtest.Task1.FIrstTaskFragment;
 import com.example.stanislau_bushuk.epamtest.Task2.SecondTaskFragment;
-import com.example.stanislau_bushuk.epamtest.Task3.ThirdTaskFragment;
+import com.example.stanislau_bushuk.epamtest.Task3.FragmentMoxy;
+
 import com.example.stanislau_bushuk.epamtest.Task4.ForthTaskFragment;
 
 import io.realm.Realm;
@@ -25,10 +26,10 @@ import io.realm.RealmConfiguration;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar toolbar;
-    private Fragment firstTaskFragment;
-    private Fragment secondTaskFragment;
-    private Fragment thirdTaskFragment;
-    private Fragment forthTaskFragment;
+    private FIrstTaskFragment firstTaskFragment;
+    private SecondTaskFragment secondTaskFragment;
+    private FragmentMoxy thirdTaskFragment;
+    private ForthTaskFragment forthTaskFragment;
     private ActionBar actionBar;
     private Realm realm;
 
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (savedInstanceState == null) {
             firstTaskFragment = new FIrstTaskFragment();
             initActionBar(getResources().getString(R.string.Part1));
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, firstTaskFragment);
+            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().replace(R.id.contaier, firstTaskFragment);
             fragmentTransaction.commit();
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (id) {
             case R.id.Part1: {
                 firstTaskFragment = new FIrstTaskFragment();
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, firstTaskFragment);
+                android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().replace(R.id.contaier, firstTaskFragment);
                 fragmentTransaction.commit();
 
 
@@ -92,21 +93,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             case R.id.Part2: {
                 secondTaskFragment = new SecondTaskFragment();
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, secondTaskFragment);
+                android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().replace(R.id.contaier, secondTaskFragment);
                 fragmentTransaction.commit();
 
                 break;
             }
             case R.id.Part3: {
-                thirdTaskFragment = new ThirdTaskFragment();
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, thirdTaskFragment);
+                thirdTaskFragment = new FragmentMoxy();
+                android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().replace(R.id.contaier, thirdTaskFragment);
                 fragmentTransaction.commit();
 
                 break;
             }
             case R.id.Part4: {
                 forthTaskFragment = new ForthTaskFragment();
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.contaier, forthTaskFragment);
+                android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().replace(R.id.contaier, forthTaskFragment);
                 fragmentTransaction.commit();
                 actionBar.setTitle(R.string.Part4);
                 break;
