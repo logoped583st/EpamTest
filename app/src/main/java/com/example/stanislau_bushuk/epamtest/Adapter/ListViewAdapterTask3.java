@@ -9,15 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.PresenterType;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.stanislau_bushuk.epamtest.GlideApp;
-import com.example.stanislau_bushuk.epamtest.IView.SetDataAdapter;
 import com.example.stanislau_bushuk.epamtest.Modele.PhotoRealm;
-import com.example.stanislau_bushuk.epamtest.Presenter.SetDataAdapterPresenter;
 import com.example.stanislau_bushuk.epamtest.R;
 
 import java.util.ArrayList;
@@ -26,10 +20,8 @@ import java.util.ArrayList;
  * Created by Stanislau_Bushuk on 3/17/2018.
  */
 
-public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTask3.ViewHolder> implements SetDataAdapter {
+public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTask3.ViewHolder> {
 
-    @InjectPresenter(type = PresenterType.GLOBAL)
-    public SetDataAdapterPresenter setDataAdapterPresenter;
 
 
 
@@ -45,6 +37,12 @@ public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTa
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.arrayList = getPhoto;
+    }
+
+    public void update(ArrayList<PhotoRealm> photoRealms){
+        this.arrayList.clear();
+        this.arrayList.addAll(photoRealms);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -80,13 +78,6 @@ public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTa
     public int getItemCount() {
         return arrayList.size();
     }
-
-    @Override
-    public void SetData(ArrayList<PhotoRealm> photoRealms) {
-        this.arrayList = photoRealms;
-        notifyDataSetChanged();
-    }
-
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView countryName;

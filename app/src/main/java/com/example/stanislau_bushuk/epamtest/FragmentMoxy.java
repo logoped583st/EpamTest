@@ -14,10 +14,8 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.stanislau_bushuk.epamtest.Adapter.ListViewAdapterTask3;
 import com.example.stanislau_bushuk.epamtest.IView.GetResponceFromApi;
-import com.example.stanislau_bushuk.epamtest.Modele.ListPhotoRealm;
 import com.example.stanislau_bushuk.epamtest.Modele.PhotoRealm;
 import com.example.stanislau_bushuk.epamtest.Presenter.GetResponceFromApiPresenter;
-import com.example.stanislau_bushuk.epamtest.Presenter.SetDataAdapterPresenter;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -74,18 +72,14 @@ public class FragmentMoxy extends MvpAppCompatFragment implements GetResponceFro
     public void getResponce(ArrayList<PhotoRealm> photoRealmArrayList) {
         //результат с апи
         Timber.e("getResponce from Api");
-        this.photoRealmList.clear();
-        this.photoRealmList.addAll(photoRealmArrayList);
-        adapter.notifyDataSetChanged();
+        adapter.update(photoRealmArrayList);
 
     }
 
     @Override
     public void getResponceFromRealm(ArrayList<PhotoRealm> photoRealmArrayList) {
         Timber.e("Result from realm");
-        this.photoRealmList.clear();
-        this.photoRealmList.addAll(photoRealmArrayList);
-        adapter.notifyDataSetChanged();
+        adapter.update(photoRealmArrayList);
         //результат с реалма
     }
 
