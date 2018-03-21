@@ -1,20 +1,15 @@
 package com.example.stanislau_bushuk.epamtest.Presenter;
 
-import android.support.annotation.NonNull;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.example.stanislau_bushuk.epamtest.API.Request;
 import com.example.stanislau_bushuk.epamtest.IView.GetResponceFromApi;
 import com.example.stanislau_bushuk.epamtest.Modele.ListPhotoRealm;
 import com.example.stanislau_bushuk.epamtest.Modele.MainModele;
 import com.example.stanislau_bushuk.epamtest.Modele.PhotoRealm;
+import com.example.stanislau_bushuk.epamtest.Modele.StartCheck;
 
 import java.util.ArrayList;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import timber.log.Timber;
 
 /**
@@ -22,33 +17,18 @@ import timber.log.Timber;
  */
 
 @InjectViewState
-public class GetResponceFromApiPresenter extends MvpPresenter<GetResponceFromApi> {
+public class GetResponceFromApiPresenter extends MvpPresenter<GetResponceFromApi> implements StartCheck {
 
     private MainModele mainModele;
 
 
     public GetResponceFromApiPresenter() {
-        mainModele = new MainModele();
+        mainModele = new MainModele(this);
         initTempListPhotoRealm();
-        getResponce();
+
+        // checkResponce(mainModele.getListPhotoRealm()); //вызов с интерфейса
     }
 
-    public void getResponce() {
-
-        Request.getIapi().getJson().enqueue(new Callback<ListPhotoRealm>() {
-            @Override
-            public void onResponse(@NonNull Call<ListPhotoRealm> call, @NonNull Response<ListPhotoRealm> response) {
-                mainModele.setListPhotoRealm(response.body());
-                checkResponce(response.body());
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ListPhotoRealm> call, @NonNull Throwable t) {
-                Timber.e("RESPONCEFAIL");
-                t.printStackTrace();
-            }
-        });
-    }
 
     public void initTempListPhotoRealm() {
         if (!mainModele.getPhotoRealmArrayList().isEmpty()) {
@@ -59,7 +39,7 @@ public class GetResponceFromApiPresenter extends MvpPresenter<GetResponceFromApi
     }
 
     public void checkResponce(ListPhotoRealm listPhotoRealm) {
-        ArrayList <PhotoRealm> responcePhotoRealm= new ArrayList<>();
+        ArrayList<PhotoRealm> responcePhotoRealm = new ArrayList<>();
         responcePhotoRealm.addAll(listPhotoRealm.getPhotos());
         if (!mainModele.getPhotoRealmArrayList().isEmpty()) {
             if (mainModele.getPhotoRealmArrayList().size() == responcePhotoRealm.size()) {
@@ -83,5 +63,11 @@ public class GetResponceFromApiPresenter extends MvpPresenter<GetResponceFromApi
             getViewState().getResponce(mainModele.getPhotoRealmArrayList());
             Timber.e("notify null");
         }
+    }
+
+
+    @Override
+    public void start(ListPhotoRealm listPhotoRealm) {
+        checkResponce(listPhotoRealm);
     }
 }

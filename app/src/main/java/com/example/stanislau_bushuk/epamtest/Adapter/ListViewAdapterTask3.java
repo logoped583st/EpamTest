@@ -23,14 +23,9 @@ import java.util.ArrayList;
 public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTask3.ViewHolder> {
 
 
-
-
-
     private LayoutInflater mInflater;
     private ArrayList<PhotoRealm> arrayList;
     private Context context;
-    private PhotoRealm photo;
-    private ViewHolder viewHolder;
 
 
     public ListViewAdapterTask3(Context context, @NonNull ArrayList<PhotoRealm> getPhoto) {
@@ -55,8 +50,7 @@ public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTa
     @Override
     public void onBindViewHolder(@NonNull ListViewAdapterTask3.ViewHolder holder, int position) {
         holder.linearLayout.setTag(position);
-        this.viewHolder = holder;
-        photo = arrayList.get(position);
+        PhotoRealm photo = arrayList.get(position);
         if (photo != null) {
             holder.countryName.setText(photo.getTitle());
             GlideApp.with(context)
