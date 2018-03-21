@@ -14,17 +14,17 @@ public class PhotoRealm extends RealmObject {
     private double latitude;
     private double longitude;
 
-    public PhotoRealm(){
+    public PhotoRealm() {
 
     }
 
     public PhotoRealm(String title, String description, String url, int id, double latitude, double longitude) {
-        this.title=title;
-        this.description=description;
-        this.id=id;
-        this.latitude=latitude;
-        this.url=url;
-        this.longitude=longitude;
+        this.title = title;
+        this.description = description;
+        this.id = id;
+        this.latitude = latitude;
+        this.url = url;
+        this.longitude = longitude;
     }
 
     public String getTitle() {

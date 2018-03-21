@@ -2,14 +2,12 @@ package com.example.stanislau_bushuk.epamtest.Task3.Modele;
 
 import android.support.annotation.NonNull;
 
-
 import com.example.stanislau_bushuk.epamtest.Task3.API.Request;
 import com.example.stanislau_bushuk.epamtest.Task3.Presenter.GetResponceFromApiPresenter;
 
 import java.util.ArrayList;
 
 import io.realm.Realm;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,7 +28,7 @@ public class MainModele {
     public MainModele(GetResponceFromApiPresenter getResponceFromApiPresenter) {
         initRealm();
         listPhotoRealm = realm.where(ListPhotoRealmMoxy.class).findFirst();
-        startCheck=getResponceFromApiPresenter;
+        startCheck = getResponceFromApiPresenter;
         try {
             this.listPhotoRealm = realm.createObject(ListPhotoRealmMoxy.class);
         } catch (Exception e) {

@@ -11,12 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
-
 import com.example.stanislau_bushuk.epamtest.GlideApp;
 import com.example.stanislau_bushuk.epamtest.R;
 import com.example.stanislau_bushuk.epamtest.Task3.Modele.PhotoRealmMoxy;
-
 
 import java.util.ArrayList;
 
@@ -38,7 +35,7 @@ public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTa
         this.arrayList = getPhoto;
     }
 
-    public void update(ArrayList<PhotoRealmMoxy> photoRealms){
+    public void update(ArrayList<PhotoRealmMoxy> photoRealms) {
         this.arrayList.clear();
         this.arrayList.addAll(photoRealms);
         notifyDataSetChanged();

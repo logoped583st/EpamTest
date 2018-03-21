@@ -1,6 +1,5 @@
 package com.example.stanislau_bushuk.epamtest.Task3.API;
 
-import com.example.stanislau_bushuk.epamtest.Modele.ListPhotoRealm;
 import com.example.stanislau_bushuk.epamtest.Task3.Modele.ListPhotoRealmMoxy;
 
 import retrofit2.Call;

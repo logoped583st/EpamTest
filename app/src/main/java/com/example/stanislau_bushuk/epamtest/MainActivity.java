@@ -1,11 +1,9 @@
 package com.example.stanislau_bushuk.epamtest;
 
-
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -17,11 +15,9 @@ import android.view.MenuItem;
 import com.example.stanislau_bushuk.epamtest.Task1.FIrstTaskFragment;
 import com.example.stanislau_bushuk.epamtest.Task2.SecondTaskFragment;
 import com.example.stanislau_bushuk.epamtest.Task3.FragmentMoxy;
-
 import com.example.stanislau_bushuk.epamtest.Task4.ForthTaskFragment;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -38,12 +34,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        realm=Realm.getDefaultInstance();
+        realm = Realm.getDefaultInstance();
         initActionBar(getResources().getString(R.string.Part1));
         if (savedInstanceState == null) {
             firstTaskFragment = new FIrstTaskFragment();
             initActionBar(getResources().getString(R.string.Part1));
-            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().replace(R.id.contaier, firstTaskFragment);
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().replace(R.id.contaier, firstTaskFragment);
             fragmentTransaction.commit();
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -80,12 +76,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
         switch (id) {
             case R.id.Part1: {
                 firstTaskFragment = new FIrstTaskFragment();
-                android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().replace(R.id.contaier, firstTaskFragment);
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().replace(R.id.contaier, firstTaskFragment);
                 fragmentTransaction.commit();
 
 
@@ -93,14 +88,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             case R.id.Part2: {
                 secondTaskFragment = new SecondTaskFragment();
-                android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().replace(R.id.contaier, secondTaskFragment);
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().replace(R.id.contaier, secondTaskFragment);
                 fragmentTransaction.commit();
 
                 break;
             }
             case R.id.Part3: {
                 thirdTaskFragment = new FragmentMoxy();
-                android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().replace(R.id.contaier, thirdTaskFragment);
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().replace(R.id.contaier, thirdTaskFragment);
                 fragmentTransaction.commit();
 
                 break;

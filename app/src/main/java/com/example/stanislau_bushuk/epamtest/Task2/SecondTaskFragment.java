@@ -1,7 +1,6 @@
 package com.example.stanislau_bushuk.epamtest.Task2;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -39,7 +38,6 @@ public class SecondTaskFragment extends Fragment {
     private RecyclerView recyclerView;
     private ListViewAdapterTask2 adapter;
     private ImageView errorImage;
-
 
 
     public SecondTaskFragment() {

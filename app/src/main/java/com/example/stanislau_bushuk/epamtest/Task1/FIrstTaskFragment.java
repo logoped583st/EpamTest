@@ -60,7 +60,7 @@ public class FIrstTaskFragment extends Fragment {
 
     public void setElements() {
         for (int i = 0; i < 20; i++) {
-            arrayList.add(new Element(getResources().getString(R.string.item) + " " + (i+1), UUID.randomUUID().toString(), "This is item " + (i+1)));
+            arrayList.add(new Element(getResources().getString(R.string.item) + " " + (i + 1), UUID.randomUUID().toString(), "This is item " + (i + 1)));
         }
     }
 

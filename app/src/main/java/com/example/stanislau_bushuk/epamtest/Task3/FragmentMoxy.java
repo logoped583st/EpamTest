@@ -12,11 +12,7 @@ import android.widget.ImageView;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
-
-
-
 import com.example.stanislau_bushuk.epamtest.R;
-
 import com.example.stanislau_bushuk.epamtest.Task3.Adapter.ListViewAdapterTask3;
 import com.example.stanislau_bushuk.epamtest.Task3.IView.GetResponceFromApi;
 import com.example.stanislau_bushuk.epamtest.Task3.Modele.PhotoRealmMoxy;
@@ -24,7 +20,6 @@ import com.example.stanislau_bushuk.epamtest.Task3.Presenter.GetResponceFromApiP
 
 import java.util.ArrayList;
 
-import io.realm.Realm;
 import timber.log.Timber;
 
 /**
@@ -42,13 +37,12 @@ public class FragmentMoxy extends MvpAppCompatFragment implements GetResponceFro
     private ImageView errorImage;
     private View view;
     private ArrayList<PhotoRealmMoxy> photoRealmList;
-    private Realm realm;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        realm = Realm.getDefaultInstance();
+
         Timber.e("Created");
     }
 

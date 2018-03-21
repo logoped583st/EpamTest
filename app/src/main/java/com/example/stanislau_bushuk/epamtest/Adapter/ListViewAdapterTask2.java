@@ -12,13 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
-
 import com.example.stanislau_bushuk.epamtest.GlideApp;
 import com.example.stanislau_bushuk.epamtest.Modele.PhotoRealm;
 import com.example.stanislau_bushuk.epamtest.R;
 import com.example.stanislau_bushuk.epamtest.Task2.ListenerItemSecondTaskActivity;
-
 
 import io.realm.RealmList;
 

@@ -1,13 +1,11 @@
 package com.example.stanislau_bushuk.epamtest.Task4;
 
 
-
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +14,6 @@ import android.view.ViewGroup;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.stanislau_bushuk.epamtest.API.Request;
-
 import com.example.stanislau_bushuk.epamtest.GlideApp;
 import com.example.stanislau_bushuk.epamtest.Modele.ListPhotoRealm;
 import com.example.stanislau_bushuk.epamtest.Modele.PhotoRealm;
@@ -47,7 +44,6 @@ public class ForthTaskFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap gmap;
     private View view;
     private MapView mapView;
-
 
 
     public ForthTaskFragment() {
@@ -112,7 +108,7 @@ public class ForthTaskFragment extends Fragment implements OnMapReadyCallback {
                 try {
                     Timber.e(String.valueOf(realmResults.getPhotos().size()));
                     final RealmList<PhotoRealm> photoRealm = realmResults.getPhotos();
-                    for(final PhotoRealm photoRealm1:photoRealm)
+                    for (final PhotoRealm photoRealm1 : photoRealm)
                         GlideApp.with(getActivity())
                                 .asBitmap()
                                 .load(photoRealm1.getUrl())
