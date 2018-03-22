@@ -50,6 +50,7 @@ public class MainModele {
         realm.where(ListPhotoRealmMoxy.class).findAll().deleteAllFromRealm();
         realm.copyToRealm(listPhotoRealm);
         realm.commitTransaction();
+        photoRealmArrayList.clear();
         photoRealmArrayList.addAll(listPhotoRealm.getPhotos());
         Timber.e("Realm%s", realm.where(ListPhotoRealmMoxy.class).findAll());
         Timber.e(String.valueOf(photoRealmArrayList.size()));
