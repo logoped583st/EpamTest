@@ -24,50 +24,15 @@ public class GetResponceFromApiPresenter extends MvpPresenter<GetResponceFromApi
 
     public GetResponceFromApiPresenter() {
         mainModele = new MainModele(this);
-        initTempListPhotoRealm();
-
-        // checkResponce(mainModele.getListPhotoRealm()); //вызов с интерфейса
     }
-
-
-    public void initTempListPhotoRealm() {
-        if (!mainModele.getPhotoRealmArrayList().isEmpty()) {
-            getViewState().getResponceFromRealm(mainModele.getPhotoRealmArrayList());
-        } else {
-            getViewState().getResponseFromRealmInFail();
-        }
-    }
-
-    public void checkResponce(ListPhotoRealmMoxy listPhotoRealm) {
-        ArrayList<PhotoRealmMoxy> responcePhotoRealm = new ArrayList<>();
-        responcePhotoRealm.addAll(listPhotoRealm.getPhotos());
-        if (!mainModele.getPhotoRealmArrayList().isEmpty()) {
-            if (mainModele.getPhotoRealmArrayList().size() == responcePhotoRealm.size()) {
-                for (int i = 0; i < responcePhotoRealm.size(); i++) {
-                    if (mainModele.getPhotoRealmArrayList().get(i).getId() != responcePhotoRealm.get(i).getId()) {
-                        mainModele.getPhotoRealmArrayList().clear();
-                        mainModele.getPhotoRealmArrayList().addAll(responcePhotoRealm);
-                        getViewState().getResponce(mainModele.getPhotoRealmArrayList());
-                        break;
-                    }
-                }
-            } else {
-                mainModele.getPhotoRealmArrayList().clear();
-                mainModele.getPhotoRealmArrayList().addAll(responcePhotoRealm);
-                getViewState().getResponce(mainModele.getPhotoRealmArrayList());
-                Timber.e("notify size");
-            }
-        } else {
-            mainModele.getPhotoRealmArrayList().clear();
-            mainModele.getPhotoRealmArrayList().addAll(responcePhotoRealm);
-            getViewState().getResponce(mainModele.getPhotoRealmArrayList());
-            Timber.e("notify null");
-        }
-    }
-
 
     @Override
     public void start(ListPhotoRealmMoxy listPhotoRealm) {
-        checkResponce(listPhotoRealm);
+        Timber.e("interface %s", listPhotoRealm.getPhotos());
+        if(!listPhotoRealm.getPhotos().isEmpty())
+            getViewState().getResponce(mainModele.getPhotoRealmArrayList());
+        else{
+            getViewState().getResponseFromRealmInFail();
+        }
     }
 }

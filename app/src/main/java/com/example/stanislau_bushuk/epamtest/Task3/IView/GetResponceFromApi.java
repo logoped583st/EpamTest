@@ -13,12 +13,10 @@ import java.util.ArrayList;
 
 public interface GetResponceFromApi extends MvpView {
 
-
     @StateStrategyType(AddToEndSingleStrategy.class)
     void getResponce(ArrayList<PhotoRealmMoxy> listPhotoRealm);
-
-    void getResponceFromRealm(ArrayList<PhotoRealmMoxy> photoRealmArrayList);
-
+    
+    @StateStrategyType(AddToEndSingleStrategy.class)
     void getResponseFromRealmInFail();
 
 }

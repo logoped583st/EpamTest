@@ -44,9 +44,7 @@ public class MainModele {
         realm = Realm.getDefaultInstance();
     }
 
-    public ListPhotoRealmMoxy getListPhotoRealm() {
-        return this.listPhotoRealm;
-    }
+
 
     public void setListPhotoRealm(ListPhotoRealmMoxy listPhotoRealm) {
         realm.beginTransaction();
