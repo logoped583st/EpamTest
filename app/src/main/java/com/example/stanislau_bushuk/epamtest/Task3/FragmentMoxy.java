@@ -38,12 +38,8 @@ public class FragmentMoxy extends MvpAppCompatFragment implements GetResponceFro
     GetResponceFromApiPresenter getResponceFromApiPresenter;
 
 
-    private RecyclerView recyclerView;
     private ListViewAdapterTask3 adapter;
     private ImageView errorImage;
-    private View view;
-    private ArrayList<PhotoRealmMoxy> photoRealmList;
-    private FloatingActionButton floatingActionButton;
 
 
     @Override
@@ -56,7 +52,7 @@ public class FragmentMoxy extends MvpAppCompatFragment implements GetResponceFro
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_second_task, container, false);
+        View view = inflater.inflate(R.layout.fragment_second_task, container, false);
         return view;
     }
 
@@ -66,13 +62,13 @@ public class FragmentMoxy extends MvpAppCompatFragment implements GetResponceFro
         Timber.e("View Created");
         if (((AppCompatActivity) getActivity()).getSupportActionBar() != null)
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.Part3));
-        recyclerView = view.findViewById(R.id.list);
+        RecyclerView recyclerView = view.findViewById(R.id.list);
         errorImage = view.findViewById(R.id.ErrorImage);
-        photoRealmList = new ArrayList<>();
+        ArrayList<PhotoRealmMoxy> photoRealmList = new ArrayList<>();
         adapter = new ListViewAdapterTask3(getActivity(), photoRealmList);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recyclerView.setAdapter(adapter);
-        floatingActionButton=view.findViewById(R.id.floatingActionButton);
+        FloatingActionButton floatingActionButton = view.findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(this);
     }
 

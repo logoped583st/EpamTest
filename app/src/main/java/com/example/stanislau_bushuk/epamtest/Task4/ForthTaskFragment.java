@@ -44,10 +44,8 @@ public class ForthTaskFragment extends FragmentMoxy implements OnMapReadyCallbac
     @InjectPresenter(type = PresenterType.LOCAL)
     GetResponceFromApiPresenter getResponceFromApiPresenter;
 
-    private Realm realm;
     private ArrayList<PhotoRealmMoxy> photoRealmMoxies;
     private GoogleMap gmap;
-    private View view;
     private MapView mapView;
 
 
@@ -59,13 +57,12 @@ public class ForthTaskFragment extends FragmentMoxy implements OnMapReadyCallbac
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.mapfragment, container, false);
+        View view = inflater.inflate(R.layout.mapfragment, container, false);
         mapView = view.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
         MapsInitializer.initialize(getActivity());
         mapView.getMapAsync(this);
-        realm = Realm.getDefaultInstance();
         NavigationView navigationView = getActivity().findViewById(R.id.nav_view);
         navigationView.getMenu().getItem(3).setChecked(true);
         return view;

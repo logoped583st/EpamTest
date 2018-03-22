@@ -1,16 +1,15 @@
 package com.example.stanislau_bushuk.epamtest.Task3.Modele;
 
-import android.support.annotation.NonNull;
-
 import com.example.stanislau_bushuk.epamtest.Task3.API.Request;
 import com.example.stanislau_bushuk.epamtest.Task3.Presenter.GetResponceFromApiPresenter;
 
 import java.util.ArrayList;
 
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import timber.log.Timber;
 
 /**
@@ -20,17 +19,16 @@ import timber.log.Timber;
 public class MainModele {
 
 
-    private ListPhotoRealmMoxy listPhotoRealm;
     private ArrayList<PhotoRealmMoxy> photoRealmArrayList;
     private Realm realm;
     private StartCheck startCheck;
 
     public MainModele(GetResponceFromApiPresenter getResponceFromApiPresenter) {
         initRealm();
-        listPhotoRealm = realm.where(ListPhotoRealmMoxy.class).findFirst();
+        ListPhotoRealmMoxy listPhotoRealm = realm.where(ListPhotoRealmMoxy.class).findFirst();
         startCheck = getResponceFromApiPresenter;
         try {
-            this.listPhotoRealm = realm.createObject(ListPhotoRealmMoxy.class);
+            listPhotoRealm = realm.createObject(ListPhotoRealmMoxy.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,11 +54,8 @@ public class MainModele {
         Timber.e(String.valueOf(photoRealmArrayList.size()));
     }
 
-    public ArrayList<PhotoRealmMoxy> getPhotoRealmArrayList() {
-        return this.photoRealmArrayList;
-    }
 
-    public void getResponce() {
+    /*public void getResponce() {
         Request.getIapi().getJson().enqueue(new Callback<ListPhotoRealmMoxy>() {
             @Override
             public void onResponse(@NonNull Call<ListPhotoRealmMoxy> call, @NonNull Response<ListPhotoRealmMoxy> response) {
@@ -75,5 +70,34 @@ public class MainModele {
                 t.printStackTrace();
             }
         });
+    }*/
+    public void getResponce() {
+        Request.getListPhotoRealmMoxyObservable()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ListPhotoRealmMoxy>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Timber.e("subscribe Ok");
+                    }
+
+                    @Override
+                    public void onNext(ListPhotoRealmMoxy listPhotoRealmMoxy) {
+                        Timber.e("add Ok");
+                        setListPhotoRealm(listPhotoRealmMoxy);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.e("ERORR SUKA");
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Timber.e("Complete Ok");
+                        startCheck.start(photoRealmArrayList);
+                    }
+                });
     }
 }

@@ -33,6 +33,11 @@ dependencies {
     /////Timber//////
     implementation 'com.jakewharton.timber:timber:4.6.1'
 
+    /////RXJAVA+RXANDROID//////
+    compile "io.reactivex.rxjava2:rxjava:2.1.9"
+    compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.2'
+
     /////RETROFIT/////
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
@@ -50,6 +55,9 @@ dependencies {
     compile 'com.arello-mobile:moxy:1.5.3'
     compile 'com.arello-mobile:moxy-app-compat:1.5.3'
     annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.3'
+
+
+
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
