@@ -45,12 +45,12 @@ public class MainModele {
     }
 
 
-
     public void setListPhotoRealm(ListPhotoRealmMoxy listPhotoRealm) {
         realm.beginTransaction();
         realm.where(ListPhotoRealmMoxy.class).findAll().deleteAllFromRealm();
         realm.copyToRealm(listPhotoRealm);
         realm.commitTransaction();
+        photoRealmArrayList.addAll(listPhotoRealm.getPhotos());
         Timber.e("Realm%s", realm.where(ListPhotoRealmMoxy.class).findAll());
         Timber.e(String.valueOf(photoRealmArrayList.size()));
     }
@@ -64,12 +64,13 @@ public class MainModele {
             @Override
             public void onResponse(@NonNull Call<ListPhotoRealmMoxy> call, @NonNull Response<ListPhotoRealmMoxy> response) {
                 setListPhotoRealm(response.body());
-                startCheck.start(response.body());
+                startCheck.start(photoRealmArrayList);
             }
 
             @Override
             public void onFailure(@NonNull Call<ListPhotoRealmMoxy> call, @NonNull Throwable t) {
                 Timber.e("RESPONCEFAIL");
+                startCheck.start(photoRealmArrayList);
                 t.printStackTrace();
             }
         });

@@ -17,11 +17,9 @@ import com.arellomobile.mvp.presenter.PresenterType;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.stanislau_bushuk.epamtest.GlideApp;
-import com.example.stanislau_bushuk.epamtest.Modele.ListPhotoRealm;
 import com.example.stanislau_bushuk.epamtest.R;
 import com.example.stanislau_bushuk.epamtest.Task3.FragmentMoxy;
 import com.example.stanislau_bushuk.epamtest.Task3.IView.GetResponceFromApi;
-import com.example.stanislau_bushuk.epamtest.Task3.Modele.MainModele;
 import com.example.stanislau_bushuk.epamtest.Task3.Modele.PhotoRealmMoxy;
 import com.example.stanislau_bushuk.epamtest.Task3.Presenter.GetResponceFromApiPresenter;
 import com.google.android.gms.maps.GoogleMap;
@@ -41,9 +39,9 @@ import timber.log.Timber;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ForthTaskFragment extends FragmentMoxy implements OnMapReadyCallback , GetResponceFromApi {
+public class ForthTaskFragment extends FragmentMoxy implements OnMapReadyCallback, GetResponceFromApi {
 
-    @InjectPresenter(type= PresenterType.LOCAL)
+    @InjectPresenter(type = PresenterType.LOCAL)
     GetResponceFromApiPresenter getResponceFromApiPresenter;
 
     private Realm realm;
@@ -53,7 +51,7 @@ public class ForthTaskFragment extends FragmentMoxy implements OnMapReadyCallbac
     private MapView mapView;
 
     public ForthTaskFragment() {
-        photoRealmMoxies=new ArrayList<>();
+        photoRealmMoxies = new ArrayList<>();
     }
 
 
@@ -80,7 +78,6 @@ public class ForthTaskFragment extends FragmentMoxy implements OnMapReadyCallbac
     }
 
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -91,11 +88,9 @@ public class ForthTaskFragment extends FragmentMoxy implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gmap = googleMap;
-
-
     }
 
-    public void setMarkers(){
+    public void setMarkers() {
         for (final PhotoRealmMoxy photoRealmMoxy : photoRealmMoxies) {
             try {
                 GlideApp.with(getActivity())
@@ -125,7 +120,8 @@ public class ForthTaskFragment extends FragmentMoxy implements OnMapReadyCallbac
         photoRealmMoxies.addAll(listPhotoRealm);
         Timber.e("responce");
         Timber.e(String.valueOf(photoRealmMoxies.size()));
-        setMarkers();
+        if (gmap != null)
+            setMarkers();
     }
 
     @Override
