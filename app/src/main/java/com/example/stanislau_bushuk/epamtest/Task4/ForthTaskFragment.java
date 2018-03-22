@@ -50,6 +50,7 @@ public class ForthTaskFragment extends FragmentMoxy implements OnMapReadyCallbac
     private View view;
     private MapView mapView;
 
+
     public ForthTaskFragment() {
         photoRealmMoxies = new ArrayList<>();
     }
@@ -88,6 +89,7 @@ public class ForthTaskFragment extends FragmentMoxy implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gmap = googleMap;
+
     }
 
     public void setMarkers() {
