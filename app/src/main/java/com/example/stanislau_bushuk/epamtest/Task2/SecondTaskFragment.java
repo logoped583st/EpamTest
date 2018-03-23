@@ -1,11 +1,10 @@
 package com.example.stanislau_bushuk.epamtest.Task2;
 
 
-import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,15 +15,17 @@ import android.widget.ImageView;
 
 import com.example.stanislau_bushuk.epamtest.API.Request;
 import com.example.stanislau_bushuk.epamtest.Adapter.ListViewAdapterTask2;
+import com.example.stanislau_bushuk.epamtest.Modele.ListPhotoRealm;
+import com.example.stanislau_bushuk.epamtest.Modele.PhotoRealm;
 import com.example.stanislau_bushuk.epamtest.R;
 
-import java.util.ArrayList;
-import java.util.Timer;
-
+import io.realm.RealmList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
+
+import static com.example.stanislau_bushuk.epamtest.R.layout.fragment_second_task;
 
 
 /**
@@ -33,12 +34,10 @@ import timber.log.Timber;
 public class SecondTaskFragment extends Fragment {
 
 
-    private ArrayList<Request.GetPhoto> arrayPhoto;
+    private RealmList<PhotoRealm> arrayPhoto;
     private RecyclerView recyclerView;
     private ListViewAdapterTask2 adapter;
-    private View view;
     private ImageView errorImage;
-    private Context context;
 
 
     public SecondTaskFragment() {
@@ -49,8 +48,7 @@ public class SecondTaskFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view=inflater.inflate(R.layout.fragment_second_task, container, false);
-        return view;
+        return inflater.inflate(fragment_second_task, container, false);
     }
 
     @Override
@@ -59,37 +57,32 @@ public class SecondTaskFragment extends Fragment {
         if (((AppCompatActivity) getActivity()).getSupportActionBar() != null)
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.Part2));
         recyclerView = view.findViewById(R.id.list);
-        errorImage=view.findViewById(R.id.ErrorImage);
-        arrayPhoto = new ArrayList<>();
+        errorImage = view.findViewById(R.id.ErrorImage);
+        arrayPhoto = new RealmList<>();
+        adapter = new ListViewAdapterTask2(getActivity(), arrayPhoto);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         getResponse();
     }
 
 
     public void getResponse() {
-        Request.getIapi().getJson().enqueue(new Callback<Request.GetPhotoResponce>() {
+        Request.getIapi().getJson().enqueue(new Callback<ListPhotoRealm>() {
             @Override
-            public void onResponse(@NonNull Call<Request.GetPhotoResponce> call, @NonNull Response<Request.GetPhotoResponce> response) {
-                Timber.e("SUKA");
-                arrayPhoto.addAll(response.body().photos);
-                recyclerView.setLayoutManager(new GridLayoutManager(context, 3));
-                adapter = new ListViewAdapterTask2(context, arrayPhoto);
-                recyclerView.setAdapter(adapter);
+            public void onResponse(@NonNull Call<ListPhotoRealm> call, @NonNull Response<ListPhotoRealm> response) {
+                Timber.e(String.valueOf(response.body().getPhotos().size()));
+                arrayPhoto.addAll(response.body().getPhotos());
+
+                adapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onFailure(@NonNull Call<Request.GetPhotoResponce> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ListPhotoRealm> call, @NonNull Throwable t) {
                 t.printStackTrace();
                 Timber.e(t.getMessage());
                 errorImage.setImageResource(R.drawable.eror);
-
             }
         });
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.context = context;
     }
 
     @Override

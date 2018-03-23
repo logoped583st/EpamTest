@@ -5,19 +5,17 @@ import io.realm.RealmObject;
 
 public class ListPhotoRealm extends RealmObject {
 
-    private RealmList<PhotoRealm> photosFromRealm;
-    public ListPhotoRealm(){
+    private RealmList<PhotoRealm> photos;
+
+    public ListPhotoRealm() {
 
     }
-    public ListPhotoRealm(RealmList <PhotoRealm> photosFromRealm) {
-        this.photosFromRealm = photosFromRealm;
+
+    public RealmList<PhotoRealm> getPhotos() {
+        return photos;
     }
 
-    public RealmList<PhotoRealm> getPhotosFromRealm() {
-        return photosFromRealm;
-    }
-
-    public void setPhotosFromRealm(RealmList<PhotoRealm> photosFromRealm) {
-        this.photosFromRealm = photosFromRealm;
+    public void setPhotos(RealmList<PhotoRealm> photos) {
+        this.photos = photos;
     }
 }

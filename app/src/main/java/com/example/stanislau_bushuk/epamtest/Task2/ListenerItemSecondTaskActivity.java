@@ -1,9 +1,7 @@
 package com.example.stanislau_bushuk.epamtest.Task2;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.stanislau_bushuk.epamtest.App;
 import com.example.stanislau_bushuk.epamtest.GlideApp;
 import com.example.stanislau_bushuk.epamtest.R;
 
@@ -30,7 +27,7 @@ public class ListenerItemSecondTaskActivity extends AppCompatActivity {
         init();
     }
 
-    public void init(){
+    public void init() {
         String title = getIntent().getStringExtra("TITLE");
         String url = getIntent().getStringExtra("URL");
         initActionBar(title);
@@ -40,7 +37,6 @@ public class ListenerItemSecondTaskActivity extends AppCompatActivity {
         GlideApp.with(this)
                 .load(url)
                 .error(R.drawable.eror)
-                .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(coutryImage);
     }
@@ -59,7 +55,7 @@ public class ListenerItemSecondTaskActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId()==android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);

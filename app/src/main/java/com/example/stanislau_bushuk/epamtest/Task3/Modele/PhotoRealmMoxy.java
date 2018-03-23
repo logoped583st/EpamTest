@@ -1,4 +1,5 @@
-package com.example.stanislau_bushuk.epamtest.Modele;
+package com.example.stanislau_bushuk.epamtest.Task3.Modele;
+
 
 import io.realm.RealmObject;
 
@@ -6,7 +7,8 @@ import io.realm.RealmObject;
  * Created by Stanislau_Bushuk on 3/11/2018.
  */
 
-public class PhotoRealm extends RealmObject {
+public class PhotoRealmMoxy extends RealmObject {
+
     private String title;
     private String description;
     private String url;
@@ -14,11 +16,11 @@ public class PhotoRealm extends RealmObject {
     private double latitude;
     private double longitude;
 
-    public PhotoRealm() {
+    public PhotoRealmMoxy() {
 
     }
 
-    public PhotoRealm(String title, String description, String url, int id, double latitude, double longitude) {
+    public PhotoRealmMoxy(String title, String description, String url, int id, double latitude, double longitude) {
         this.title = title;
         this.description = description;
         this.id = id;
