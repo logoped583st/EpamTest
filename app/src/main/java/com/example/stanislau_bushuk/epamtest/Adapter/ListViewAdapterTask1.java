@@ -38,7 +38,6 @@ public class ListViewAdapterTask1 extends RecyclerView.Adapter<ListViewAdapterTa
     @Override
     public ListViewAdapterTask1.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.list_item_first_task, parent, false);
-        Timber.e("TIMBER");
         return new ViewHolder(view);
     }
 

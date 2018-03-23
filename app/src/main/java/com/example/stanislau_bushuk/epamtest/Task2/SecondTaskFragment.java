@@ -46,15 +46,15 @@ public class SecondTaskFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(fragment_second_task, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (((AppCompatActivity) getActivity()).getSupportActionBar() != null)
+        if (((AppCompatActivity) getActivity())!= null)
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.Part2));
         recyclerView = view.findViewById(R.id.list);
         errorImage = view.findViewById(R.id.ErrorImage);
@@ -86,7 +86,7 @@ public class SecondTaskFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
     }
 }

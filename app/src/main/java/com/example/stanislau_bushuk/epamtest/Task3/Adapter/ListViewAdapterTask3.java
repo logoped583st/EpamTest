@@ -79,7 +79,6 @@ public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTa
         ImageView countryPhoto;
         private LinearLayout linearLayout;
 
-
         ViewHolder(View itemView) {
             super(itemView);
             linearLayout = itemView.findViewById(R.id.list_item);

@@ -1,6 +1,6 @@
 package com.example.stanislau_bushuk.epamtest.Task4;
 
-
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,7 +21,7 @@ import com.example.stanislau_bushuk.epamtest.R;
 import com.example.stanislau_bushuk.epamtest.Task3.FragmentMoxy;
 import com.example.stanislau_bushuk.epamtest.Task3.IView.GetResponceFromApi;
 import com.example.stanislau_bushuk.epamtest.Task3.Modele.PhotoRealmMoxy;
-import com.example.stanislau_bushuk.epamtest.Task3.Presenter.GetResponceFromApiPresenter;
+import com.example.stanislau_bushuk.epamtest.Task3.Presenter.GetResponseFromApiPresenter;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
@@ -32,7 +32,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
-import io.realm.Realm;
+
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
 
@@ -42,37 +45,51 @@ import timber.log.Timber;
 public class ForthTaskFragment extends FragmentMoxy implements OnMapReadyCallback, GetResponceFromApi {
 
     @InjectPresenter(type = PresenterType.LOCAL)
-    GetResponceFromApiPresenter getResponceFromApiPresenter;
+    GetResponseFromApiPresenter getResponceFromApiPresenter;
 
     private ArrayList<PhotoRealmMoxy> photoRealmMoxies;
     private GoogleMap gmap;
     private MapView mapView;
+    private Activity activity;
+    private MapIsReady mapIsReady;
+
+
+
 
 
     public ForthTaskFragment() {
         photoRealmMoxies = new ArrayList<>();
+
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mapfragment, container, false);
+
         mapView = view.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
-        MapsInitializer.initialize(getActivity());
+        if (getActivity() != null) {
+            activity = getActivity();
+            MapsInitializer.initialize(activity);
+            NavigationView navigationView = activity.findViewById(R.id.nav_view);
+            navigationView.getMenu().getItem(3).setChecked(true);
+        }
         mapView.getMapAsync(this);
-        NavigationView navigationView = getActivity().findViewById(R.id.nav_view);
-        navigationView.getMenu().getItem(3).setChecked(true);
         return view;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        if (((AppCompatActivity) getActivity()).getSupportActionBar() != null)
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.Part4));
-
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        ((AppCompatActivity)activity).getSupportActionBar().setTitle(getResources().getString(R.string.Part4));
+        mapIsReady= new MapIsReady() {
+            @Override
+            public void mapIsReay() {
+                setMarkers();
+            }
+        };
     }
 
 
@@ -86,7 +103,7 @@ public class ForthTaskFragment extends FragmentMoxy implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gmap = googleMap;
-
+        mapIsReady.mapIsReay();
     }
 
     public void setMarkers() {
@@ -97,10 +114,11 @@ public class ForthTaskFragment extends FragmentMoxy implements OnMapReadyCallbac
                         .load(photoRealmMoxy.getUrl())
                         .error(R.drawable.eror)
                         .fitCenter()
-                        .into(new SimpleTarget<Bitmap>(75, 100) {
+                        .into(new SimpleTarget<Bitmap>(100, 150) {
                             @Override
                             public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                gmap.addMarker(new MarkerOptions().position(new LatLng(photoRealmMoxy.getLatitude(), photoRealmMoxy.getLongitude())).icon(BitmapDescriptorFactory.fromBitmap(resource)));
+                                gmap.addMarker(new MarkerOptions().position(new LatLng(photoRealmMoxy.getLatitude(),
+                                        photoRealmMoxy.getLongitude())).icon(BitmapDescriptorFactory.fromBitmap(resource)));
                             }
                         });
             } catch (NullPointerException exeption) {
@@ -126,5 +144,9 @@ public class ForthTaskFragment extends FragmentMoxy implements OnMapReadyCallbac
     @Override
     public void getResponseFromRealmInFail() {
         Timber.e("Responce Fail");
+    }
+
+    public interface MapIsReady{
+        void mapIsReay();
     }
 }

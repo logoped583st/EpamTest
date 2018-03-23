@@ -23,9 +23,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private Toolbar toolbar;
     private FIrstTaskFragment firstTaskFragment;
-    private SecondTaskFragment secondTaskFragment;
-    private FragmentMoxy thirdTaskFragment;
-    private ForthTaskFragment forthTaskFragment;
     private ActionBar actionBar;
     private Realm realm;
 
@@ -69,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        }else{
+        } else {
             finish();
         }
     }
@@ -87,21 +84,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
             case R.id.Part2: {
-                secondTaskFragment = new SecondTaskFragment();
+                SecondTaskFragment secondTaskFragment = new SecondTaskFragment();
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().replace(R.id.contaier, secondTaskFragment);
                 fragmentTransaction.commit();
 
                 break;
             }
             case R.id.Part3: {
-                thirdTaskFragment = new FragmentMoxy();
+                FragmentMoxy thirdTaskFragment = new FragmentMoxy();
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().replace(R.id.contaier, thirdTaskFragment);
                 fragmentTransaction.commit();
 
                 break;
             }
             case R.id.Part4: {
-                forthTaskFragment = new ForthTaskFragment();
+                ForthTaskFragment forthTaskFragment = new ForthTaskFragment();
                 android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().replace(R.id.contaier, forthTaskFragment);
                 fragmentTransaction.commit();
                 actionBar.setTitle(R.string.Part4);

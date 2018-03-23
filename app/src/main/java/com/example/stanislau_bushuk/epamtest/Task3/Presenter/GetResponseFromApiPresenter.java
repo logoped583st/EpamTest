@@ -18,18 +18,18 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 @InjectViewState
-public class GetResponceFromApiPresenter extends MvpPresenter<GetResponceFromApi> implements StartCheck {
+public class GetResponseFromApiPresenter extends MvpPresenter<GetResponceFromApi> implements StartCheck {
 
     private MainModele mainModele;
 
 
-    public GetResponceFromApiPresenter() {
+    public GetResponseFromApiPresenter() {
         mainModele = new MainModele(this);
         callApi();
     }
 
     @Override
-    public void start(ArrayList<PhotoRealmMoxy> listPhotoRealm) {
+    public void startGoToView(ArrayList<PhotoRealmMoxy> listPhotoRealm) {
 
         if (!listPhotoRealm.isEmpty()) {
 
@@ -40,10 +40,13 @@ public class GetResponceFromApiPresenter extends MvpPresenter<GetResponceFromApi
 
     }
 
-    public void callApi(){
+    public void callApi() {
         Request.getListPhotoRealmMoxyObservable()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(mainModele.getObserver());
+        Request.getListPhotoRealmMoxyObservable()
+                .unsubscribeOn(AndroidSchedulers.mainThread());
     }
+
 }

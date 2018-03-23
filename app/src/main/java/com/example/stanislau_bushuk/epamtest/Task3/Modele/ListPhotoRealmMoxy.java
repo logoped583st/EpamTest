@@ -16,8 +16,4 @@ public class ListPhotoRealmMoxy extends RealmObject {
     public RealmList<PhotoRealmMoxy> getPhotos() {
         return photos;
     }
-
-    public void setPhotos(RealmList<PhotoRealmMoxy> photos) {
-        this.photos = photos;
-    }
 }

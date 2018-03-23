@@ -8,5 +8,5 @@ import java.util.ArrayList;
  */
 
 public interface StartCheck {
-    void start(ArrayList<PhotoRealmMoxy> listPhotoRealm);
+    void startGoToView(ArrayList<PhotoRealmMoxy> listPhotoRealm);
 }

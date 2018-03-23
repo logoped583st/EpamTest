@@ -16,12 +16,11 @@ import android.widget.ImageView;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
-import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.example.stanislau_bushuk.epamtest.R;
 import com.example.stanislau_bushuk.epamtest.Task3.Adapter.ListViewAdapterTask3;
 import com.example.stanislau_bushuk.epamtest.Task3.IView.GetResponceFromApi;
 import com.example.stanislau_bushuk.epamtest.Task3.Modele.PhotoRealmMoxy;
-import com.example.stanislau_bushuk.epamtest.Task3.Presenter.GetResponceFromApiPresenter;
+import com.example.stanislau_bushuk.epamtest.Task3.Presenter.GetResponseFromApiPresenter;
 import com.example.stanislau_bushuk.epamtest.Task4.ForthTaskFragment;
 
 import java.util.ArrayList;
@@ -34,8 +33,8 @@ import timber.log.Timber;
 
 public class FragmentMoxy extends MvpAppCompatFragment implements GetResponceFromApi, View.OnClickListener {
 
-    @InjectPresenter(type=PresenterType.LOCAL)
-    GetResponceFromApiPresenter getResponceFromApiPresenter;
+    @InjectPresenter(type = PresenterType.LOCAL)
+    GetResponseFromApiPresenter getResponceFromApiPresenter;
 
 
     private ListViewAdapterTask3 adapter;
@@ -60,7 +59,7 @@ public class FragmentMoxy extends MvpAppCompatFragment implements GetResponceFro
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Timber.e("View Created");
-        if (((AppCompatActivity) getActivity()).getSupportActionBar() != null)
+        if (((AppCompatActivity) getActivity()!=null) &&((AppCompatActivity) getActivity()).getSupportActionBar() != null)
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.Part3));
         RecyclerView recyclerView = view.findViewById(R.id.list);
         errorImage = view.findViewById(R.id.ErrorImage);
@@ -76,7 +75,7 @@ public class FragmentMoxy extends MvpAppCompatFragment implements GetResponceFro
     @Override
     public void getResponce(ArrayList<PhotoRealmMoxy> photoRealmArrayList) {
         //результат с апи
-        Timber.e("getResponce from Api");
+        Timber.e("getResponse from Api");
         adapter.update(photoRealmArrayList);
         errorImage.setVisibility(View.INVISIBLE);
 
@@ -94,10 +93,13 @@ public class FragmentMoxy extends MvpAppCompatFragment implements GetResponceFro
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.floatingActionButton:{
-                FragmentTransaction fragmentTransaction=getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.contaier,new ForthTaskFragment());
-                fragmentTransaction.commit();
+        switch (v.getId()) {
+            case R.id.floatingActionButton: {
+                FragmentTransaction fragmentTransaction = null;
+                if (((AppCompatActivity)getActivity()) != null) {
+                    fragmentTransaction = ((AppCompatActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.contaier, new ForthTaskFragment());
+                    fragmentTransaction.commit();
+                }
                 break;
             }
         }

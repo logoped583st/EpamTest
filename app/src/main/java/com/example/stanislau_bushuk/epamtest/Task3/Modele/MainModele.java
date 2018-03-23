@@ -1,14 +1,9 @@
 package com.example.stanislau_bushuk.epamtest.Task3.Modele;
-
-import com.example.stanislau_bushuk.epamtest.Task3.API.Request;
-import com.example.stanislau_bushuk.epamtest.Task3.Presenter.GetResponceFromApiPresenter;
+import com.example.stanislau_bushuk.epamtest.Task3.Presenter.GetResponseFromApiPresenter;
 
 import java.util.ArrayList;
-
 import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 import timber.log.Timber;
 
@@ -22,9 +17,11 @@ public class MainModele {
     private ArrayList<PhotoRealmMoxy> photoRealmArrayList;
     private Realm realm;
     private StartCheck startCheck;
-    private Observer<ListPhotoRealmMoxy> listPhotoRealmMoxyObserver;
 
-    public MainModele(GetResponceFromApiPresenter getResponceFromApiPresenter) {
+    private Observer<ListPhotoRealmMoxy> listPhotoRealmMoxyObserver;
+    private Observer<Boolean> mapReadyObservable;
+
+    public MainModele(GetResponseFromApiPresenter getResponceFromApiPresenter) {
         initRealm();
         ListPhotoRealmMoxy listPhotoRealm = realm.where(ListPhotoRealmMoxy.class).findFirst();
         startCheck = getResponceFromApiPresenter;
@@ -36,7 +33,7 @@ public class MainModele {
         photoRealmArrayList = new ArrayList<>();
         if (listPhotoRealm != null)
             photoRealmArrayList.addAll(listPhotoRealm.getPhotos());
-        getResponce();
+        getResponse();
     }
 
     public void initRealm() {
@@ -55,8 +52,8 @@ public class MainModele {
         Timber.e(String.valueOf(photoRealmArrayList.size()));
     }
 
-    public void getResponce() {
-        listPhotoRealmMoxyObserver=new Observer<ListPhotoRealmMoxy>() {
+    public void getResponse() {
+        listPhotoRealmMoxyObserver = new Observer<ListPhotoRealmMoxy>() {
             @Override
             public void onSubscribe(Disposable d) {
                 Timber.e("Subscribe");
@@ -71,16 +68,19 @@ public class MainModele {
             @Override
             public void onError(Throwable e) {
                 Timber.e("Eror");
+                startCheck.startGoToView(photoRealmArrayList);
             }
 
             @Override
             public void onComplete() {
                 Timber.e("complete");
-                startCheck.start(photoRealmArrayList);
+                startCheck.startGoToView(photoRealmArrayList);
             }
         };
     }
-    public Observer<ListPhotoRealmMoxy> getObserver(){
+
+
+    public Observer<ListPhotoRealmMoxy> getObserver() {
         return this.listPhotoRealmMoxyObserver;
     }
 }

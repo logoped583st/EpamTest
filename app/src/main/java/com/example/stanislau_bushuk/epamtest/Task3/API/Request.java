@@ -5,7 +5,6 @@ import com.example.stanislau_bushuk.epamtest.Task3.Modele.ListPhotoRealmMoxy;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import io.reactivex.Observable;
-import io.realm.rx.RxObservableFactory;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
@@ -23,7 +22,7 @@ public class Request {
         return iapi;
     }
 
-    public static Observable<ListPhotoRealmMoxy> getListPhotoRealmMoxyObservable(){
+    public static Observable<ListPhotoRealmMoxy> getListPhotoRealmMoxyObservable() {
         return listPhotoRealmMoxyObservable;
     }
 
@@ -35,11 +34,8 @@ public class Request {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         iapi = retrofit.create(IAPI.class);
-
-        listPhotoRealmMoxyObservable =getIapi().getJson();
-
+        listPhotoRealmMoxyObservable = getIapi().getJson();
     }
-
 
 
     public interface IAPI {
