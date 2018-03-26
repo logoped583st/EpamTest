@@ -18,10 +18,6 @@ public class Request {
     private  IAPI iapi;
     private  Observable<ListPhotoRealmMoxy> listPhotoRealmMoxyObservable;
 
-    private  IAPI getIapi() {
-        return iapi;
-    }
-
     public Observable<ListPhotoRealmMoxy> getListPhotoRealmMoxyObservable() {
         return listPhotoRealmMoxyObservable;
     }
@@ -31,16 +27,14 @@ public class Request {
     }
 
     private void getJson() {
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.myjson.com")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         iapi = retrofit.create(IAPI.class);
-        listPhotoRealmMoxyObservable = getIapi().getJson();
+        listPhotoRealmMoxyObservable = iapi.getJson();
     }
-
 
     public interface IAPI {
         @GET("/bins/upt7z")
