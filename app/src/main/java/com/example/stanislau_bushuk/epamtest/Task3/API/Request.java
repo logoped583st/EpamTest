@@ -22,7 +22,7 @@ public class Request {
         return iapi;
     }
 
-    public  Observable<ListPhotoRealmMoxy> getListPhotoRealmMoxyObservable() {
+    public Observable<ListPhotoRealmMoxy> getListPhotoRealmMoxyObservable() {
         return listPhotoRealmMoxyObservable;
     }
 
@@ -30,7 +30,7 @@ public class Request {
         getJson();
     }
 
-    public void getJson() {
+    private void getJson() {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.myjson.com")

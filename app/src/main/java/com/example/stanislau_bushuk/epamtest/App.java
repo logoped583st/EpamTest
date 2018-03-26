@@ -30,6 +30,8 @@ public class App extends Application {
         Realm.init(this);
         Request request = new Request();
         request.getJson();
+
+
         setRealm();
         Timber.plant(new Timber.DebugTree());
         appComponent=buildComponent();

@@ -19,9 +19,6 @@ import com.example.stanislau_bushuk.epamtest.Task2.ListenerItemSecondTaskActivit
 
 import io.realm.RealmList;
 
-/**
- * Created by Stanislau_Bushuk on 3/7/2018.
- */
 
 public class ListViewAdapterTask2 extends RecyclerView.Adapter<ListViewAdapterTask2.ViewHolder> {
 
