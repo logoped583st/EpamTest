@@ -18,7 +18,7 @@ public class Request {
     private static IAPI iapi;
     private static Observable<ListPhotoRealmMoxy> listPhotoRealmMoxyObservable;
 
-    public static IAPI getIapi() {
+    private static IAPI getIapi() {
         return iapi;
     }
 

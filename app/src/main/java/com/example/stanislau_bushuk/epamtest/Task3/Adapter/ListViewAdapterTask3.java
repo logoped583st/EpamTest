@@ -74,7 +74,7 @@ public class ListViewAdapterTask3 extends RecyclerView.Adapter<ListViewAdapterTa
         return arrayList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         TextView countryName;
         ImageView countryPhoto;
         private LinearLayout linearLayout;

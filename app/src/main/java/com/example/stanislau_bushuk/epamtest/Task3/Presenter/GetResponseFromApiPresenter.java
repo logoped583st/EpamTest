@@ -5,6 +5,7 @@ import com.arellomobile.mvp.MvpPresenter;
 import com.example.stanislau_bushuk.epamtest.Task3.API.Request;
 import com.example.stanislau_bushuk.epamtest.Task3.IView.GetResponceFromApi;
 import com.example.stanislau_bushuk.epamtest.Task3.Modele.MainModele;
+
 import com.example.stanislau_bushuk.epamtest.Task3.Modele.PhotoRealmMoxy;
 import com.example.stanislau_bushuk.epamtest.Task3.Modele.StartCheck;
 
@@ -45,8 +46,6 @@ public class GetResponseFromApiPresenter extends MvpPresenter<GetResponceFromApi
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(mainModele.getObserver());
-        Request.getListPhotoRealmMoxyObservable()
-                .unsubscribeOn(AndroidSchedulers.mainThread());
     }
 
 }

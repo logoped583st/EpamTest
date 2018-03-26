@@ -13,7 +13,7 @@ public class ListPhotoRealmMoxy extends RealmObject {
     }
 
 
-    public RealmList<PhotoRealmMoxy> getPhotos() {
+    RealmList<PhotoRealmMoxy> getPhotos() {
         return photos;
     }
 }

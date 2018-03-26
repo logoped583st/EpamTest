@@ -95,9 +95,9 @@ public class FragmentMoxy extends MvpAppCompatFragment implements GetResponceFro
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.floatingActionButton: {
-                FragmentTransaction fragmentTransaction = null;
-                if (((AppCompatActivity)getActivity()) != null) {
-                    fragmentTransaction = ((AppCompatActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.contaier, new ForthTaskFragment());
+                FragmentTransaction fragmentTransaction;
+                if (getActivity() != null) {
+                    fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.contaier, new ForthTaskFragment());
                     fragmentTransaction.commit();
                 }
                 break;

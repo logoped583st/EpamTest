@@ -19,7 +19,6 @@ public class MainModele {
     private StartCheck startCheck;
 
     private Observer<ListPhotoRealmMoxy> listPhotoRealmMoxyObserver;
-    private Observer<Boolean> mapReadyObservable;
 
     public MainModele(GetResponseFromApiPresenter getResponceFromApiPresenter) {
         initRealm();
@@ -36,12 +35,12 @@ public class MainModele {
         getResponse();
     }
 
-    public void initRealm() {
+    private void initRealm() {
         realm = Realm.getDefaultInstance();
     }
 
 
-    public void setListPhotoRealm(ListPhotoRealmMoxy listPhotoRealm) {
+    private void setListPhotoRealm(ListPhotoRealmMoxy listPhotoRealm) {
         realm.beginTransaction();
         realm.where(ListPhotoRealmMoxy.class).findAll().deleteAllFromRealm();
         realm.copyToRealm(listPhotoRealm);
@@ -52,7 +51,7 @@ public class MainModele {
         Timber.e(String.valueOf(photoRealmArrayList.size()));
     }
 
-    public void getResponse() {
+    private void getResponse() {
         listPhotoRealmMoxyObserver = new Observer<ListPhotoRealmMoxy>() {
             @Override
             public void onSubscribe(Disposable d) {
@@ -75,8 +74,10 @@ public class MainModele {
             public void onComplete() {
                 Timber.e("complete");
                 startCheck.startGoToView(photoRealmArrayList);
+
             }
         };
+
     }
 
 

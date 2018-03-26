@@ -32,10 +32,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
-
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
 
@@ -51,10 +47,6 @@ public class ForthTaskFragment extends FragmentMoxy implements OnMapReadyCallbac
     private GoogleMap gmap;
     private MapView mapView;
     private Activity activity;
-    private MapIsReady mapIsReady;
-
-
-
 
 
     public ForthTaskFragment() {
@@ -83,13 +75,7 @@ public class ForthTaskFragment extends FragmentMoxy implements OnMapReadyCallbac
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        ((AppCompatActivity)activity).getSupportActionBar().setTitle(getResources().getString(R.string.Part4));
-        mapIsReady= new MapIsReady() {
-            @Override
-            public void mapIsReay() {
-                setMarkers();
-            }
-        };
+        ((AppCompatActivity) activity).getSupportActionBar().setTitle(getResources().getString(R.string.Part4));
     }
 
 
@@ -103,11 +89,13 @@ public class ForthTaskFragment extends FragmentMoxy implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gmap = googleMap;
-        mapIsReady.mapIsReay();
+
     }
 
     public void setMarkers() {
+        Timber.e("setMarkers");
         for (final PhotoRealmMoxy photoRealmMoxy : photoRealmMoxies) {
+
             try {
                 GlideApp.with(getActivity())
                         .asBitmap()
@@ -137,8 +125,7 @@ public class ForthTaskFragment extends FragmentMoxy implements OnMapReadyCallbac
         photoRealmMoxies.addAll(listPhotoRealm);
         Timber.e("responce");
         Timber.e(String.valueOf(photoRealmMoxies.size()));
-        if (gmap != null)
-            setMarkers();
+        setMarkers();
     }
 
     @Override
@@ -146,7 +133,4 @@ public class ForthTaskFragment extends FragmentMoxy implements OnMapReadyCallbac
         Timber.e("Responce Fail");
     }
 
-    public interface MapIsReady{
-        void mapIsReay();
-    }
 }
