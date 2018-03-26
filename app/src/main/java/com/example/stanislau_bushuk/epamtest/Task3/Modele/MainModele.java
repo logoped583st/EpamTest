@@ -1,7 +1,9 @@
 package com.example.stanislau_bushuk.epamtest.Task3.Modele;
+
 import com.example.stanislau_bushuk.epamtest.Task3.Presenter.GetResponseFromApiPresenter;
 
 import java.util.ArrayList;
+
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.realm.Realm;
@@ -20,10 +22,9 @@ public class MainModele {
 
     private Observer<ListPhotoRealmMoxy> listPhotoRealmMoxyObserver;
 
-    public MainModele(GetResponseFromApiPresenter getResponceFromApiPresenter) {
+    public MainModele() {
         initRealm();
         ListPhotoRealmMoxy listPhotoRealm = realm.where(ListPhotoRealmMoxy.class).findFirst();
-        startCheck = getResponceFromApiPresenter;
         try {
             listPhotoRealm = realm.createObject(ListPhotoRealmMoxy.class);
         } catch (Exception e) {
@@ -33,6 +34,10 @@ public class MainModele {
         if (listPhotoRealm != null)
             photoRealmArrayList.addAll(listPhotoRealm.getPhotos());
         getResponse();
+    }
+
+    public void setStartCheck(GetResponseFromApiPresenter getResponseFromApiPresenter) {
+        startCheck = getResponseFromApiPresenter;
     }
 
     private void initRealm() {

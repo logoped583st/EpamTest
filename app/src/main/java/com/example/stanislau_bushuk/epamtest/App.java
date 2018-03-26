@@ -1,11 +1,13 @@
 package com.example.stanislau_bushuk.epamtest;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
-import android.content.Context;
 
 
 import com.example.stanislau_bushuk.epamtest.API.Request;
+import com.example.stanislau_bushuk.epamtest.Task3.Component.AppComponent;
+import com.example.stanislau_bushuk.epamtest.Task3.Component.DaggerAppComponent;
+import com.example.stanislau_bushuk.epamtest.Task3.Module.ModuleMainModele;
+import com.example.stanislau_bushuk.epamtest.Task3.Module.ModuleRequest;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -17,6 +19,10 @@ import timber.log.Timber;
 
 public class App extends Application {
 
+    private static AppComponent appComponent;
+    public static AppComponent getAppComponent(){
+        return appComponent;
+    }
 
     @Override
     public void onCreate() {
@@ -24,10 +30,9 @@ public class App extends Application {
         Realm.init(this);
         Request request = new Request();
         request.getJson();
-        com.example.stanislau_bushuk.epamtest.Task3.API.Request request1=new com.example.stanislau_bushuk.epamtest.Task3.API.Request();
-        request1.getJson();
         setRealm();
         Timber.plant(new Timber.DebugTree());
+        appComponent=buildComponent();
     }
     public void setRealm() {
         RealmConfiguration realmConfig = new RealmConfiguration.Builder()
@@ -35,5 +40,11 @@ public class App extends Application {
                 .name("realm.realm")
                 .build();
         Realm.setDefaultConfiguration(realmConfig);
+    }
+    public AppComponent buildComponent(){
+        return DaggerAppComponent.builder()
+                .moduleMainModele(new ModuleMainModele())
+                .moduleRequest(new ModuleRequest())
+                .build();
     }
 }
