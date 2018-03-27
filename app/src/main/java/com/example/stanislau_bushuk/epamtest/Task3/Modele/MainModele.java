@@ -1,13 +1,13 @@
 package com.example.stanislau_bushuk.epamtest.Task3.Modele;
 
 import com.example.stanislau_bushuk.epamtest.App;
-import com.example.stanislau_bushuk.epamtest.Task3.API.Request;
+import com.example.stanislau_bushuk.epamtest.Modele.ListPhotoRealm;
 import com.example.stanislau_bushuk.epamtest.Task3.Presenter.GetResponseFromApiPresenter;
 
 import java.util.ArrayList;
 
-import javax.inject.Inject;
-
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.realm.Realm;
 
@@ -17,39 +17,24 @@ import io.realm.Realm;
 
 public class MainModele {
 
-    @Inject
-    Request request;
+
     private ArrayList<PhotoRealmMoxy> photoRealmArrayList;
     private Realm realm;
-    private ListPhotoRealmMoxy listPhotoRealmMoxy;
     private StartCheck startCheck;
-    private GetResponseFromApiPresenter getResponseFromApiPresenter;
-    private Observable<ListPhotoRealmMoxy> observable;
+    private Flowable<ListPhotoRealmMoxy> observable;
 
     public MainModele() {
         App.getAppComponent().inject(this);
         initRealm();
-        listPhotoRealmMoxy = realm.where(ListPhotoRealmMoxy.class).findFirst();
-        try {
-            listPhotoRealmMoxy = realm.createObject(ListPhotoRealmMoxy.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        photoRealmArrayList = new ArrayList<>();
-        if (listPhotoRealmMoxy != null) {
-            photoRealmArrayList.addAll(listPhotoRealmMoxy.getPhotos());
-        }
     }
-
 
     private void initRealm() {
         realm = Realm.getDefaultInstance();
+        setRealmObjects();
     }
 
-    public void setGetResponseFromApiPresenter(GetResponseFromApiPresenter getResponseFromApiPresenter) {
-        this.getResponseFromApiPresenter = getResponseFromApiPresenter;
+    public void setCallback(GetResponseFromApiPresenter getResponseFromApiPresenter) {
         startCheck = getResponseFromApiPresenter;
-        startCheck.startGoToView(request.getListPhotoRealmMoxyObservable());
     }
 
     public void setListPhotoRealm(ListPhotoRealmMoxy listPhotoRealm) {
@@ -59,7 +44,7 @@ public class MainModele {
         realm.commitTransaction();
         photoRealmArrayList.clear();
         photoRealmArrayList.addAll(listPhotoRealm.getPhotos());
-        observable = Observable.just(listPhotoRealm);
+        observable=Flowable.just(listPhotoRealm);
     }
 
     public ArrayList<PhotoRealmMoxy> getPhotoRealmArrayList() {
@@ -67,11 +52,20 @@ public class MainModele {
     }
 
     public void setAnotherObservable() {
+        setRealmObjects();
         if (photoRealmArrayList.size() != 0) {
-            observable = Observable.just(listPhotoRealmMoxy);
-            startCheck.startGoToView(observable);
-        }else{
-            startCheck.startGoToView(null);
+            startCheck.startGoToView(observable, false);
+        } else {
+            startCheck.startGoToView(null, false);
+        }
+    }
+
+    public void setRealmObjects() {
+        ListPhotoRealmMoxy listPhotoRealmMoxy = realm.where(ListPhotoRealmMoxy.class).findFirst();
+        photoRealmArrayList = new ArrayList<>();
+        if (listPhotoRealmMoxy != null) {
+            photoRealmArrayList.addAll(listPhotoRealmMoxy.getPhotos());
+            observable = Flowable.just(listPhotoRealmMoxy);
         }
     }
 }

@@ -1,15 +1,25 @@
 package com.example.stanislau_bushuk.epamtest.Task3.Presenter;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.example.stanislau_bushuk.epamtest.App;
 import com.example.stanislau_bushuk.epamtest.Task3.IView.GetResponceFromApi;
 import com.example.stanislau_bushuk.epamtest.Task3.Modele.ListPhotoRealmMoxy;
 import com.example.stanislau_bushuk.epamtest.Task3.Modele.MainModele;
+import com.example.stanislau_bushuk.epamtest.Task3.Modele.NetworkModele;
 import com.example.stanislau_bushuk.epamtest.Task3.Modele.StartCheck;
+
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 
 import javax.inject.Inject;
 
+import io.reactivex.Flowable;
+import io.reactivex.FlowableSubscriber;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -26,42 +36,46 @@ public class GetResponseFromApiPresenter extends MvpPresenter<GetResponceFromApi
 
     @Inject
     MainModele mainModele;
-    private boolean flag = true;
+
+    @Inject
+    NetworkModele networkModele;
 
     public GetResponseFromApiPresenter() {
         App.getAppComponent().inject(this);
-        mainModele.setGetResponseFromApiPresenter(this);
+        mainModele.setCallback(this);
+        networkModele.setCallBack(this);
     }
 
-    public void callApi(Observable<ListPhotoRealmMoxy> listPhotoRealmObservable) {//вызов через интерфейс с модели
+    public void callApi(Flowable<ListPhotoRealmMoxy> listPhotoRealmObservable, final Boolean flag) {//вызов через интерфейс с модели
         listPhotoRealmObservable
                 .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ListPhotoRealmMoxy>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        Timber.e("Subscribe");
 
+                .observeOn(AndroidSchedulers.mainThread())
+
+                .subscribe(new FlowableSubscriber<ListPhotoRealmMoxy>() {
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        Timber.e("Subscribe");
+                        s.request(Long.MAX_VALUE);
                     }
 
                     @Override
                     public void onNext(ListPhotoRealmMoxy listPhotoRealmMoxy) {
                         Timber.e("Next");
-                        if(flag!=false) {
+                        if (flag) {
                             mainModele.setListPhotoRealm(listPhotoRealmMoxy);
                             getViewState().getResponce(mainModele.getPhotoRealmArrayList());
-                        }else{
+                        } else {
                             getViewState().getResponce(mainModele.getPhotoRealmArrayList());
                         }
-                        flag=true;
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        Timber.e("Eror");
-                        e.printStackTrace();
+                    public void onError(Throwable t) {
+                        Timber.e("Error");
+                        t.printStackTrace();
+                        mainModele.setRealmObjects();
                         mainModele.setAnotherObservable();
-                        flag = false;
                     }
 
                     @Override
@@ -69,12 +83,14 @@ public class GetResponseFromApiPresenter extends MvpPresenter<GetResponceFromApi
                         Timber.e("complete");
                     }
                 });
+
     }
 
     @Override
-    public void startGoToView(Observable<ListPhotoRealmMoxy> listPhotoRealmMoxyObservable) {
+    public void startGoToView(Flowable<ListPhotoRealmMoxy> listPhotoRealmMoxyObservable, Boolean flag) {
         if (listPhotoRealmMoxyObservable != null) {
-            callApi(listPhotoRealmMoxyObservable);
-        }else getViewState().getResponseFromRealmInFail();
+            callApi(listPhotoRealmMoxyObservable, flag);
+        } else getViewState().getResponseFromRealmInFail();
     }
+
 }

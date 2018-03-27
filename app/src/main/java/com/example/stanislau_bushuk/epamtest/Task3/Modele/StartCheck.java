@@ -3,6 +3,7 @@ package com.example.stanislau_bushuk.epamtest.Task3.Modele;
 
 import java.util.ArrayList;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 
 /**
@@ -10,5 +11,5 @@ import io.reactivex.Observable;
  */
 
 public interface StartCheck {
-    void startGoToView(Observable<ListPhotoRealmMoxy> listPhotoRealmMoxyObservable);
+    void startGoToView(Flowable<ListPhotoRealmMoxy> listPhotoRealmMoxyObservable, Boolean flag);
 }
