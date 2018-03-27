@@ -7,6 +7,7 @@ import com.example.stanislau_bushuk.epamtest.API.Request;
 import com.example.stanislau_bushuk.epamtest.Task3.Component.AppComponent;
 import com.example.stanislau_bushuk.epamtest.Task3.Component.DaggerAppComponent;
 import com.example.stanislau_bushuk.epamtest.Task3.Module.ModuleMainModele;
+import com.example.stanislau_bushuk.epamtest.Task3.Module.ModuleNetworkModele;
 import com.example.stanislau_bushuk.epamtest.Task3.Module.ModuleRequest;
 
 import io.realm.Realm;
@@ -47,6 +48,7 @@ public class App extends Application {
         return DaggerAppComponent.builder()
                 .moduleMainModele(new ModuleMainModele())
                 .moduleRequest(new ModuleRequest())
+                .moduleNetworkModele(new ModuleNetworkModele())
                 .build();
     }
 }

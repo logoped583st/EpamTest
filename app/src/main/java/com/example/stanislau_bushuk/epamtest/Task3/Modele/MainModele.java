@@ -16,29 +16,25 @@ import io.realm.Realm;
  */
 
 public class MainModele {
+    
 
-    @Inject
-    Request request;
     private ArrayList<PhotoRealmMoxy> photoRealmArrayList;
     private Realm realm;
     private ListPhotoRealmMoxy listPhotoRealmMoxy;
     private StartCheck startCheck;
-    private Observable<ListPhotoRealmMoxy> observable;
 
     public MainModele() {
         App.getAppComponent().inject(this);
         initRealm();
     }
 
-
     private void initRealm() {
         realm = Realm.getDefaultInstance();
     }
 
-    public void setGetResponseFromApiPresenter(GetResponseFromApiPresenter getResponseFromApiPresenter) {
+    public void setCallback(GetResponseFromApiPresenter getResponseFromApiPresenter) {
         setRealmObjects();
         startCheck = getResponseFromApiPresenter;
-        startCheck.startGoToView(request.getListPhotoRealmMoxyObservable(),true);
     }
 
     public void setListPhotoRealm(ListPhotoRealmMoxy listPhotoRealm) {
@@ -48,7 +44,6 @@ public class MainModele {
         realm.commitTransaction();
         photoRealmArrayList.clear();
         photoRealmArrayList.addAll(listPhotoRealm.getPhotos());
-        observable = Observable.just(listPhotoRealm);
     }
 
     public ArrayList<PhotoRealmMoxy> getPhotoRealmArrayList() {
@@ -57,7 +52,7 @@ public class MainModele {
 
     public void setAnotherObservable() {
         if (photoRealmArrayList.size() != 0) {
-            observable = Observable.just(listPhotoRealmMoxy);
+            Observable<ListPhotoRealmMoxy> observable = Observable.just(listPhotoRealmMoxy);
             startCheck.startGoToView(observable,false);
         }else{
             startCheck.startGoToView(null,false);
