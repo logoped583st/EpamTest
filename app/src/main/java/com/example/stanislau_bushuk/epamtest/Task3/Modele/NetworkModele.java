@@ -3,16 +3,15 @@ package com.example.stanislau_bushuk.epamtest.Task3.Modele;
 
 
 import com.example.stanislau_bushuk.epamtest.App;
-import com.example.stanislau_bushuk.epamtest.Task3.API.Request;
+import com.example.stanislau_bushuk.epamtest.Task3.API.IAPI;
 import com.example.stanislau_bushuk.epamtest.Task3.Presenter.GetResponseFromApiPresenter;
-
 import javax.inject.Inject;
 
 
 public class NetworkModele {
 
     @Inject
-    Request request;
+    IAPI iapi;
 
     public NetworkModele() {
         App.getAppComponent().inject(this);
@@ -20,6 +19,6 @@ public class NetworkModele {
 
     public void setCallBack(GetResponseFromApiPresenter getResponseFromApiPresenter) {
         StartCheck startCheck = getResponseFromApiPresenter;
-        startCheck.startGoToView(request.getListPhotoRealmMoxyObservable(), true);
+        startCheck.startGoToView(iapi.getJson(), true);
     }
 }

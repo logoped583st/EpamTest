@@ -13,8 +13,13 @@ import com.example.stanislau_bushuk.epamtest.Task3.Modele.MainModele;
 import com.example.stanislau_bushuk.epamtest.Task3.Modele.NetworkModele;
 import com.example.stanislau_bushuk.epamtest.Task3.Modele.StartCheck;
 
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+
 import javax.inject.Inject;
 
+import io.reactivex.Flowable;
+import io.reactivex.FlowableSubscriber;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -41,15 +46,17 @@ public class GetResponseFromApiPresenter extends MvpPresenter<GetResponceFromApi
         networkModele.setCallBack(this);
     }
 
-    public void callApi(Observable<ListPhotoRealmMoxy> listPhotoRealmObservable, final Boolean flag) {//вызов через интерфейс с модели
+    public void callApi(Flowable<ListPhotoRealmMoxy> listPhotoRealmObservable, final Boolean flag) {//вызов через интерфейс с модели
         listPhotoRealmObservable
                 .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ListPhotoRealmMoxy>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        Timber.e("Subscribe");
 
+                .observeOn(AndroidSchedulers.mainThread())
+
+                .subscribe(new FlowableSubscriber<ListPhotoRealmMoxy>() {
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        Timber.e("Subscribe");
+                        s.request(Long.MAX_VALUE);
                     }
 
                     @Override
@@ -61,13 +68,13 @@ public class GetResponseFromApiPresenter extends MvpPresenter<GetResponceFromApi
                         } else {
                             getViewState().getResponce(mainModele.getPhotoRealmArrayList());
                         }
-
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable t) {
                         Timber.e("Error");
-                        e.printStackTrace();
+                        t.printStackTrace();
+                        mainModele.setRealmObjects();
                         mainModele.setAnotherObservable();
                     }
 
@@ -76,10 +83,11 @@ public class GetResponseFromApiPresenter extends MvpPresenter<GetResponceFromApi
                         Timber.e("complete");
                     }
                 });
+
     }
 
     @Override
-    public void startGoToView(Observable<ListPhotoRealmMoxy> listPhotoRealmMoxyObservable, Boolean flag) {
+    public void startGoToView(Flowable<ListPhotoRealmMoxy> listPhotoRealmMoxyObservable, Boolean flag) {
         if (listPhotoRealmMoxyObservable != null) {
             callApi(listPhotoRealmMoxyObservable, flag);
         } else getViewState().getResponseFromRealmInFail();

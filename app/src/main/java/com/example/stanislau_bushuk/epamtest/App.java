@@ -6,9 +6,10 @@ import android.app.Application;
 import com.example.stanislau_bushuk.epamtest.API.Request;
 import com.example.stanislau_bushuk.epamtest.Task3.Component.AppComponent;
 import com.example.stanislau_bushuk.epamtest.Task3.Component.DaggerAppComponent;
+import com.example.stanislau_bushuk.epamtest.Task3.Module.ModuleIAPI;
 import com.example.stanislau_bushuk.epamtest.Task3.Module.ModuleMainModele;
 import com.example.stanislau_bushuk.epamtest.Task3.Module.ModuleNetworkModele;
-import com.example.stanislau_bushuk.epamtest.Task3.Module.ModuleRequest;
+
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -47,7 +48,7 @@ public class App extends Application {
     public AppComponent buildComponent(){
         return DaggerAppComponent.builder()
                 .moduleMainModele(new ModuleMainModele())
-                .moduleRequest(new ModuleRequest())
+                .moduleIAPI(new ModuleIAPI())
                 .moduleNetworkModele(new ModuleNetworkModele())
                 .build();
     }
