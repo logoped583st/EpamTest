@@ -26,14 +26,14 @@ public class GetResponseFromApiPresenter extends MvpPresenter<GetResponceFromApi
 
     @Inject
     MainModele mainModele;
-    private boolean flag = true;
+
 
     public GetResponseFromApiPresenter() {
         App.getAppComponent().inject(this);
         mainModele.setGetResponseFromApiPresenter(this);
     }
 
-    public void callApi(Observable<ListPhotoRealmMoxy> listPhotoRealmObservable) {//вызов через интерфейс с модели
+    public void callApi(Observable<ListPhotoRealmMoxy> listPhotoRealmObservable, final Boolean flag) {//вызов через интерфейс с модели
         listPhotoRealmObservable
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -47,21 +47,20 @@ public class GetResponseFromApiPresenter extends MvpPresenter<GetResponceFromApi
                     @Override
                     public void onNext(ListPhotoRealmMoxy listPhotoRealmMoxy) {
                         Timber.e("Next");
-                        if(flag!=false) {
+                        if (flag) {
                             mainModele.setListPhotoRealm(listPhotoRealmMoxy);
                             getViewState().getResponce(mainModele.getPhotoRealmArrayList());
-                        }else{
+                        } else {
                             getViewState().getResponce(mainModele.getPhotoRealmArrayList());
                         }
-                        flag=true;
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Timber.e("Eror");
+                        Timber.e("Error");
                         e.printStackTrace();
                         mainModele.setAnotherObservable();
-                        flag = false;
                     }
 
                     @Override
@@ -72,9 +71,9 @@ public class GetResponseFromApiPresenter extends MvpPresenter<GetResponceFromApi
     }
 
     @Override
-    public void startGoToView(Observable<ListPhotoRealmMoxy> listPhotoRealmMoxyObservable) {
+    public void startGoToView(Observable<ListPhotoRealmMoxy> listPhotoRealmMoxyObservable, Boolean flag) {
         if (listPhotoRealmMoxyObservable != null) {
-            callApi(listPhotoRealmMoxyObservable);
-        }else getViewState().getResponseFromRealmInFail();
+            callApi(listPhotoRealmMoxyObservable, flag);
+        } else getViewState().getResponseFromRealmInFail();
     }
 }

@@ -23,22 +23,11 @@ public class MainModele {
     private Realm realm;
     private ListPhotoRealmMoxy listPhotoRealmMoxy;
     private StartCheck startCheck;
-    private GetResponseFromApiPresenter getResponseFromApiPresenter;
     private Observable<ListPhotoRealmMoxy> observable;
 
     public MainModele() {
         App.getAppComponent().inject(this);
         initRealm();
-        listPhotoRealmMoxy = realm.where(ListPhotoRealmMoxy.class).findFirst();
-        try {
-            listPhotoRealmMoxy = realm.createObject(ListPhotoRealmMoxy.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        photoRealmArrayList = new ArrayList<>();
-        if (listPhotoRealmMoxy != null) {
-            photoRealmArrayList.addAll(listPhotoRealmMoxy.getPhotos());
-        }
     }
 
 
@@ -47,9 +36,9 @@ public class MainModele {
     }
 
     public void setGetResponseFromApiPresenter(GetResponseFromApiPresenter getResponseFromApiPresenter) {
-        this.getResponseFromApiPresenter = getResponseFromApiPresenter;
+        setRealmObjects();
         startCheck = getResponseFromApiPresenter;
-        startCheck.startGoToView(request.getListPhotoRealmMoxyObservable());
+        startCheck.startGoToView(request.getListPhotoRealmMoxyObservable(),true);
     }
 
     public void setListPhotoRealm(ListPhotoRealmMoxy listPhotoRealm) {
@@ -69,9 +58,22 @@ public class MainModele {
     public void setAnotherObservable() {
         if (photoRealmArrayList.size() != 0) {
             observable = Observable.just(listPhotoRealmMoxy);
-            startCheck.startGoToView(observable);
+            startCheck.startGoToView(observable,false);
         }else{
-            startCheck.startGoToView(null);
+            startCheck.startGoToView(null,false);
+        }
+    }
+
+    public void setRealmObjects(){
+        listPhotoRealmMoxy = realm.where(ListPhotoRealmMoxy.class).findFirst();
+        try {
+            listPhotoRealmMoxy = realm.createObject(ListPhotoRealmMoxy.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        photoRealmArrayList = new ArrayList<>();
+        if (listPhotoRealmMoxy != null) {
+            photoRealmArrayList.addAll(listPhotoRealmMoxy.getPhotos());
         }
     }
 }

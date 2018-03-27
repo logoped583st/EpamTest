@@ -10,5 +10,5 @@ import io.reactivex.Observable;
  */
 
 public interface StartCheck {
-    void startGoToView(Observable<ListPhotoRealmMoxy> listPhotoRealmMoxyObservable);
+    void startGoToView(Observable<ListPhotoRealmMoxy> listPhotoRealmMoxyObservable,Boolean flag);
 }
