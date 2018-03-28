@@ -1,9 +1,5 @@
 package com.example.stanislau_bushuk.epamtest.Task3.Presenter;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.example.stanislau_bushuk.epamtest.App;
@@ -11,19 +7,15 @@ import com.example.stanislau_bushuk.epamtest.Task3.IView.GetResponceFromApi;
 import com.example.stanislau_bushuk.epamtest.Task3.Modele.ListPhotoRealmMoxy;
 import com.example.stanislau_bushuk.epamtest.Task3.Modele.MainModele;
 import com.example.stanislau_bushuk.epamtest.Task3.Modele.NetworkModele;
-import com.example.stanislau_bushuk.epamtest.Task3.Modele.StartCheck;
+import com.example.stanislau_bushuk.epamtest.Task3.Modele.ICallBackFromModele;
 
-import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
 import io.reactivex.FlowableSubscriber;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -32,7 +24,7 @@ import timber.log.Timber;
  */
 
 @InjectViewState
-public class GetResponseFromApiPresenter extends MvpPresenter<GetResponceFromApi> implements StartCheck {
+public class GetResponseFromApiPresenter extends MvpPresenter<GetResponceFromApi> implements ICallBackFromModele {
 
     @Inject
     MainModele mainModele;
@@ -49,9 +41,7 @@ public class GetResponseFromApiPresenter extends MvpPresenter<GetResponceFromApi
     public void callApi(Flowable<ListPhotoRealmMoxy> listPhotoRealmObservable, final Boolean flag) {//вызов через интерфейс с модели
         listPhotoRealmObservable
                 .subscribeOn(Schedulers.newThread())
-
                 .observeOn(AndroidSchedulers.mainThread())
-
                 .subscribe(new FlowableSubscriber<ListPhotoRealmMoxy>() {
                     @Override
                     public void onSubscribe(Subscription s) {
@@ -87,7 +77,7 @@ public class GetResponseFromApiPresenter extends MvpPresenter<GetResponceFromApi
     }
 
     @Override
-    public void startGoToView(Flowable<ListPhotoRealmMoxy> listPhotoRealmMoxyObservable, Boolean flag) {
+    public void callBack(Flowable<ListPhotoRealmMoxy> listPhotoRealmMoxyObservable, Boolean flag) {
         if (listPhotoRealmMoxyObservable != null) {
             callApi(listPhotoRealmMoxyObservable, flag);
         } else getViewState().getResponseFromRealmInFail();

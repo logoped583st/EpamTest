@@ -10,6 +10,6 @@ import io.reactivex.Observable;
  * Created by Stanislau_Bushuk on 3/21/2018.
  */
 
-public interface StartCheck {
-    void startGoToView(Flowable<ListPhotoRealmMoxy> listPhotoRealmMoxyObservable, Boolean flag);
+public interface ICallBackFromModele {
+    void callBack(Flowable<ListPhotoRealmMoxy> listPhotoRealmMoxyObservable, Boolean flag);
 }

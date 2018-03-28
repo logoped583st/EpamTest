@@ -1,14 +1,11 @@
 package com.example.stanislau_bushuk.epamtest.Task3.Modele;
 
 import com.example.stanislau_bushuk.epamtest.App;
-import com.example.stanislau_bushuk.epamtest.Modele.ListPhotoRealm;
 import com.example.stanislau_bushuk.epamtest.Task3.Presenter.GetResponseFromApiPresenter;
 
 import java.util.ArrayList;
 
-import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
 import io.realm.Realm;
 
 /**
@@ -20,7 +17,7 @@ public class MainModele {
 
     private ArrayList<PhotoRealmMoxy> photoRealmArrayList;
     private Realm realm;
-    private StartCheck startCheck;
+    private ICallBackFromModele callBack;
     private Flowable<ListPhotoRealmMoxy> observable;
 
     public MainModele() {
@@ -33,8 +30,8 @@ public class MainModele {
         setRealmObjects();
     }
 
-    public void setCallback(GetResponseFromApiPresenter getResponseFromApiPresenter) {
-        startCheck = getResponseFromApiPresenter;
+    public void setCallback(GetResponseFromApiPresenter presenter) {
+        callBack = presenter;
     }
 
     public void setListPhotoRealm(ListPhotoRealmMoxy listPhotoRealm) {
@@ -54,9 +51,9 @@ public class MainModele {
     public void setAnotherObservable() {
         setRealmObjects();
         if (photoRealmArrayList.size() != 0) {
-            startCheck.startGoToView(observable, false);
+            callBack.callBack(observable, false);
         } else {
-            startCheck.startGoToView(null, false);
+            callBack.callBack(null, false);
         }
     }
 

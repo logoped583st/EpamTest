@@ -17,8 +17,8 @@ public class NetworkModele {
         App.getAppComponent().inject(this);
     }
 
-    public void setCallBack(GetResponseFromApiPresenter getResponseFromApiPresenter) {
-        StartCheck startCheck = getResponseFromApiPresenter;
-        startCheck.startGoToView(iapi.getJson(), true);
+    public void setCallBack(GetResponseFromApiPresenter presenter) {
+        ICallBackFromModele startCheck = presenter;
+        startCheck.callBack(iapi.getJson(), true);
     }
 }
