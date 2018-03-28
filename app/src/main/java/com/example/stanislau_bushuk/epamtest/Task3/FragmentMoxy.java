@@ -44,7 +44,6 @@ public class FragmentMoxy extends MvpAppCompatFragment implements GetResponceFro
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Timber.e("Created");
     }
 
@@ -59,7 +58,7 @@ public class FragmentMoxy extends MvpAppCompatFragment implements GetResponceFro
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Timber.e("View Created");
-        if (((AppCompatActivity) getActivity()!=null) &&((AppCompatActivity) getActivity()).getSupportActionBar() != null)
+        if (((AppCompatActivity) getActivity() != null) && ((AppCompatActivity) getActivity()).getSupportActionBar() != null)
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.Part3));
         RecyclerView recyclerView = view.findViewById(R.id.list);
         errorImage = view.findViewById(R.id.ErrorImage);
@@ -104,6 +103,4 @@ public class FragmentMoxy extends MvpAppCompatFragment implements GetResponceFro
             }
         }
     }
-
-
 }

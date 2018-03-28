@@ -1,16 +1,12 @@
 package com.example.stanislau_bushuk.epamtest.Task3.Presenter;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.example.stanislau_bushuk.epamtest.App;
 import com.example.stanislau_bushuk.epamtest.Task3.IView.GetResponceFromApi;
 import com.example.stanislau_bushuk.epamtest.Task3.Modele.ListPhotoRealmMoxy;
-import com.example.stanislau_bushuk.epamtest.Task3.Modele.MainModele;
-import com.example.stanislau_bushuk.epamtest.Task3.Modele.NetworkModele;
+import com.example.stanislau_bushuk.epamtest.Task3.Modele.MainModel;
+import com.example.stanislau_bushuk.epamtest.Task3.Modele.NetworkModel;
 import com.example.stanislau_bushuk.epamtest.Task3.Modele.StartCheck;
 
 import org.reactivestreams.Subscriber;
@@ -20,11 +16,9 @@ import javax.inject.Inject;
 
 import io.reactivex.Flowable;
 import io.reactivex.FlowableSubscriber;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import io.realm.Realm;
 import timber.log.Timber;
 
 /**
@@ -35,10 +29,10 @@ import timber.log.Timber;
 public class GetResponseFromApiPresenter extends MvpPresenter<GetResponceFromApi> implements StartCheck {
 
     @Inject
-    MainModele mainModele;
+    MainModel mainModele;
 
     @Inject
-    NetworkModele networkModele;
+    NetworkModel networkModele;
 
     public GetResponseFromApiPresenter() {
         App.getAppComponent().inject(this);
@@ -46,13 +40,11 @@ public class GetResponseFromApiPresenter extends MvpPresenter<GetResponceFromApi
         networkModele.setCallBack(this);
     }
 
-    public void callApi(Flowable<ListPhotoRealmMoxy> listPhotoRealmObservable, final Boolean flag) {//вызов через интерфейс с модели
+    public void callApi(final Flowable<ListPhotoRealmMoxy> listPhotoRealmObservable, final Boolean flag) {//вызов через интерфейс с модели
         listPhotoRealmObservable
                 .subscribeOn(Schedulers.newThread())
-
                 .observeOn(AndroidSchedulers.mainThread())
-
-                .subscribe(new FlowableSubscriber<ListPhotoRealmMoxy>() {
+                .subscribe(new Subscriber<ListPhotoRealmMoxy>() {
                     @Override
                     public void onSubscribe(Subscription s) {
                         Timber.e("Subscribe");
@@ -66,6 +58,8 @@ public class GetResponseFromApiPresenter extends MvpPresenter<GetResponceFromApi
                             mainModele.setListPhotoRealm(listPhotoRealmMoxy);
                             getViewState().getResponce(mainModele.getPhotoRealmArrayList());
                         } else {
+                            //syda ne doxodi
+                           // mainModele.getRealm()=Realm.getDefaultInstance();
                             getViewState().getResponce(mainModele.getPhotoRealmArrayList());
                         }
                     }
@@ -74,7 +68,6 @@ public class GetResponseFromApiPresenter extends MvpPresenter<GetResponceFromApi
                     public void onError(Throwable t) {
                         Timber.e("Error");
                         t.printStackTrace();
-                        mainModele.setRealmObjects();
                         mainModele.setAnotherObservable();
                     }
 

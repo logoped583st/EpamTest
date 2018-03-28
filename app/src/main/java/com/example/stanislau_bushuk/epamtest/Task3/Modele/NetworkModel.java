@@ -8,17 +8,18 @@ import com.example.stanislau_bushuk.epamtest.Task3.Presenter.GetResponseFromApiP
 import javax.inject.Inject;
 
 
-public class NetworkModele {
+public class NetworkModel {
 
+    private StartCheck startCheck;
     @Inject
     IAPI iapi;
 
-    public NetworkModele() {
+    public NetworkModel() {
         App.getAppComponent().inject(this);
     }
 
     public void setCallBack(GetResponseFromApiPresenter getResponseFromApiPresenter) {
-        StartCheck startCheck = getResponseFromApiPresenter;
+        startCheck = getResponseFromApiPresenter;
         startCheck.startGoToView(iapi.getJson(), true);
     }
 }

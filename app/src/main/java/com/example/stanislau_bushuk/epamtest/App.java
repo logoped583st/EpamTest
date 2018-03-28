@@ -7,8 +7,8 @@ import com.example.stanislau_bushuk.epamtest.API.Request;
 import com.example.stanislau_bushuk.epamtest.Task3.Component.AppComponent;
 import com.example.stanislau_bushuk.epamtest.Task3.Component.DaggerAppComponent;
 import com.example.stanislau_bushuk.epamtest.Task3.Module.ModuleIAPI;
-import com.example.stanislau_bushuk.epamtest.Task3.Module.ModuleMainModele;
-import com.example.stanislau_bushuk.epamtest.Task3.Module.ModuleNetworkModele;
+import com.example.stanislau_bushuk.epamtest.Task3.Module.ModuleMainModel;
+import com.example.stanislau_bushuk.epamtest.Task3.Module.ModuleNetworkModel;
 
 
 import io.realm.Realm;
@@ -32,8 +32,6 @@ public class App extends Application {
         Realm.init(this);
         Request request = new Request();
         request.getJson();
-
-
         setRealm();
         Timber.plant(new Timber.DebugTree());
         appComponent=buildComponent();
@@ -47,9 +45,9 @@ public class App extends Application {
     }
     public AppComponent buildComponent(){
         return DaggerAppComponent.builder()
-                .moduleMainModele(new ModuleMainModele())
+                .moduleMainModel(new ModuleMainModel())
                 .moduleIAPI(new ModuleIAPI())
-                .moduleNetworkModele(new ModuleNetworkModele())
+                .moduleNetworkModel(new ModuleNetworkModel())
                 .build();
     }
 }
