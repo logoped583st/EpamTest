@@ -29,8 +29,6 @@ public class FIrstTaskFragment extends Fragment {
 
 
     private ArrayList<Element> arrayList;
-    private RecyclerView recyclerView;
-    private ListViewAdapterTask1 adapter;
 
 
     public FIrstTaskFragment() {
@@ -52,8 +50,8 @@ public class FIrstTaskFragment extends Fragment {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.Part1));
         arrayList = new ArrayList<>();
         setElements();
-        recyclerView = view.findViewById(R.id.list1);
-        adapter = new ListViewAdapterTask1(getActivity(), arrayList);
+        RecyclerView recyclerView = view.findViewById(R.id.list1);
+        ListViewAdapterTask1 adapter = new ListViewAdapterTask1(getActivity(), arrayList);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }

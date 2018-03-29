@@ -24,8 +24,8 @@ public class NetworkModele {
 
     public void setCallBack(GetResponseFromApiPresenter presenter) {
         this.presenter = presenter;
-        ICallBackFromModele callback = presenter;
+        ICallBackFromModele icallback = presenter;
         Observable<Photos> observable = iapi.getJson();
-        callback.callBack(observable.subscribeOn(Schedulers.newThread()), true);
+        icallback.callBack(observable.subscribeOn(Schedulers.newThread()), true);
     }
 }
