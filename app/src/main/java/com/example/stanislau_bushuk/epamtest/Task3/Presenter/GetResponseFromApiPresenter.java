@@ -4,19 +4,18 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.example.stanislau_bushuk.epamtest.App;
 import com.example.stanislau_bushuk.epamtest.Task3.IView.GetResponceFromApi;
-import com.example.stanislau_bushuk.epamtest.Task3.Modele.ListPhotoRealmMoxy;
+import com.example.stanislau_bushuk.epamtest.Task3.Modele.ICallBackFromModele;
+import com.example.stanislau_bushuk.epamtest.Task3.Modele.Photos;
 import com.example.stanislau_bushuk.epamtest.Task3.Modele.MainModele;
 import com.example.stanislau_bushuk.epamtest.Task3.Modele.NetworkModele;
-import com.example.stanislau_bushuk.epamtest.Task3.Modele.ICallBackFromModele;
-
-import org.reactivestreams.Subscription;
 
 import javax.inject.Inject;
 
-import io.reactivex.Flowable;
-import io.reactivex.FlowableSubscriber;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.disposables.Disposable;
+import io.realm.Realm;
 import timber.log.Timber;
 
 /**
@@ -38,33 +37,34 @@ public class GetResponseFromApiPresenter extends MvpPresenter<GetResponceFromApi
         networkModele.setCallBack(this);
     }
 
-    public void callApi(Flowable<ListPhotoRealmMoxy> listPhotoRealmObservable, final Boolean flag) {//вызов через интерфейс с модели
+    public void callApi(final Observable<Photos> listPhotoRealmObservable, final Boolean flag) {//вызов через интерфейс с модели;
+
         listPhotoRealmObservable
-                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new FlowableSubscriber<ListPhotoRealmMoxy>() {
+                .subscribe(new Observer<Photos>() {
+
+
                     @Override
-                    public void onSubscribe(Subscription s) {
-                        Timber.e("Subscribe");
-                        s.request(Long.MAX_VALUE);
+                    public void onSubscribe(Disposable d) {
+                        Timber.e("Subscribe "+d.toString());
+                        Timber.e("Subscribe  "+Thread.currentThread().toString());
                     }
 
                     @Override
-                    public void onNext(ListPhotoRealmMoxy listPhotoRealmMoxy) {
+                    public void onNext(Photos listPhotoRealmMoxy) {
                         Timber.e("Next");
                         if (flag) {
                             mainModele.setListPhotoRealm(listPhotoRealmMoxy);
-                            getViewState().getResponce(mainModele.getPhotoList());
-                        } else {
-                            getViewState().getResponce(mainModele.getPhotoList());
                         }
+                        getViewState().getResponce(listPhotoRealmMoxy.getPhotos());
                     }
 
                     @Override
                     public void onError(Throwable t) {
                         Timber.e("Error");
                         t.printStackTrace();
-                        mainModele.setRealmObjects();
+                        Timber.e("Eror  "+Thread.currentThread().toString());
+                        //mainModele.setRealmObjects();
                         mainModele.setAnotherFlowable();
                     }
 
@@ -77,7 +77,7 @@ public class GetResponseFromApiPresenter extends MvpPresenter<GetResponceFromApi
     }
 
     @Override
-    public void callBack(Flowable<ListPhotoRealmMoxy> listPhotoRealmMoxyObservable, Boolean flag) {
+    public void callBack(Observable<Photos> listPhotoRealmMoxyObservable, Boolean flag) {
         if (listPhotoRealmMoxyObservable != null) {
             callApi(listPhotoRealmMoxyObservable, flag);
         } else getViewState().getResponseFromRealmInFail();

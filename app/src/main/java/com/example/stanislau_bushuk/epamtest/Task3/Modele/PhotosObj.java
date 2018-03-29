@@ -7,7 +7,7 @@ import io.realm.RealmObject;
  * Created by Stanislau_Bushuk on 3/11/2018.
  */
 
-public class PhotoRealmMoxy extends RealmObject {
+public class PhotosObj extends RealmObject {
 
     private String title;
     private String description;
@@ -16,11 +16,11 @@ public class PhotoRealmMoxy extends RealmObject {
     private double latitude;
     private double longitude;
 
-    public PhotoRealmMoxy() {
+    public PhotosObj() {
 
     }
 
-    public PhotoRealmMoxy(String title, String description, String url, int id, double latitude, double longitude) {
+    public PhotosObj(String title, String description, String url, int id, double latitude, double longitude) {
         this.title = title;
         this.description = description;
         this.id = id;

@@ -1,11 +1,10 @@
 package com.example.stanislau_bushuk.epamtest.API;
 
-import com.example.stanislau_bushuk.epamtest.Modele.ListPhotoRealm;
 
-import javax.inject.Singleton;
 
-import dagger.Module;
-import dagger.Provides;
+
+import com.example.stanislau_bushuk.epamtest.Task3.Modele.Photos;
+
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -36,6 +35,6 @@ public class Request {
 
     public interface IAPI {
         @GET("/bins/upt7z")
-        Call<ListPhotoRealm> getJson();
+        Call<Photos> getJson();
     }
 }

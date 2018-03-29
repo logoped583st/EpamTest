@@ -15,9 +15,9 @@ import android.widget.ImageView;
 
 import com.example.stanislau_bushuk.epamtest.API.Request;
 import com.example.stanislau_bushuk.epamtest.Adapter.ListViewAdapterTask2;
-import com.example.stanislau_bushuk.epamtest.Modele.ListPhotoRealm;
-import com.example.stanislau_bushuk.epamtest.Modele.PhotoRealm;
 import com.example.stanislau_bushuk.epamtest.R;
+import com.example.stanislau_bushuk.epamtest.Task3.Modele.Photos;
+import com.example.stanislau_bushuk.epamtest.Task3.Modele.PhotosObj;
 
 import io.realm.RealmList;
 import retrofit2.Call;
@@ -34,7 +34,7 @@ import static com.example.stanislau_bushuk.epamtest.R.layout.fragment_second_tas
 public class SecondTaskFragment extends Fragment {
 
 
-    private RealmList<PhotoRealm> arrayPhoto;
+    private RealmList<PhotosObj> arrayPhoto;
     private RecyclerView recyclerView;
     private ListViewAdapterTask2 adapter;
     private ImageView errorImage;
@@ -67,9 +67,9 @@ public class SecondTaskFragment extends Fragment {
 
 
     public void getResponse() {
-        Request.getIapi().getJson().enqueue(new Callback<ListPhotoRealm>() {
+        Request.getIapi().getJson().enqueue(new Callback<Photos>() {
             @Override
-            public void onResponse(@NonNull Call<ListPhotoRealm> call, @NonNull Response<ListPhotoRealm> response) {
+            public void onResponse(@NonNull Call<Photos> call, @NonNull Response<Photos> response) {
                 Timber.e(String.valueOf(response.body().getPhotos().size()));
                 arrayPhoto.addAll(response.body().getPhotos());
 
@@ -77,7 +77,7 @@ public class SecondTaskFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(@NonNull Call<ListPhotoRealm> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<Photos> call, @NonNull Throwable t) {
                 t.printStackTrace();
                 Timber.e(t.getMessage());
                 errorImage.setImageResource(R.drawable.eror);

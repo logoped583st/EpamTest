@@ -13,9 +13,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.stanislau_bushuk.epamtest.GlideApp;
-import com.example.stanislau_bushuk.epamtest.Modele.PhotoRealm;
+
 import com.example.stanislau_bushuk.epamtest.R;
 import com.example.stanislau_bushuk.epamtest.Task2.ListenerItemSecondTaskActivity;
+import com.example.stanislau_bushuk.epamtest.Task3.Modele.Photos;
+import com.example.stanislau_bushuk.epamtest.Task3.Modele.PhotosObj;
 
 import io.realm.RealmList;
 
@@ -23,11 +25,11 @@ import io.realm.RealmList;
 public class ListViewAdapterTask2 extends RecyclerView.Adapter<ListViewAdapterTask2.ViewHolder> {
 
     private LayoutInflater mInflater;
-    private RealmList<PhotoRealm> arrayList;
+    private RealmList<PhotosObj> arrayList;
     private Context context;
 
 
-    public ListViewAdapterTask2(Context context, RealmList<PhotoRealm> getPhoto) {
+    public ListViewAdapterTask2(Context context, RealmList<PhotosObj> getPhoto) {
         this.mInflater = LayoutInflater.from(context);
         this.arrayList = getPhoto;
         this.context = context;

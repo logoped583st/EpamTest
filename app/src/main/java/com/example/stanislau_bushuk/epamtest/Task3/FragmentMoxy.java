@@ -19,11 +19,12 @@ import com.arellomobile.mvp.presenter.PresenterType;
 import com.example.stanislau_bushuk.epamtest.R;
 import com.example.stanislau_bushuk.epamtest.Task3.Adapter.ListViewAdapterTask3;
 import com.example.stanislau_bushuk.epamtest.Task3.IView.GetResponceFromApi;
-import com.example.stanislau_bushuk.epamtest.Task3.Modele.PhotoRealmMoxy;
+import com.example.stanislau_bushuk.epamtest.Task3.Modele.PhotosObj;
 import com.example.stanislau_bushuk.epamtest.Task3.Presenter.GetResponseFromApiPresenter;
 import com.example.stanislau_bushuk.epamtest.Task4.ForthTaskFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import timber.log.Timber;
 
@@ -59,11 +60,11 @@ public class FragmentMoxy extends MvpAppCompatFragment implements GetResponceFro
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Timber.e("View Created");
-        if (((AppCompatActivity) getActivity()!=null) &&((AppCompatActivity) getActivity()).getSupportActionBar() != null)
+        if (((AppCompatActivity) getActivity() != null) && ((AppCompatActivity) getActivity()).getSupportActionBar() != null)
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.Part3));
         RecyclerView recyclerView = view.findViewById(R.id.list);
         errorImage = view.findViewById(R.id.ErrorImage);
-        ArrayList<PhotoRealmMoxy> photoRealmList = new ArrayList<>();
+        ArrayList<PhotosObj> photoRealmList = new ArrayList<>();
         adapter = new ListViewAdapterTask3(getActivity(), photoRealmList);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recyclerView.setAdapter(adapter);
@@ -73,7 +74,7 @@ public class FragmentMoxy extends MvpAppCompatFragment implements GetResponceFro
 
 
     @Override
-    public void getResponce(ArrayList<PhotoRealmMoxy> photoRealmArrayList) {
+    public void getResponce(List<PhotosObj> photoRealmArrayList) {
         //результат с апи
         Timber.e("getResponse from Api");
         adapter.update(photoRealmArrayList);
@@ -85,6 +86,7 @@ public class FragmentMoxy extends MvpAppCompatFragment implements GetResponceFro
     public void getResponseFromRealmInFail() {
         //пустой реалм
         Timber.e("FAIL");
+        Timber.e("SetAnother Flowable  " + Thread.currentThread().toString());
         errorImage.setImageResource(R.drawable.eror);
         errorImage.setVisibility(View.VISIBLE);
     }

@@ -1,9 +1,6 @@
 package com.example.stanislau_bushuk.epamtest.Task3.Modele;
 
 
-import java.util.ArrayList;
-
-import io.reactivex.Flowable;
 import io.reactivex.Observable;
 
 /**
@@ -11,5 +8,5 @@ import io.reactivex.Observable;
  */
 
 public interface ICallBackFromModele {
-    void callBack(Flowable<ListPhotoRealmMoxy> listPhotoRealmMoxyObservable, Boolean flag);
+    void callBack(Observable<Photos> listPhotoRealmMoxyObservable, Boolean flag);
 }

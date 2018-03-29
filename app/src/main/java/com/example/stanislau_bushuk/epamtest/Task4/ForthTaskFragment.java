@@ -20,7 +20,7 @@ import com.example.stanislau_bushuk.epamtest.GlideApp;
 import com.example.stanislau_bushuk.epamtest.R;
 import com.example.stanislau_bushuk.epamtest.Task3.FragmentMoxy;
 import com.example.stanislau_bushuk.epamtest.Task3.IView.GetResponceFromApi;
-import com.example.stanislau_bushuk.epamtest.Task3.Modele.PhotoRealmMoxy;
+import com.example.stanislau_bushuk.epamtest.Task3.Modele.PhotosObj;
 import com.example.stanislau_bushuk.epamtest.Task3.Presenter.GetResponseFromApiPresenter;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -31,6 +31,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import timber.log.Timber;
 
@@ -43,7 +44,7 @@ public class ForthTaskFragment extends FragmentMoxy implements OnMapReadyCallbac
     @InjectPresenter(type = PresenterType.LOCAL)
     GetResponseFromApiPresenter getResponceFromApiPresenter;
 
-    private ArrayList<PhotoRealmMoxy> photoRealmMoxies;
+    private ArrayList<PhotosObj> photoRealmMoxies;
     private GoogleMap gmap;
     private MapView mapView;
     private Activity activity;
@@ -94,7 +95,7 @@ public class ForthTaskFragment extends FragmentMoxy implements OnMapReadyCallbac
 
     public void setMarkers() {
         Timber.e("setMarkers");
-        for (final PhotoRealmMoxy photoRealmMoxy : photoRealmMoxies) {
+        for (final PhotosObj photoRealmMoxy : photoRealmMoxies) {
 
             try {
                 GlideApp.with(getActivity())
@@ -121,7 +122,7 @@ public class ForthTaskFragment extends FragmentMoxy implements OnMapReadyCallbac
     }
 
     @Override
-    public void getResponce(ArrayList<PhotoRealmMoxy> listPhotoRealm) {
+    public void getResponce(List<PhotosObj> listPhotoRealm) {
         photoRealmMoxies.addAll(listPhotoRealm);
         Timber.e("responce");
         Timber.e(String.valueOf(photoRealmMoxies.size()));
