@@ -18,7 +18,7 @@ public class NetworkModele {
     }
 
     public void setCallBack(GetResponseFromApiPresenter presenter) {
-        ICallBackFromModele startCheck = presenter;
-        startCheck.callBack(iapi.getJson(), true);
+        ICallBackFromModele callback = presenter;
+        callback.callBack(iapi.getJson(), true);
     }
 }

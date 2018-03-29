@@ -54,9 +54,9 @@ public class GetResponseFromApiPresenter extends MvpPresenter<GetResponceFromApi
                         Timber.e("Next");
                         if (flag) {
                             mainModele.setListPhotoRealm(listPhotoRealmMoxy);
-                            getViewState().getResponce(mainModele.getPhotoRealmArrayList());
+                            getViewState().getResponce(mainModele.getPhotoList());
                         } else {
-                            getViewState().getResponce(mainModele.getPhotoRealmArrayList());
+                            getViewState().getResponce(mainModele.getPhotoList());
                         }
                     }
 
@@ -65,7 +65,7 @@ public class GetResponseFromApiPresenter extends MvpPresenter<GetResponceFromApi
                         Timber.e("Error");
                         t.printStackTrace();
                         mainModele.setRealmObjects();
-                        mainModele.setAnotherObservable();
+                        mainModele.setAnotherFlowable();
                     }
 
                     @Override

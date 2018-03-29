@@ -78,7 +78,6 @@ public class FragmentMoxy extends MvpAppCompatFragment implements GetResponceFro
         Timber.e("getResponse from Api");
         adapter.update(photoRealmArrayList);
         errorImage.setVisibility(View.INVISIBLE);
-
     }
 
 

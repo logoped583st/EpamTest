@@ -15,7 +15,7 @@ import io.realm.Realm;
 public class MainModele {
 
 
-    private ArrayList<PhotoRealmMoxy> photoRealmArrayList;
+    private ArrayList<PhotoRealmMoxy> photoList;
     private Realm realm;
     private ICallBackFromModele callBack;
     private Flowable<ListPhotoRealmMoxy> observable;
@@ -39,18 +39,18 @@ public class MainModele {
         realm.where(ListPhotoRealmMoxy.class).findAll().deleteAllFromRealm();
         realm.copyToRealm(listPhotoRealm);
         realm.commitTransaction();
-        photoRealmArrayList.clear();
-        photoRealmArrayList.addAll(listPhotoRealm.getPhotos());
+        photoList.clear();
+        photoList.addAll(listPhotoRealm.getPhotos());
         observable=Flowable.just(listPhotoRealm);
     }
 
-    public ArrayList<PhotoRealmMoxy> getPhotoRealmArrayList() {
-        return photoRealmArrayList;
+    public ArrayList<PhotoRealmMoxy> getPhotoList() {
+        return photoList;
     }
 
-    public void setAnotherObservable() {
+    public void setAnotherFlowable() {
         setRealmObjects();
-        if (photoRealmArrayList.size() != 0) {
+        if (photoList.size() != 0) {
             callBack.callBack(observable, false);
         } else {
             callBack.callBack(null, false);
@@ -59,9 +59,9 @@ public class MainModele {
 
     public void setRealmObjects() {
         ListPhotoRealmMoxy listPhotoRealmMoxy = realm.where(ListPhotoRealmMoxy.class).findFirst();
-        photoRealmArrayList = new ArrayList<>();
+        photoList = new ArrayList<>();
         if (listPhotoRealmMoxy != null) {
-            photoRealmArrayList.addAll(listPhotoRealmMoxy.getPhotos());
+            photoList.addAll(listPhotoRealmMoxy.getPhotos());
             observable = Flowable.just(listPhotoRealmMoxy);
         }
     }
